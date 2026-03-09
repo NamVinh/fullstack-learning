@@ -1,6 +1,6 @@
 # Lộ trình Fullstack Developer
 
-> Dành cho Frontend Developer 5 năm kinh nghiệm (React + Vue + TypeScript)
+> Dành cho Frontend Developer 5 năm kinh nghiệm (React + TypeScript — Vue chưa có kinh nghiệm)
 > Mục tiêu: Đi làm tại công ty với vai trò Fullstack thực sự
 > Thời gian học: > 3 tiếng/ngày
 
@@ -10,7 +10,8 @@
 
 | Giai đoạn | Chủ đề | Tiến độ |
 |-----------|--------|---------|
-| Phase 0 | Nền tảng | 0 / 16 |
+| Phase 0 | Nền tảng | 0 / 15 |
+| Phase 0.5 | Hoàn thiện FE (React nâng cao + Vue 3) | 0 / 24 |
 | Phase 1 | Node.js + Express | 0 / 22 |
 | Phase 2 | Database | 0 / 20 |
 | Phase 3 | Fullstack Integration | 0 / 26 |
@@ -56,6 +57,53 @@
 - [ ] Pull Request best practices — code review culture
 
 **Project**: Viết lại 1 utility function phức tạp bằng TypeScript với đầy đủ type, không dùng `any`. Commit với conventional commits.
+
+---
+
+## Phase 0.5 — Hoàn thiện FE (3–4 tuần)
+
+> Dù đã 5 năm React vẫn có gaps. Vue 3 là framework mới cần học — phổ biến ở nhiều công ty Việt Nam.
+> Phase này có thể học song song hoặc xen kẽ với Phase 1.
+
+### React nâng cao — Lấp lỗ hổng
+
+- [ ] React internals: Fiber architecture, reconciliation, diffing algorithm — hiểu tại sao React render nhanh
+- [ ] React 18: concurrent rendering, `useTransition`, `useDeferredValue`, Suspense thực sự
+- [ ] React 19: `use()` hook, Server Actions trong React thuần, compiler (React Forget)
+- [ ] Performance đúng cách: biết khi nào **KHÔNG** nên dùng `memo`/`useMemo`/`useCallback`
+- [ ] Custom hooks nâng cao — separation of concerns, composability pattern
+- [ ] Error boundaries — component duy nhất cần viết dạng class, khi nào cần đặt
+- [ ] Render patterns: compound components, render props, headless components
+- [ ] React strict mode — tại sao nó render 2 lần và ý nghĩa là gì
+
+### Vue 3 — Học từ đầu
+
+> Học Vue 3 với Composition API ngay — đừng học Options API rồi mới sang
+
+- [ ] Vue 3 vs React — mental model khác nhau chỗ nào (reactivity system vs virtual DOM)
+- [ ] Reactivity: `ref`, `reactive`, `computed`, `watch`, `watchEffect` — hiểu sâu, không chỉ dùng
+- [ ] Composition API: `setup()`, lifecycle hooks, `defineProps`, `defineEmits`
+- [ ] Component patterns: slots (default, named, scoped), provide/inject, teleport
+- [ ] Vue Router 4: dynamic routes, navigation guards, lazy loading routes
+- [ ] Pinia — Vue's state management (tương đương Zustand của React)
+- [ ] Vue 3 + TypeScript: `defineProps<{}>()`, `defineEmits<{}>()`, typed composables
+- [ ] Nuxt.js 3 — Vue's Next.js: SSR, SSG, file-based routing, server routes, auto-imports
+
+### Build Tools & Tooling
+
+- [ ] Vite — tại sao nhanh hơn Webpack (native ESM, esbuild cho dev, Rollup cho build)
+- [ ] Vite config thực tế: plugins, path aliases, env variables, proxy
+- [ ] Bundle analysis: `vite-bundle-visualizer` — xem cái gì chiếm dung lượng
+- [ ] Tree shaking — tại sao named exports quan trọng hơn default exports
+
+### FE nâng cao *(thường bị bỏ qua)*
+
+- [ ] Accessibility (a11y): WCAG 2.1 AA basics, ARIA roles/labels, keyboard navigation — nhiều công ty yêu cầu
+- [ ] Web Performance đo lường thực tế: Lighthouse CI, Core Web Vitals (LCP, CLS, INP)
+- [ ] CSS hiện đại: Container Queries, `@layer`, CSS custom properties (design tokens)
+- [ ] Internationalization (i18n): `react-i18next` / `vue-i18n` — pattern và pitfalls
+
+**Project**: Build cùng 1 app (ví dụ: Todo với filter + pagination) bằng **cả React lẫn Vue** — để thấy tư duy của 2 framework khác nhau chỗ nào.
 
 ---
 
@@ -321,13 +369,14 @@
 | Giai đoạn | Thời gian |
 |-----------|-----------|
 | Phase 0 — Nền tảng | 2–3 tuần |
+| Phase 0.5 — Hoàn thiện FE (React + Vue 3) | 3–4 tuần |
 | Phase 1 — Node.js + Express | 6–8 tuần |
 | Phase 2 — Database | 5–6 tuần |
 | Phase 3 — Fullstack Integration | 4–5 tuần |
 | Phase 4 — DevOps cơ bản | 3–4 tuần |
-| **Tổng** | **~5–6 tháng** |
+| **Tổng** | **~6–7 tháng** |
 
-> Với > 3 tiếng/ngày và nền tảng JS/TS vững, bạn có thể rút ngắn còn **4–5 tháng**
+> Phase 0.5 có thể học song song với Phase 1 (Vue 3 vào buổi tối, Node.js vào buổi sáng) → rút ngắn còn **5–6 tháng**
 
 ---
 
@@ -347,9 +396,15 @@
 - "System Design Interview" (Alex Xu) — đọc sau khi có nền tảng
 - "Designing Data-Intensive Applications" (Martin Kleppmann) — quyển kinh điển
 
+### Frontend — Vue 3
+- **Vue 3**: vuejs.org/guide (official docs, rất tốt)
+- **Nuxt 3**: nuxt.com/docs
+- **Vue Mastery**: vuemastery.com (có free courses)
+- **Pinia**: pinia.vuejs.org
+
 ### Fullstack
 - **Next.js**: nextjs.org/docs (đủ tốt)
-- **YouTube**: Josh tried coding, Theo (t3.gg), Fireship
+- **YouTube**: Josh tried coding, Theo (t3.gg), Fireship, Vue School (YouTube)
 
 ### DevOps
 - **Docker**: "Docker Deep Dive" (Nigel Poulton) — ngắn, đủ dùng
