@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đặng Nam Vinh – Full Stack Developer</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11.5px; color: #222; background: #fff;
+        padding: 44px 52px; max-width: 860px; margin: 0 auto; line-height: 1.5;
+      }
+      h1 { text-align: center; font-size: 30px; font-weight: 800; letter-spacing: 1px; color: #111; margin-bottom: 4px; }
+      .subtitle { text-align: center; font-size: 10.5px; letter-spacing: 3.5px; text-transform: uppercase; font-weight: 700; color: #444; margin-bottom: 10px; }
+      .contact-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 20px; font-size: 11px; color: #444; margin-bottom: 3px; }
+      .contact-row a { color: #444; text-decoration: none; }
+      .section { margin-top: 20px; }
+      .section-title { font-size: 11px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; border-bottom: 1.5px solid #222; padding-bottom: 4px; margin-bottom: 12px; }
+      .job-block { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #ddd; }
+      .job-block:last-child { border-bottom: none; }
+      .job-header { display: flex; justify-content: space-between; align-items: baseline; }
+      .job-title { font-weight: 700; font-size: 12px; }
+      .job-date { font-size: 11px; color: #555; font-weight: 600; }
+      .company-name { font-weight: 700; font-size: 11.5px; margin: 2px 0 4px; }
+      .company-desc { font-size: 11px; color: #444; margin-bottom: 6px; }
+      .meta-row { font-size: 11px; margin-bottom: 6px; color: #333; }
+      .meta-row b { font-weight: 700; }
+      .tech-row { font-size: 11px; margin-bottom: 8px; color: #333; }
+      .tech-row b { font-weight: 700; }
+      .projects-label { font-weight: 700; font-size: 11.5px; margin: 8px 0 6px; }
+      .project-block { margin-bottom: 10px; }
+      .project-name { font-weight: 700; font-size: 11.5px; margin-bottom: 2px; }
+      .project-desc { font-size: 11px; color: #444; margin-bottom: 4px; }
+      .resp-label { font-weight: 700; font-size: 11px; margin-bottom: 3px; }
+      ul { padding-left: 15px; }
+      ul li { font-size: 11px; margin-bottom: 3px; line-height: 1.55; }
+      .edu-header { display: flex; justify-content: space-between; }
+      .edu-name { font-weight: 700; font-size: 12px; }
+      .edu-date { font-size: 11px; color: #555; font-weight: 600; }
+      .edu-degree { font-size: 11px; color: #555; margin-top: 2px; }
+      .skills-grid { display: grid; grid-template-columns: 110px 1fr; row-gap: 5px; }
+      .skill-cat { font-weight: 700; font-size: 11px; padding-top: 2px; }
+      .skill-tags { display: flex; flex-wrap: wrap; gap: 3px; }
+      .skill-tag { background: #f0f0f0; border-radius: 3px; padding: 2px 7px; font-size: 10.5px; color: #333; }
+      .lang-row { display: flex; gap: 12px; }
+      .lang-tag { background: #f0f0f0; border-radius: 3px; padding: 3px 12px; font-size: 11px; }
+      .lang-tag b { font-weight: 700; }
+      @media print { body { padding: 24px 36px; } @page { margin: 0; } }
+    </style>
+  </head>
+  <body>
+
+    <!-- ══════════ HEADER ══════════ -->
+    <h1>Đặng Nam Vinh</h1>
+    <div class="subtitle">Full Stack Developer</div>
+    <div class="contact-row">
+      <span>&#128222; 0973660074</span>
+      <span>&#9993; <a href="mailto:dnamvinh@gmail.com">dnamvinh@gmail.com</a></span>
+      <span>&#128100; 16/06/2000</span>
+    </div>
+    <div class="contact-row">
+      <span>&#128205; Ho Chi Minh City, Vietnam</span>
+      <span>&#128279; <a href="https://linkedin.com/in/nam-vinh" target="_blank">linkedin.com/in/nam-vinh</a></span>
+      <span>&#128025; <a href="https://github.com/NamVinh" target="_blank">github.com/NamVinh</a></span>
+    </div>
+
+    <!-- ══════════ ABOUT ME ══════════ -->
+    <div class="section">
+      <div class="section-title">About Me</div>
+      <p style="font-size: 11px; line-height: 1.65; color: #333">
+        Full Stack Developer with 5+ years of experience delivering web applications in fast-moving startup
+        environments. Proficient in Next.js end-to-end — from building customer-facing product UIs to internal
+        tooling that improves team productivity — backed by NestJS and Node.js on the backend and PostgreSQL for
+        data persistence. Comfortable working with Azure cloud services in production. Actively uses AI-assisted
+        development tools (Claude Code, Cursor) daily for code generation, refactoring, debugging, and writing
+        tests. Takes initiative, works well with product and leadership teams, and moves fast without needing
+        hand-holding.
+      </p>
+    </div>
+
+    <!-- ══════════ SKILLS ══════════ -->
+    <div class="section">
+      <div class="section-title">Skills</div>
+      <div class="skills-grid">
+        <div class="skill-cat">Frontend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Next.js (3 years)</span>
+          <span class="skill-tag">ReactJS (5 years)</span>
+          <span class="skill-tag">TypeScript (5 years)</span>
+          <span class="skill-tag">JavaScript / ES6+ (5 years)</span>
+          <span class="skill-tag">React Native (5 years)</span>
+          <span class="skill-tag">Redux / RTK Query</span>
+          <span class="skill-tag">React Hook Form</span>
+          <span class="skill-tag">HTML5 / CSS3 / SASS</span>
+          <span class="skill-tag">Responsive Design</span>
+        </div>
+        <div class="skill-cat">Backend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">NestJS (2 years)</span>
+          <span class="skill-tag">Node.js (2 years)</span>
+          <span class="skill-tag">REST API</span>
+          <span class="skill-tag">JWT / Passport</span>
+          <span class="skill-tag">Prisma ORM</span>
+          <span class="skill-tag">GraphQL</span>
+        </div>
+        <div class="skill-cat">Database</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">Redis</span>
+        </div>
+        <div class="skill-cat">Cloud & DevOps</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Azure</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">GitHub Actions (CI/CD)</span>
+          <span class="skill-tag">Turborepo</span>
+          <span class="skill-tag">Nx</span>
+        </div>
+        <div class="skill-cat">AI Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Claude Code</span>
+          <span class="skill-tag">Cursor</span>
+          <span class="skill-tag">Antigravity</span>
+        </div>
+        <div class="skill-cat">Testing</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Vitest</span>
+          <span class="skill-tag">Playwright</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ WORK EXPERIENCE ══════════ -->
+    <div class="section">
+      <div class="section-title">Work Experience</div>
+
+      <!-- ── Herond Labs ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Software Engineer (Full Stack)</div>
+          <div class="job-date">12/2024 – Present</div>
+        </div>
+        <div class="company-name">Herond Labs</div>
+        <div class="company-desc">
+          Privacy-focused browser startup — building customer-facing loyalty and identity products alongside
+          internal tooling for the engineering team, all on a shared Nx monorepo.
+        </div>
+        <div class="meta-row"><b>Team size:</b> 20+</div>
+
+        <div class="projects-label">Projects:</div>
+
+        <!-- Points — customer-facing Next.js product -->
+        <div class="project-block">
+          <div class="project-name">Herond Points System — Customer-Facing Loyalty Product</div>
+          <div class="project-desc">
+            Loyalty platform serving thousands of active users — daily check-ins, missions, referrals,
+            and reward redemption built end-to-end with Next.js and NestJS.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Built customer-facing Next.js pages (Collect, Invite Friends, Rewards) with RTK Query
+              for API integration, caching, and optimistic UI updates — ensuring a snappy experience
+              under concurrent load.
+            </li>
+            <li>
+              Implemented Redis distributed locking on the backend to handle race conditions on
+              simultaneous point transactions safely at scale.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Portal — internal tooling (exact JD language) -->
+        <div class="project-block">
+          <div class="project-name">Herond Portal — Internal Tooling for the Engineering Team</div>
+          <div class="project-desc">
+            Full-stack admin platform that improved team productivity — managing users, identities,
+            points, and content templates across all Herond products.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Designed PostgreSQL schemas and built NestJS REST API modules with Prisma ORM,
+              JWT/Passport auth, and Swagger docs — then built the corresponding React UI,
+              owning the full vertical.
+            </li>
+            <li>
+              Set up Playwright E2E tests in GitHub Actions CI pipelines using Nx affected,
+              reducing unnecessary test runs on unrelated modules.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Accounts — auth + Azure production -->
+        <div class="project-block">
+          <div class="project-name">Herond Accounts — Authentication Platform</div>
+          <div class="project-desc">
+            OAuth2/OIDC identity platform — central SSO provider for all Herond products,
+            integrated with Azure cloud services in production.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Implemented OAuth2/OIDC flows with multi-provider social login (Google, Apple,
+              Facebook, Twitter) and secure token-based session management.
+            </li>
+            <li>
+              Worked with Azure Key Vault, Blob Storage, and Service Bus in a production
+              environment; contributed to observability setup with OpenTelemetry.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Design System — internal tooling -->
+        <div class="project-block">
+          <div class="project-name">Herond Design System — Internal Component Library</div>
+          <div class="project-desc">
+            Shared React component library (70+ components) that improved UI consistency and
+            development speed across all Herond products.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Built with Vite (ES/CJS dual output, tree-shaking) and automated CSS token generation
+              from Figma; maintained with Vitest unit tests and Playwright browser tests.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── Biso24 ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">08/2022 – 12/2024</div>
+        </div>
+        <div class="company-name">Biso24</div>
+        <div class="company-desc">
+          10-person startup building a digital transformation platform — Next.js web products with
+          data-heavy dashboards, map integrations, and complex form-driven workflows.
+        </div>
+        <div class="meta-row"><b>Team size:</b> 10</div>
+        <div class="tech-row">
+          <b>Technologies:</b> Next.js, ReactJS, TypeScript, React Hook Form, Yup, Zustand,
+          React Query, d3-shape, Ant Design, Turborepo, SASS
+        </div>
+        <div class="resp-label">Responsibilities:</div>
+        <ul>
+          <li>
+            Built and shipped customer-facing features across 3 core product modules end-to-end,
+            working directly with product to translate requirements into production-ready interfaces.
+          </li>
+          <li>
+            Built data-heavy dashboard screens with chart visualizations (d3-shape) and map
+            integrations, optimized for responsive performance across devices.
+          </li>
+          <li>
+            Implemented Turborepo monorepo to share code across modules, improving build speed
+            and reducing duplication across the codebase.
+          </li>
+        </ul>
+      </div>
+
+      <!-- ── Zens ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">06/2021 – 08/2022</div>
+        </div>
+        <div class="company-name">Zens Technology Company Limited</div>
+        <div class="company-desc">
+          Software outsourcing company — custom web and mobile solutions for clients across multiple industries.
+        </div>
+        <div class="meta-row"><b>Team size:</b> 6</div>
+        <div class="tech-row">
+          <b>Technologies:</b> ReactJS, TypeScript, Material-UI, Redux, Apollo GraphQL
+        </div>
+        <div class="resp-label">Responsibilities:</div>
+        <ul>
+          <li>
+            Built and maintained React applications, establishing reusable component patterns
+            and layout systems reused across multiple client projects.
+          </li>
+          <li>
+            Integrated Apollo GraphQL on the client side, managing query/mutation caching and
+            data flow for dynamic interfaces.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ EDUCATION ══════════ -->
+    <div class="section">
+      <div class="section-title">Education</div>
+      <div class="edu-header">
+        <div class="edu-name">FPT Polytechnic</div>
+        <div class="edu-date">08/2018 – 09/2021</div>
+      </div>
+      <div class="edu-degree">College – Software Technology (Mobile Programming)</div>
+    </div>
+
+    <!-- ══════════ FOREIGN LANGUAGE ══════════ -->
+    <div class="section">
+      <div class="section-title">Foreign Language</div>
+      <div class="lang-row">
+        <div class="lang-tag"><b>English</b> (Intermediate — professional reading & writing)</div>
+        <div class="lang-tag"><b>Vietnamese</b> (Native)</div>
+      </div>
+    </div>
+
+  </body>
+</html>

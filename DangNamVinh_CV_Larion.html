@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đặng Nam Vinh – Frontend Developer</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11.5px;
+        color: #222;
+        background: #fff;
+        padding: 44px 52px;
+        max-width: 860px;
+        margin: 0 auto;
+        line-height: 1.5;
+      }
+
+      /* ── Header ── */
+      h1 {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: #111;
+        margin-bottom: 4px;
+      }
+      .subtitle {
+        text-align: center;
+        font-size: 10.5px;
+        letter-spacing: 3.5px;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: #444;
+        margin-bottom: 10px;
+      }
+      .contact-row {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 6px 20px;
+        font-size: 11px;
+        color: #444;
+        margin-bottom: 3px;
+      }
+      .contact-row a {
+        color: #444;
+        text-decoration: none;
+      }
+
+      /* ── Section ── */
+      .section {
+        margin-top: 20px;
+      }
+      .section-title {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        border-bottom: 1.5px solid #222;
+        padding-bottom: 4px;
+        margin-bottom: 12px;
+      }
+
+      /* ── Job block ── */
+      .job-block {
+        margin-bottom: 14px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid #ddd;
+      }
+      .job-block:last-child {
+        border-bottom: none;
+      }
+      .job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+      }
+      .job-title {
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .job-date {
+        font-size: 11px;
+        color: #555;
+        font-weight: 600;
+      }
+      .company-name {
+        font-weight: 700;
+        font-size: 11.5px;
+        margin: 2px 0 4px;
+      }
+      .company-desc {
+        font-size: 11px;
+        color: #444;
+        margin-bottom: 6px;
+      }
+      .meta-row {
+        font-size: 11px;
+        margin-bottom: 6px;
+        color: #333;
+      }
+      .meta-row b {
+        font-weight: 700;
+      }
+      .tech-row {
+        font-size: 11px;
+        margin-bottom: 8px;
+        color: #333;
+      }
+      .tech-row b {
+        font-weight: 700;
+      }
+
+      /* ── Project block ── */
+      .projects-label {
+        font-weight: 700;
+        font-size: 11.5px;
+        margin: 8px 0 6px;
+      }
+      .project-block {
+        margin-bottom: 10px;
+      }
+      .project-name {
+        font-weight: 700;
+        font-size: 11.5px;
+        margin-bottom: 2px;
+      }
+      .project-desc {
+        font-size: 11px;
+        color: #444;
+        margin-bottom: 4px;
+      }
+      .resp-label {
+        font-weight: 700;
+        font-size: 11px;
+        margin-bottom: 3px;
+      }
+
+      /* ── Lists ── */
+      ul {
+        padding-left: 15px;
+      }
+      ul li {
+        font-size: 11px;
+        margin-bottom: 3px;
+        line-height: 1.55;
+      }
+
+      /* ── Education ── */
+      .edu-header {
+        display: flex;
+        justify-content: space-between;
+      }
+      .edu-name {
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .edu-date {
+        font-size: 11px;
+        color: #555;
+        font-weight: 600;
+      }
+      .edu-degree {
+        font-size: 11px;
+        color: #555;
+        margin-top: 2px;
+      }
+
+      /* ── Skills ── */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        row-gap: 5px;
+      }
+      .skill-cat {
+        font-weight: 700;
+        font-size: 11px;
+        padding-top: 2px;
+      }
+      .skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3px;
+      }
+      .skill-tag {
+        background: #f0f0f0;
+        border-radius: 3px;
+        padding: 2px 7px;
+        font-size: 10.5px;
+        color: #333;
+      }
+
+      /* ── Languages ── */
+      .lang-row {
+        display: flex;
+        gap: 12px;
+      }
+      .lang-tag {
+        background: #f0f0f0;
+        border-radius: 3px;
+        padding: 3px 12px;
+        font-size: 11px;
+      }
+      .lang-tag b {
+        font-weight: 700;
+      }
+
+      /* ── Print ── */
+      @media print {
+        body {
+          padding: 24px 36px;
+        }
+        @page {
+          margin: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══════════ HEADER ══════════ -->
+    <h1>Đặng Nam Vinh</h1>
+    <div class="subtitle">Frontend Developer</div>
+    <div class="contact-row">
+      <span>&#128222; 0973660074</span>
+      <span>&#9993; <a href="mailto:nam.vinh@herond.org">nam.vinh@herond.org</a></span>
+      <span>&#128100; 16/06/2000</span>
+    </div>
+    <div class="contact-row">
+      <span>&#128205; Ho Chi Minh City, Vietnam</span>
+      <span>&#128279; <a href="https://linkedin.com/in/nam-vinh" target="_blank">linkedin.com/in/nam-vinh</a></span>
+      <span>&#128025; <a href="https://github.com/NamVinh" target="_blank">github.com/NamVinh</a></span>
+    </div>
+
+    <!-- ══════════ ABOUT ME ══════════ -->
+    <div class="section">
+      <div class="section-title">About Me</div>
+      <p style="font-size: 11px; line-height: 1.65; color: #333">
+        Frontend Developer with 5 years of experience building scalable, consumer-facing web and mobile applications
+        using React, Next.js, and TypeScript. Experienced in developing data-driven interfaces — including dashboards,
+        reporting screens, and real-time data displays — with a strong focus on responsive UI, state management, and
+        clean RESTful API integration. Comfortable working closely with designers, product managers, and backend engineers
+        in fast-paced product teams.
+      </p>
+    </div>
+
+    <!-- ══════════ SKILLS ══════════ -->
+    <div class="section">
+      <div class="section-title">Skills</div>
+      <div class="skills-grid">
+        <div class="skill-cat">Core</div>
+        <div class="skill-tags">
+          <span class="skill-tag">JavaScript / ES6+ (5 years)</span>
+          <span class="skill-tag">TypeScript (5 years)</span>
+          <span class="skill-tag">HTML5</span>
+          <span class="skill-tag">CSS3 / SASS</span>
+          <span class="skill-tag">CSS Modules</span>
+        </div>
+        <div class="skill-cat">React (Web)</div>
+        <div class="skill-tags">
+          <span class="skill-tag">ReactJS (5 years)</span>
+          <span class="skill-tag">Next.js (3 years)</span>
+          <span class="skill-tag">Redux / RTK Query</span>
+          <span class="skill-tag">React Hook Form</span>
+          <span class="skill-tag">Context API</span>
+          <span class="skill-tag">Vite</span>
+        </div>
+        <div class="skill-cat">React Native</div>
+        <div class="skill-tags">
+          <span class="skill-tag">React Native (5 years)</span>
+          <span class="skill-tag">Android &amp; iOS</span>
+          <span class="skill-tag">App Store / Google Play release</span>
+        </div>
+        <div class="skill-cat">UI Libraries</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Material-UI</span>
+          <span class="skill-tag">Ant Design</span>
+          <span class="skill-tag">GlueStack UI</span>
+        </div>
+        <div class="skill-cat">Testing</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Vitest</span>
+          <span class="skill-tag">Playwright</span>
+        </div>
+        <div class="skill-cat">Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">GitHub Actions</span>
+          <span class="skill-tag">Turborepo</span>
+          <span class="skill-tag">Nx</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">Azure</span>
+        </div>
+        <div class="skill-cat">Database</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">Redis</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ WORK EXPERIENCE ══════════ -->
+    <div class="section">
+      <div class="section-title">Work Experience</div>
+
+      <!-- ── Herond Labs ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Software Engineer</div>
+          <div class="job-date">12/2024 – Present</div>
+        </div>
+        <div class="company-name">Herond Labs</div>
+        <div class="company-desc">
+          Privacy-focused browser startup building a suite of consumer products — a shared design system,
+          a loyalty points platform, and a Chromium-based cross-platform browser.
+        </div>
+        <div class="meta-row"><b>Team size:</b> 20+</div>
+
+        <div class="projects-label">Projects:</div>
+
+        <!-- Points System — data-driven, consumer-facing, RTK Query -->
+        <div class="project-block">
+          <div class="project-name">Herond Points System — Frontend</div>
+          <div class="project-desc">
+            Consumer-facing loyalty platform (Collect, Invite Friends, Rewards) with real-time point tracking,
+            integrated as a micro-frontend within the browser shell.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Built responsive, data-driven pages with Next.js and RTK Query, handling API integration,
+              caching, and optimistic UI updates for real-time point balance changes.
+            </li>
+            <li>
+              Implemented complex data display flows — mission progress tracking, reward status,
+              and referral analytics — presented in accessible, mobile-friendly layouts.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Browser UI — consumer product, React, Redux -->
+        <div class="project-block">
+          <div class="project-name">Herond Browser — Web UI</div>
+          <div class="project-desc">
+            Privacy-focused browser (macOS, Windows, Linux, Android) built on Chromium,
+            with React/Redux-powered UI pages shipped to end users.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Developed consumer-facing browser pages (New Tab, Wallet, Points) with React and Redux,
+              targeting 4 platforms from a single shared codebase.
+            </li>
+            <li>
+              Integrated RESTful APIs from multiple Herond services and managed data flow and loading
+              states via Redux for a consistent, snappy user experience.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Design System -->
+        <div class="project-block">
+          <div class="project-name">Herond Design System</div>
+          <div class="project-desc">
+            Shared React component library (70+ components) powering UI consistency across all Herond products,
+            with live documentation at storybook.herond.org.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Built the library from scratch with Vite (ES/CJS dual output, tree-shaking) and automated CSS
+              token generation from JSON design sources — adopted across 3–4 products by the entire engineering team.
+            </li>
+            <li>
+              Maintained component reliability via Vitest unit tests and Playwright browser tests,
+              preventing visual regressions across product updates.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── Biso24 ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">08/2022 – 12/2024</div>
+        </div>
+        <div class="company-name">Biso24</div>
+        <div class="company-desc">
+          Startup building a digital transformation platform — web and mobile products covering route
+          management, reporting dashboards, and field operations with map and chart integrations.
+        </div>
+        <div class="meta-row"><b>Team size:</b> 10</div>
+
+        <div class="projects-label">Projects:</div>
+
+        <!-- Dashboard / Reporting — most relevant to LARION JD -->
+        <div class="project-block">
+          <div class="project-name">Operations Dashboard &amp; Reporting</div>
+          <div class="project-desc">
+            Data-intensive web application for field operations managers — featuring multi-dimensional
+            reporting tables, route analytics, and custom chart views built with Next.js and React Query.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Developed complex reporting screens with Next.js, integrating RESTful APIs and handling
+              large paginated datasets with filtering, sorting, and drill-down analytics.
+            </li>
+            <li>
+              Implemented custom chart components using d3-shape for route performance visualization,
+              giving operations teams actionable data insights directly in the UI.
+            </li>
+            <li>
+              Built multi-step form workflows with React Hook Form + Yup — dynamic field arrays,
+              conditional sections, and server-side error mapping — across data-heavy management screens.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Mobile + Monorepo -->
+        <div class="project-block">
+          <div class="project-name">Cross-Platform Mobile App</div>
+          <div class="project-desc">
+            React Native mobile application for field teams — route navigation with map integration,
+            submitted to both App Store and Google Play.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Delivered 3 core app modules to App Store and Google Play, managing the full release
+              cycle from build configuration to store submission.
+            </li>
+            <li>
+              Architected a shared Turborepo monorepo enabling code reuse across web and mobile modules,
+              reducing duplication and significantly improving build times.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── Zens ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">06/2021 – 08/2022</div>
+        </div>
+        <div class="company-name">Zens Technology Company Limited</div>
+        <div class="company-desc">
+          Software outsourcing company — custom web and mobile solutions across multiple client industries.
+        </div>
+        <div class="meta-row"><b>Team size:</b> 6</div>
+        <div class="tech-row">
+          <b>Technologies:</b> React, React Native, Next.js, Material-UI, Redux, Apollo GraphQL
+        </div>
+        <div class="resp-label">Responsibilities:</div>
+        <ul>
+          <li>
+            Built and maintained React and React Native applications, establishing reusable component
+            patterns and layout systems across multiple client projects.
+          </li>
+          <li>
+            Developed a React Native healthcare app to manage COVID-19 testing kit workflows,
+            integrating RESTful APIs and handling real-time status updates for field operations.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ EDUCATION ══════════ -->
+    <div class="section">
+      <div class="section-title">Education</div>
+      <div class="edu-header">
+        <div class="edu-name">FPT Polytechnic</div>
+        <div class="edu-date">08/2018 – 09/2021</div>
+      </div>
+      <div class="edu-degree">College – Software Technology (Mobile Programming)</div>
+    </div>
+
+    <!-- ══════════ FOREIGN LANGUAGE ══════════ -->
+    <div class="section">
+      <div class="section-title">Foreign Language</div>
+      <div class="lang-row">
+        <div class="lang-tag"><b>English</b> (Intermediate — professional reading &amp; writing)</div>
+        <div class="lang-tag"><b>Vietnamese</b> (Native)</div>
+      </div>
+    </div>
+  </body>
+</html>

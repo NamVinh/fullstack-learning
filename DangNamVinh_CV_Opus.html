@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đặng Nam Vinh – Full Stack Developer</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11.5px; color: #222; background: #fff;
+        padding: 44px 52px; max-width: 860px; margin: 0 auto; line-height: 1.5;
+      }
+      h1 { text-align: center; font-size: 30px; font-weight: 800; letter-spacing: 1px; color: #111; margin-bottom: 4px; }
+      .subtitle { text-align: center; font-size: 10.5px; letter-spacing: 3.5px; text-transform: uppercase; font-weight: 700; color: #444; margin-bottom: 10px; }
+      .contact-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 20px; font-size: 11px; color: #444; margin-bottom: 3px; }
+      .contact-row a { color: #444; text-decoration: none; }
+      .section { margin-top: 20px; }
+      .section-title { font-size: 11px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; border-bottom: 1.5px solid #222; padding-bottom: 4px; margin-bottom: 12px; }
+      .job-block { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #ddd; }
+      .job-block:last-child { border-bottom: none; }
+      .job-header { display: flex; justify-content: space-between; align-items: baseline; }
+      .job-title { font-weight: 700; font-size: 12px; }
+      .job-date { font-size: 11px; color: #555; font-weight: 600; }
+      .company-name { font-weight: 700; font-size: 11.5px; margin: 2px 0 4px; }
+      .company-desc { font-size: 11px; color: #444; margin-bottom: 6px; }
+      .meta-row { font-size: 11px; margin-bottom: 6px; color: #333; }
+      .meta-row b { font-weight: 700; }
+      .tech-row { font-size: 11px; margin-bottom: 8px; color: #333; }
+      .tech-row b { font-weight: 700; }
+      .projects-label { font-weight: 700; font-size: 11.5px; margin: 8px 0 6px; }
+      .project-block { margin-bottom: 10px; }
+      .project-name { font-weight: 700; font-size: 11.5px; margin-bottom: 2px; }
+      .project-desc { font-size: 11px; color: #444; margin-bottom: 4px; }
+      .resp-label { font-weight: 700; font-size: 11px; margin-bottom: 3px; }
+      ul { padding-left: 15px; }
+      ul li { font-size: 11px; margin-bottom: 3px; line-height: 1.55; }
+      .edu-header { display: flex; justify-content: space-between; }
+      .edu-name { font-weight: 700; font-size: 12px; }
+      .edu-date { font-size: 11px; color: #555; font-weight: 600; }
+      .edu-degree { font-size: 11px; color: #555; margin-top: 2px; }
+      .skills-grid { display: grid; grid-template-columns: 110px 1fr; row-gap: 5px; }
+      .skill-cat { font-weight: 700; font-size: 11px; padding-top: 2px; }
+      .skill-tags { display: flex; flex-wrap: wrap; gap: 3px; }
+      .skill-tag { background: #f0f0f0; border-radius: 3px; padding: 2px 7px; font-size: 10.5px; color: #333; }
+      .lang-row { display: flex; gap: 12px; }
+      .lang-tag { background: #f0f0f0; border-radius: 3px; padding: 3px 12px; font-size: 11px; }
+      .lang-tag b { font-weight: 700; }
+      @media print { body { padding: 24px 36px; } @page { margin: 0; } }
+    </style>
+  </head>
+  <body>
+
+    <!-- ══════════ HEADER ══════════ -->
+    <h1>Đặng Nam Vinh</h1>
+    <div class="subtitle">Full Stack Developer</div>
+    <div class="contact-row">
+      <span>&#128222; 0973660074</span>
+      <span>&#9993; <a href="mailto:dnamvinh@gmail.com">dnamvinh@gmail.com</a></span>
+      <span>&#128100; 16/06/2000</span>
+    </div>
+    <div class="contact-row">
+      <span>&#128205; TP. Hồ Chí Minh</span>
+      <span>&#128279; <a href="https://linkedin.com/in/nam-vinh" target="_blank">linkedin.com/in/nam-vinh</a></span>
+      <span>&#128025; <a href="https://github.com/NamVinh" target="_blank">github.com/NamVinh</a></span>
+    </div>
+
+    <!-- ══════════ ABOUT ME ══════════ -->
+    <div class="section">
+      <div class="section-title">Giới Thiệu</div>
+      <p style="font-size: 11px; line-height: 1.65; color: #333">
+        Lập trình viên Full Stack với hơn 5 năm kinh nghiệm phát triển web và mobile, thành thạo React,
+        TypeScript, Next.js và NestJS/Node.js. Có kinh nghiệm thực tế trong thiết kế hệ thống, tích hợp API,
+        bảo mật ứng dụng và tối ưu hiệu năng. Quen làm việc trong môi trường Agile, tham gia code review
+        và xây dựng component library dùng chung cho nhiều sản phẩm. Luôn chủ động cập nhật công nghệ mới
+        và áp dụng vào dự án thực tế.
+      </p>
+    </div>
+
+    <!-- ══════════ SKILLS ══════════ -->
+    <div class="section">
+      <div class="section-title">Kỹ Năng</div>
+      <div class="skills-grid">
+        <div class="skill-cat">Frontend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">JavaScript / ES6+ (5 năm)</span>
+          <span class="skill-tag">TypeScript (5 năm)</span>
+          <span class="skill-tag">ReactJS (5 năm)</span>
+          <span class="skill-tag">React Native (5 năm)</span>
+          <span class="skill-tag">Next.js (3 năm)</span>
+          <span class="skill-tag">Redux / RTK Query</span>
+          <span class="skill-tag">React Hook Form</span>
+          <span class="skill-tag">HTML5 / CSS3 / SASS</span>
+          <span class="skill-tag">Responsive Design</span>
+        </div>
+        <div class="skill-cat">Backend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">NestJS (2 năm)</span>
+          <span class="skill-tag">Node.js (2 năm)</span>
+          <span class="skill-tag">REST API</span>
+          <span class="skill-tag">OAuth2 / JWT</span>
+          <span class="skill-tag">Prisma ORM</span>
+          <span class="skill-tag">GraphQL</span>
+        </div>
+        <div class="skill-cat">Database</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">Redis</span>
+        </div>
+        <div class="skill-cat">DevOps</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">GitHub Actions (CI/CD)</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">Turborepo / Nx</span>
+        </div>
+        <div class="skill-cat">Testing</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Vitest</span>
+          <span class="skill-tag">Playwright</span>
+        </div>
+        <div class="skill-cat">AI Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Claude Code</span>
+          <span class="skill-tag">Cursor</span>
+          <span class="skill-tag">Antigravity</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ WORK EXPERIENCE ══════════ -->
+    <div class="section">
+      <div class="section-title">Kinh Nghiệm Làm Việc</div>
+
+      <!-- ── Herond Labs ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Software Engineer (Full Stack)</div>
+          <div class="job-date">12/2024 – Nay</div>
+        </div>
+        <div class="company-name">Herond Labs</div>
+        <div class="company-desc">
+          Startup công nghệ xây dựng hệ sinh thái trình duyệt bảo mật — bao gồm nền tảng loyalty & rewards,
+          hệ thống định danh OAuth2/OIDC, cổng admin nội bộ và thư viện component dùng chung.
+        </div>
+        <div class="meta-row"><b>Quy mô team:</b> 20+</div>
+
+        <div class="projects-label">Dự án:</div>
+
+        <div class="project-block">
+          <div class="project-name">Herond Portal — Cổng Quản Trị Nội Bộ</div>
+          <div class="project-desc">
+            Nền tảng full-stack quản lý người dùng, danh tính, điểm thưởng và template nội dung —
+            NestJS REST API + PostgreSQL phía backend, React micro-frontend phía frontend.
+          </div>
+          <div class="resp-label">Công việc thực hiện:</div>
+          <ul>
+            <li>
+              Thiết kế schema PostgreSQL, xây dựng các module API NestJS với Prisma ORM,
+              xác thực JWT/Passport và tài liệu Swagger.
+            </li>
+            <li>
+              Phát triển giao diện React tương ứng; thiết lập Playwright E2E tests trong
+              pipeline GitHub Actions CI/CD.
+            </li>
+          </ul>
+        </div>
+
+        <div class="project-block">
+          <div class="project-name">Herond Points System — Nền Tảng Loyalty & Rewards</div>
+          <div class="project-desc">
+            Hệ thống tích điểm full-stack — người dùng kiếm và đổi điểm qua check-in hàng ngày,
+            nhiệm vụ và giới thiệu bạn bè.
+          </div>
+          <div class="resp-label">Công việc thực hiện:</div>
+          <ul>
+            <li>
+              Xử lý concurrency bằng Redis distributed locking để tránh race condition
+              khi nhiều request xảy ra đồng thời trên cùng tài khoản.
+            </li>
+            <li>
+              Xây dựng các trang Next.js (Collect, Invite Friends, Rewards) với RTK Query
+              để tích hợp API, caching và cập nhật UI tức thì.
+            </li>
+          </ul>
+        </div>
+
+        <div class="project-block">
+          <div class="project-name">Herond Accounts — Hệ Thống Xác Thực</div>
+          <div class="project-desc">
+            Nền tảng định danh OAuth2/OIDC tích hợp đăng nhập qua nhiều nhà cung cấp bên thứ ba.
+          </div>
+          <div class="resp-label">Công việc thực hiện:</div>
+          <ul>
+            <li>
+              Triển khai luồng OAuth2/OIDC với đăng nhập xã hội đa nền tảng (Google, Apple,
+              Facebook, Twitter) và quản lý session dựa trên token bảo mật.
+            </li>
+          </ul>
+        </div>
+
+        <div class="project-block">
+          <div class="project-name">Herond Design System — Thư Viện Component Dùng Chung</div>
+          <div class="project-desc">
+            Thư viện React component (70+ components) đảm bảo UI nhất quán trên toàn bộ sản phẩm.
+          </div>
+          <div class="resp-label">Công việc thực hiện:</div>
+          <ul>
+            <li>
+              Xây dựng với Vite và tự động sinh CSS token từ Figma; duy trì chất lượng
+              bằng Vitest unit tests và Playwright browser regression tests.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── Biso24 ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">08/2022 – 12/2024</div>
+        </div>
+        <div class="company-name">Biso24</div>
+        <div class="company-desc">
+          Startup 10 người xây dựng nền tảng chuyển đổi số — sản phẩm web và mobile với dashboard
+          dữ liệu lớn, tích hợp bản đồ và quy trình form phức tạp.
+        </div>
+        <div class="meta-row"><b>Quy mô team:</b> 10</div>
+        <div class="tech-row">
+          <b>Công nghệ:</b> ReactJS, TypeScript, Next.js, React Hook Form, Yup, Zustand,
+          React Query, d3-shape, Ant Design, Material-UI, Turborepo, SASS, CSS Modules
+        </div>
+        <div class="resp-label">Công việc thực hiện:</div>
+        <ul>
+          <li>
+            Phát triển và bảo trì tính năng cho 3 module sản phẩm chính từ đầu đến cuối,
+            phối hợp chặt chẽ với team product, design và QA.
+          </li>
+          <li>
+            Xây dựng màn hình dashboard với biểu đồ (d3-shape) và tích hợp bản đồ,
+            tối ưu hiệu năng và responsive trên nhiều thiết bị.
+          </li>
+          <li>
+            Triển khai logic form đa bước phức tạp với React Hook Form + Yup — field
+            array động, điều kiện hiển thị và xử lý lỗi từ server.
+          </li>
+          <li>
+            Kiến trúc codebase nền tảng và component library dùng chung; áp dụng Turborepo
+            monorepo để chia sẻ code giữa các module, giảm trùng lặp và cải thiện build.
+          </li>
+        </ul>
+      </div>
+
+      <!-- ── Zens ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">06/2021 – 08/2022</div>
+        </div>
+        <div class="company-name">Zens Technology Company Limited</div>
+        <div class="company-desc">
+          Công ty gia công phần mềm — giải pháp web và mobile cho nhiều ngành công nghiệp khác nhau.
+        </div>
+        <div class="meta-row"><b>Quy mô team:</b> 6</div>
+        <div class="tech-row">
+          <b>Công nghệ:</b> ReactJS, TypeScript, Material-UI, Redux, Apollo GraphQL
+        </div>
+        <div class="resp-label">Công việc thực hiện:</div>
+        <ul>
+          <li>
+            Xây dựng và bảo trì ứng dụng React với Material-UI, thiết lập các pattern
+            component tái sử dụng và layout system cho nhiều dự án khách hàng.
+          </li>
+          <li>
+            Tích hợp Apollo GraphQL phía client, quản lý query/mutation caching và
+            data flow cho giao diện động.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ EDUCATION ══════════ -->
+    <div class="section">
+      <div class="section-title">Học Vấn</div>
+      <div class="edu-header">
+        <div class="edu-name">FPT Polytechnic</div>
+        <div class="edu-date">08/2018 – 09/2021</div>
+      </div>
+      <div class="edu-degree">Cao Đẳng – Công Nghệ Thông Tin (Lập Trình Di Động)</div>
+    </div>
+
+    <!-- ══════════ NGOẠI NGỮ ══════════ -->
+    <div class="section">
+      <div class="section-title">Ngoại Ngữ</div>
+      <div class="lang-row">
+        <div class="lang-tag"><b>Tiếng Anh</b> (Trung cấp — đọc hiểu & viết chuyên nghiệp)</div>
+        <div class="lang-tag"><b>Tiếng Việt</b> (Bản ngữ)</div>
+      </div>
+    </div>
+
+  </body>
+</html>

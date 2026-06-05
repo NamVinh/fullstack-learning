@@ -1,447 +1,377 @@
-# Lộ trình Fullstack Developer
+# Fullstack Learning Roadmap
 
-> Dành cho Frontend Developer 5 năm kinh nghiệm (React + TypeScript — Vue chưa có kinh nghiệm)
-> Mục tiêu: Đi làm tại công ty với vai trò Fullstack thực sự
-> Thời gian học: > 3 tiếng/ngày
-
----
-
-## Theo dõi tiến độ tổng quan
-
-| Giai đoạn | Chủ đề | Tiến độ |
-|-----------|--------|---------|
-| Phase 0 | Nền tảng | 0 / 15 |
-| Phase 0.5 | Hoàn thiện FE (React nâng cao + Vue 3) | 0 / 24 |
-| Phase 1 | Node.js + Express | 0 / 22 |
-| Phase 2 | Database | 0 / 20 |
-| Phase 3 | Fullstack Integration | 0 / 26 |
-| Phase 4 | DevOps cơ bản | 0 / 22 |
-| Phase 5 | Nâng cao (ongoing) | 0 / 24 |
-
-> Cập nhật cột "Tiến độ" thủ công sau mỗi lần hoàn thành topic. Hoặc dùng **GitHub Projects** (hướng dẫn ở cuối file).
+> Dựa theo [roadmap.sh](https://roadmap.sh) — từ nền tảng đến senior, rõ từng cấp độ.
+> Người học: Frontend Engineer 5 năm (React + TypeScript). Mục tiêu: Fullstack thực sự.
 
 ---
 
-## Triết lý học
-- **Hiểu nguyên lý** trước khi học framework — framework đến rồi đi, nguyên lý ở lại mãi
-- **Build project thực tế** sau mỗi giai đoạn, không học chay
-- **Không FOMO**: Học xong 1 thứ thật chắc rồi mới sang thứ khác
-- **TypeScript xuyên suốt**: Tận dụng tối đa ở cả FE lẫn BE
-- **Fullstack = hiểu cả hai phía**: Không chỉ biết code FE và code BE riêng rẽ — phải hiểu chúng nói chuyện với nhau như thế nào
+## Thứ tự học đúng
+
+```
+00-foundations  →  01-backend  →  02-database  →  03-frontend  →  04-fullstack  →  05-devops  →  06-senior-advanced
+   (mọi path)      (yếu nhất       (song song        (lấp lỗ         (kết nối        (deploy &       (scale &
+                   của FE dev)     với backend)       hổng FE)        tất cả)         infra)          design)
+```
+
+**Tại sao thứ tự này?**
+- FE developer đã có Frontend base → học Backend trước (điểm yếu nhất)
+- Database học song song/ngay sau Backend vì chúng gắn chặt nhau
+- Frontend nâng cao điền vào gaps (React internals, Vue 3, Performance)
+- Fullstack Integration = kết nối FE + BE + DB lại
+- DevOps = biết code chạy ở đâu, như thế nào
+- Senior = System Design, Architecture, Scale
 
 ---
 
-## Phase 0 — Củng cố nền tảng (2–3 tuần)
+## Cấp độ
 
-> Trước khi học BE, cần chắc những thứ này. Nhiều dev 5 năm vẫn có lỗ hổng ở đây.
-
-### JavaScript/TypeScript nâng cao
-- [ ] Event Loop, Call Stack, Microtask vs Macrotask — hiểu thực sự cách JS chạy
-- [ ] Prototype chain, `this`, Closure nâng cao
-- [ ] TypeScript: Generic nâng cao, Mapped Types, Conditional Types, Utility Types
-- [ ] TypeScript: Decorators — cần cho NestJS sau này
-- [ ] Module system: CommonJS vs ESM — biết sự khác nhau và tại sao quan trọng
-
-### Networking & Web cơ bản (cực kỳ quan trọng khi học BE)
-- [ ] HTTP/HTTPS: Request/Response cycle, Headers, Status codes
-- [ ] REST nguyên lý (không chỉ dùng, phải hiểu constraints của REST)
-- [ ] Cookie, Session, JWT — khác nhau như thế nào và dùng khi nào
-- [ ] DNS, TCP/IP cơ bản — biết một request đi từ browser đến server như thế nào
-- [ ] HTTPS/TLS: handshake hoạt động như thế nào, certificate là gì
-
-### Git workflow nâng cao *(thường bị bỏ qua)*
-- [ ] Branching strategy: Git Flow vs Trunk-based development
-- [ ] Rebase vs Merge — khi nào dùng cái nào
-- [ ] Conventional Commits — chuẩn commit message (quan trọng khi làm team)
-- [ ] Squash, cherry-pick, bisect
-- [ ] Pull Request best practices — code review culture
-
-**Project**: Viết lại 1 utility function phức tạp bằng TypeScript với đầy đủ type, không dùng `any`. Commit với conventional commits.
+| Level | Mô tả | Tương đương |
+|-------|-------|------------|
+| **Junior** | Biết dùng, làm theo hướng dẫn, cần giám sát | 0–2 năm |
+| **Mid** | Hiểu tại sao, tự quyết định, giải quyết vấn đề | 2–5 năm |
+| **Senior** | Thiết kế hệ thống, trade-offs, mentor người khác | 5+ năm |
 
 ---
 
-## Phase 0.5 — Hoàn thiện FE (3–4 tuần)
+## Tiến độ tổng quan
 
-> Dù đã 5 năm React vẫn có gaps. Vue 3 là framework mới cần học — phổ biến ở nhiều công ty Việt Nam.
-> Phase này có thể học song song hoặc xen kẽ với Phase 1.
-
-### React nâng cao — Lấp lỗ hổng
-
-- [ ] React internals: Fiber architecture, reconciliation, diffing algorithm — hiểu tại sao React render nhanh
-- [ ] React 18: concurrent rendering, `useTransition`, `useDeferredValue`, Suspense thực sự
-- [ ] React 19: `use()` hook, Server Actions trong React thuần, compiler (React Forget)
-- [ ] Performance đúng cách: biết khi nào **KHÔNG** nên dùng `memo`/`useMemo`/`useCallback`
-- [ ] Custom hooks nâng cao — separation of concerns, composability pattern
-- [ ] Error boundaries — component duy nhất cần viết dạng class, khi nào cần đặt
-- [ ] Render patterns: compound components, render props, headless components
-- [ ] React strict mode — tại sao nó render 2 lần và ý nghĩa là gì
-
-### Vue 3 — Học từ đầu
-
-> Học Vue 3 với Composition API ngay — đừng học Options API rồi mới sang
-
-- [ ] Vue 3 vs React — mental model khác nhau chỗ nào (reactivity system vs virtual DOM)
-- [ ] Reactivity: `ref`, `reactive`, `computed`, `watch`, `watchEffect` — hiểu sâu, không chỉ dùng
-- [ ] Composition API: `setup()`, lifecycle hooks, `defineProps`, `defineEmits`
-- [ ] Component patterns: slots (default, named, scoped), provide/inject, teleport
-- [ ] Vue Router 4: dynamic routes, navigation guards, lazy loading routes
-- [ ] Pinia — Vue's state management (tương đương Zustand của React)
-- [ ] Vue 3 + TypeScript: `defineProps<{}>()`, `defineEmits<{}>()`, typed composables
-- [ ] Nuxt.js 3 — Vue's Next.js: SSR, SSG, file-based routing, server routes, auto-imports
-
-### Build Tools & Tooling
-
-- [ ] Vite — tại sao nhanh hơn Webpack (native ESM, esbuild cho dev, Rollup cho build)
-- [ ] Vite config thực tế: plugins, path aliases, env variables, proxy
-- [ ] Bundle analysis: `vite-bundle-visualizer` — xem cái gì chiếm dung lượng
-- [ ] Tree shaking — tại sao named exports quan trọng hơn default exports
-
-### FE nâng cao *(thường bị bỏ qua)*
-
-- [ ] Accessibility (a11y): WCAG 2.1 AA basics, ARIA roles/labels, keyboard navigation — nhiều công ty yêu cầu
-- [ ] Web Performance đo lường thực tế: Lighthouse CI, Core Web Vitals (LCP, CLS, INP)
-- [ ] CSS hiện đại: Container Queries, `@layer`, CSS custom properties (design tokens)
-- [ ] Internationalization (i18n): `react-i18next` / `vue-i18n` — pattern và pitfalls
-
-**Project**: Build cùng 1 app (ví dụ: Todo với filter + pagination) bằng **cả React lẫn Vue** — để thấy tư duy của 2 framework khác nhau chỗ nào.
+| Phase | Domain | Junior | Mid | Senior | Trạng thái |
+|-------|--------|--------|-----|--------|------------|
+| 00 | Foundations | 0/8 | 0/5 | — | ⬜ Chưa bắt đầu |
+| 01 | Backend | 0/10 | 0/9 | 0/7 | ⬜ Chưa bắt đầu |
+| 02 | Database | 0/8 | 0/7 | 0/5 | ⬜ Chưa bắt đầu |
+| 03 | Frontend | 0/6 | 0/9 | 0/7 | ⬜ Chưa bắt đầu |
+| 04 | Fullstack | 0/7 | 0/8 | — | ⬜ Chưa bắt đầu |
+| 05 | DevOps | 0/8 | 0/8 | 0/6 | ⬜ Chưa bắt đầu |
+| 06 | Senior/Advanced | — | 0/5 | 0/10 | ⬜ Chưa bắt đầu |
 
 ---
 
-## Phase 1 — Backend với Node.js + Express (6–8 tuần)
+## Phase 00 — Foundations (Universal)
 
-> Chọn Node.js vì bạn đã biết JS/TS — không cần học ngôn ngữ mới, tập trung học tư duy BE
+> Nền tảng chung cho **tất cả** các path: Backend, Frontend, DevOps. Học một lần, dùng mãi.
+> Thời gian: 2–3 tuần
 
-### Node.js Core
-- [ ] Node.js runtime: Khác gì browser JS? (no DOM, no window, có `process`, `fs`, `path`...)
-- [ ] Streams & Buffer — xử lý dữ liệu lớn
-- [ ] EventEmitter pattern
-- [ ] `fs`, `path`, `http` module — built-in, không cần thư viện
-- [ ] `child_process` cơ bản
+### Junior — Must Know
 
-### Express.js (framework, nhưng cần hiểu nó làm gì)
-- [ ] Middleware pattern — đây là trái tim của Express, hiểu kỹ
-- [ ] Routing, Router module hóa
-- [ ] Error handling middleware (global error handler)
-- [ ] Request validation (zod hoặc joi)
-- [ ] File upload (multipart/form-data, multer)
+- [ ] **Internet & Web**: HTTP/HTTPS request-response cycle, DNS, domain, hosting
+- [ ] **HTTP sâu hơn**: Methods (GET/POST/PUT/PATCH/DELETE), Status codes, Headers
+- [ ] **Git cơ bản**: init, clone, add, commit, push, pull, branch, merge
+- [ ] **Terminal/CLI**: Navigation, file management, pipes, redirects
+- [ ] **SSH**: Kết nối server từ xa, key-based auth
+- [ ] **Package managers**: npm/yarn/pnpm — cách hoạt động, lock file
+- [ ] **Text editor**: Vim cơ bản (đủ để edit file trên server)
+- [ ] **Encoding**: UTF-8, Base64 — tại sao tồn tại
 
-### Bảo mật BE cơ bản *(đừng học sau, học ngay từ đầu)*
-- [ ] CORS — tại sao có, cách cấu hình đúng
-- [ ] Helmet.js — các HTTP security headers
-- [ ] Rate limiting (express-rate-limit)
-- [ ] Input sanitization / SQL Injection / XSS từ góc độ BE
-- [ ] Password hashing: bcrypt / argon2 — **KHÔNG dùng MD5/SHA-1 cho password**
-- [ ] Authentication: Implement JWT từ đầu (không dùng magic library)
-- [ ] OAuth2 / OpenID Connect — hiểu flow (Authorization Code, PKCE), không chỉ "dùng được Google login"
-- [ ] Authorization: Role-based access control (RBAC)
+### Mid — Should Know
 
-### Environment & Configuration
-- [ ] `.env` và `process.env` — quản lý config theo môi trường
-- [ ] Secrets management cơ bản — không commit secret vào git
-- [ ] 12-Factor App methodology — đọc qua 12factor.net, hiểu nguyên lý
+- [ ] **HTTP nâng cao**: Caching (Cache-Control, ETag), Cookies, CORS, CSP
+- [ ] **Git nâng cao**: Rebase, cherry-pick, squash, bisect, stash
+- [ ] **Git workflow**: Git Flow vs Trunk-based, branch strategy, conventional commits
+- [ ] **TCP/IP & OSI Model**: 7 layers, tại sao cần biết khi debug network
+- [ ] **TLS/SSL**: Handshake hoạt động như thế nào, certificate, Let's Encrypt
 
-### Practical skills
-- [ ] Gửi email (Nodemailer + SMTP hoặc Resend/SendGrid)
-- [ ] Tích hợp webhook cơ bản (nhận và xử lý webhook từ bên thứ 3)
-
-**Project**: Xây dựng REST API cho Blog có:
-- CRUD hoàn chỉnh
-- Auth (register/login/logout với JWT + refresh token)
-- OAuth2 login với Google
-- Role: admin vs user
-- Input validation với Zod
-- Proper error handling + structured logging
+**Project 00**: Viết document mô tả một HTTP request từ lúc gõ URL đến khi browser render xong. Commit với conventional commits.
 
 ---
 
-## Phase 2 — Database (5–6 tuần)
+## Phase 01 — Backend Developer
 
-> Đây là điểm yếu lớn nhất của hầu hết FE dev lên Fullstack. Đừng bỏ qua.
+> Node.js vì bạn đã biết JS/TS. Không cần học ngôn ngữ mới — tập trung vào tư duy BE.
+> Thời gian: 6–8 tuần | Folder: [01-backend/](01-backend/)
 
-### SQL & Relational Database (PostgreSQL)
-- [ ] Relational model: table, row, column, primary key, foreign key
-- [ ] CRUD với SQL thuần: `SELECT`, `INSERT`, `UPDATE`, `DELETE`
-- [ ] JOIN: INNER, LEFT, RIGHT, FULL — biết dùng đúng loại
-- [ ] Index: tại sao cần, khi nào dùng, trade-off là gì
-- [ ] Transaction: ACID là gì, `BEGIN`, `COMMIT`, `ROLLBACK`
-- [ ] N+1 query problem — cực kỳ quan trọng
-- [ ] Database normalization: 1NF, 2NF, 3NF
-- [ ] Connection pooling — tại sao cần, pg-pool hoạt động như thế nào
-- [ ] Explain / Explain Analyze — đọc query execution plan
+### Junior — REST APIs & Auth
 
-### ORM — Prisma (khuyên dùng với TS)
-- [ ] Schema definition với Prisma
-- [ ] Migrations
-- [ ] Relations (one-to-one, one-to-many, many-to-many)
-- [ ] Query optimization với Prisma (include, select, avoid over-fetching)
-- [ ] Raw query khi ORM không đủ mạnh
+- [ ] **Node.js runtime**: Khác browser JS ở đâu — `process`, `fs`, `path`, `http` module
+- [ ] **Event Loop** của Node.js: single-thread nhưng non-blocking I/O hoạt động thế nào
+- [ ] **Express.js**: Middleware pattern (trái tim của Express), routing, error handling
+- [ ] **REST API**: Xây dựng CRUD hoàn chỉnh với proper HTTP methods + status codes
+- [ ] **Input validation**: Zod hoặc Joi — validate trước khi xử lý
+- [ ] **Authentication**: JWT từ đầu — sign, verify, refresh token (không dùng magic library)
+- [ ] **Password security**: bcrypt/argon2 — **KHÔNG dùng MD5/SHA1 cho password**
+- [ ] **Environment config**: `.env`, `process.env`, 12-Factor App — không commit secrets
+- [ ] **Error handling**: Global error handler, structured error responses (RFC 7807)
+- [ ] **Logging cơ bản**: Winston/Pino, log levels (debug/info/warn/error), JSON logs
 
-### NoSQL — MongoDB (học sau SQL, đừng học trước)
-- [ ] Document model vs Relational model — khi nào dùng loại nào
-- [ ] CRUD với MongoDB
-- [ ] Schema design trong NoSQL (embedding vs referencing)
-- [ ] Mongoose cơ bản
-- [ ] Aggregation pipeline cơ bản
+**Project 01-Junior**: REST API Blog — CRUD posts, auth (register/login/logout/refresh), input validation, proper errors
 
-### Redis — Caching Layer
-- [ ] Redis là gì — key-value store, in-memory
-- [ ] Caching strategies: Cache-aside, Write-through, Write-behind
-- [ ] Cache invalidation — bài toán khó nhất trong caching
-- [ ] TTL (Time to Live) — quản lý cache expiry
-- [ ] Redis pub/sub cơ bản
-- [ ] Session storage với Redis
+### Mid — Security, Architecture, Testing
 
-**Project**: Nâng cấp project Phase 1 — thêm PostgreSQL với Prisma, viết migration, tối ưu queries, thêm Redis caching cho các endpoint đọc nhiều
+- [ ] **Web Security OWASP**: SQL Injection, XSS, CSRF — từ góc độ BE
+- [ ] **CORS**: Tại sao có, cách cấu hình đúng, preflight request
+- [ ] **Security headers**: Helmet.js — Content-Security-Policy, X-Frame-Options, HSTS
+- [ ] **Rate limiting**: express-rate-limit, sliding window vs token bucket
+- [ ] **OAuth2 / OpenID Connect**: Authorization Code + PKCE flow — hiểu thực sự, không chỉ dùng được
+- [ ] **Role-based access control (RBAC)**: Thiết kế permission system
+- [ ] **File upload**: Multipart/form-data, Multer, validate file type/size
+- [ ] **Streams & Buffer**: Xử lý file lớn, pipe, không load toàn bộ vào memory
+- [ ] **Unit Testing**: Vitest/Jest — test pure functions, mock dependencies
 
----
+**Project 01-Mid**: Nâng cấp Blog API — thêm OAuth2 (Google login), RBAC (admin/user/moderator), rate limiting, unit tests coverage > 70%
 
-## Phase 3 — Fullstack Integration (4–5 tuần)
+### Senior — Performance, Patterns, Scalability
 
-> Đây là phần quan trọng nhất — không chỉ biết code FE và BE riêng rẽ, mà phải hiểu chúng hoạt động cùng nhau
-
-### API Design nâng cao
-- [ ] RESTful API best practices: versioning, pagination (cursor vs offset), filtering, sorting
-- [ ] GraphQL cơ bản — hiểu nguyên lý, so sánh với REST (không cần master)
-- [ ] tRPC — type-safe API không cần code gen, rất hợp với TypeScript monorepo
-- [ ] API documentation với Swagger/OpenAPI
-- [ ] Error response format chuẩn (RFC 7807 Problem Details)
-
-### Real-time & WebSockets
-- [ ] WebSocket protocol — khác HTTP như thế nào
-- [ ] Socket.io — implement chat / notification đơn giản
-- [ ] Server-Sent Events (SSE) — khi nào dùng SSE thay WebSocket
-- [ ] Long polling — biết tại sao người ta bỏ nó đi
-
-### Next.js (Full-stack framework — rất phổ biến ở công ty)
-- [ ] App Router vs Pages Router — hiểu cả hai
-- [ ] React Server Components vs Client Components — tư duy mới, hiểu kỹ
-- [ ] Server Actions — form và mutation không cần API route
-- [ ] SSR, SSG, ISR, PPR — khi nào dùng gì
-- [ ] API Routes / Route Handlers
-- [ ] Middleware trong Next.js
-- [ ] Streaming & Suspense với Next.js
-
-### Fullstack Authentication (hiểu cả FE và BE)
-- [ ] Token storage: localStorage vs httpOnly cookie — trade-offs bảo mật
-- [ ] Refresh token rotation — implement đúng cách
-- [ ] NextAuth / Auth.js — library phổ biến cho Next.js
-- [ ] Session management phía server
-- [ ] CSRF protection — khi dùng cookie-based auth
-
-### File Storage & Media
-- [ ] Upload file từ FE (form + presigned URL pattern)
-- [ ] Lưu file lên S3 / Cloudflare R2 / Supabase Storage
-- [ ] Image optimization (CDN, Next.js Image component hiểu sâu)
-
-### Monorepo & Code Sharing *(quan trọng cho Fullstack thực sự)*
-- [ ] Turborepo hoặc Nx — quản lý FE + BE trong cùng repo
-- [ ] Share TypeScript types giữa FE và BE (không copy-paste)
-- [ ] Share validation schemas (Zod) giữa FE và BE
-- [ ] Shared ESLint/Prettier config
-
-### State Management nhìn lại
-- [ ] Server state vs Client state — phân biệt rõ
-- [ ] TanStack Query — không chỉ fetch data mà hiểu caching, stale time, invalidation
-- [ ] Optimistic updates — UX trick quan trọng
-- [ ] Zustand cho client state
-
-### Developer Experience
-- [ ] API mocking với MSW (Mock Service Worker) — phát triển FE độc lập với BE
-- [ ] Storybook — document và test UI components
-
-**Project**: Xây dựng 1 ứng dụng Fullstack hoàn chỉnh với Next.js + tRPC hoặc REST:
-- Ví dụ: Project management tool (Trello clone nhỏ)
-- Có real-time updates (Socket.io hoặc SSE)
-- Auth hoàn chỉnh (JWT + refresh token hoặc NextAuth)
-- File upload (S3)
-- Monorepo structure với shared types
-- Deploy lên Vercel + Supabase/Neon
+- [ ] **Clean Architecture**: Tách business logic khỏi framework, Dependency Injection
+- [ ] **Repository Pattern**: Tách data access layer khỏi business logic
+- [ ] **NestJS**: Module system, Guards, Interceptors, Pipes — Enterprise Node.js
+- [ ] **gRPC**: Protocol Buffers, khi nào dùng thay REST
+- [ ] **Message Queues**: BullMQ/RabbitMQ — tại sao cần, async job processing
+- [ ] **WebSockets**: Socket.io — real-time, khi nào dùng SSE thay WebSocket
+- [ ] **API Design nâng cao**: Versioning, cursor pagination, GraphQL trade-offs
+- [ ] **Integration Testing**: Supertest, test với real database (không mock)
 
 ---
 
-## Phase 4 — DevOps & Infrastructure cơ bản (3–4 tuần)
+## Phase 02 — Database
 
-> Fullstack thực sự cần biết code của mình chạy ở đâu và như thế nào
+> Điểm yếu lớn nhất của FE dev lên Fullstack. Học cẩn thận.
+> Thời gian: 5–6 tuần | Folder: [02-database/](02-database/)
 
-### Linux & Command Line
-- [ ] Navigation, file management, permissions (chmod, chown)
-- [ ] `grep`, `awk`, `sed` cơ bản
-- [ ] Process management: `ps`, `kill`, `top`, `htop`
-- [ ] SSH, SCP, rsync
-- [ ] Cron jobs — schedule tasks
-- [ ] systemd cơ bản — quản lý service trên Linux
+### Junior — SQL Fundamentals
 
-### Nginx (Web Server / Reverse Proxy)
-- [ ] Nginx vs Apache — khi nào dùng gì
-- [ ] Cấu hình Nginx làm reverse proxy cho Node.js app
-- [ ] SSL termination với Nginx + Let's Encrypt (Certbot)
-- [ ] Static file serving
-- [ ] Load balancing với Nginx
-- [ ] Nginx rate limiting
+- [ ] **Relational model**: Table, row, column, primary key, foreign key — tại sao cần
+- [ ] **SQL CRUD**: `SELECT`, `INSERT`, `UPDATE`, `DELETE` thuần thục
+- [ ] **JOINs**: INNER, LEFT, RIGHT, FULL OUTER — biết dùng đúng loại khi nào
+- [ ] **Filtering & Sorting**: `WHERE`, `ORDER BY`, `GROUP BY`, `HAVING`
+- [ ] **PostgreSQL setup**: Cài local, tạo user/database, connect từ Node.js
+- [ ] **Prisma ORM**: Schema definition, migrations, basic queries
+- [ ] **Prisma Relations**: one-to-one, one-to-many, many-to-many
+- [ ] **Connection pooling**: pg-pool, tại sao không tạo connection mỗi request
 
-### Docker (cần thiết ở hầu hết công ty hiện nay)
-- [ ] Container vs VM — hiểu nguyên lý
-- [ ] Dockerfile: viết từ đầu cho Node.js app
-- [ ] Docker Compose: chạy multi-service (app + PostgreSQL + Redis + Nginx)
-- [ ] Image optimization (layer caching, multi-stage build)
-- [ ] Docker networking — container giao tiếp với nhau như thế nào
-- [ ] Docker volumes — persistent data
+**Project 02-Junior**: Thiết kế database schema cho e-commerce (users, products, orders, reviews) — viết đủ SQL queries, implement với Prisma
 
-### Kubernetes (awareness level)
-- [ ] Kubernetes là gì — tại sao Docker Compose không đủ ở production
-- [ ] Pod, Deployment, Service, Ingress — hiểu concepts cơ bản
-- [ ] Không cần master — biết đủ để làm việc với team DevOps
+### Mid — Performance, NoSQL, Caching
 
-### CI/CD
-- [ ] GitHub Actions: tự động test và deploy
-- [ ] Viết pipeline: lint → test → build → push Docker image → deploy
-- [ ] Environment secrets trong CI/CD
-- [ ] Branch protection rules
+- [ ] **Index**: B-tree index, khi nào có lợi, khi nào không, composite index
+- [ ] **EXPLAIN ANALYZE**: Đọc query execution plan, tìm bottleneck
+- [ ] **N+1 query problem**: Phát hiện và fix với `include`/`select` trong Prisma
+- [ ] **Transactions (ACID)**: `BEGIN`, `COMMIT`, `ROLLBACK`, isolation levels
+- [ ] **Database Normalization**: 1NF, 2NF, 3NF — khi nào denormalize
+- [ ] **MongoDB**: Document model, khi nào dùng thay Postgres, Mongoose basics
+- [ ] **Redis**: Key-value store, caching strategies (Cache-aside, Write-through)
+- [ ] **Cache invalidation**: TTL, event-based invalidation, cache stampede
 
-### Monitoring & Logging *(bị bỏ qua nhiều nhất)*
-- [ ] Structured logging — Winston hoặc Pino (JSON logs, không dùng `console.log`)
-- [ ] Log levels: debug, info, warn, error — dùng đúng
-- [ ] Sentry — error tracking (FE + BE)
-- [ ] Metrics cơ bản (response time, error rate, throughput)
-- [ ] Uptime monitoring (UptimeRobot hoặc Better Uptime — free tier)
+**Project 02-Mid**: Nâng cấp e-commerce — thêm Redis caching cho product listings, fix tất cả N+1 queries, thêm proper indexes
 
-### Cloud cơ bản (chọn 1)
-- [ ] AWS: EC2, S3, RDS, ECR, ECS, IAM cơ bản
-- [ ] **hoặc** GCP: Cloud Run, Cloud SQL, Cloud Storage
-- [ ] **hoặc** Fly.io / Railway — dễ hơn để bắt đầu
+### Senior — Scale, Design
 
-**Project**: Containerize project Phase 3, viết GitHub Actions pipeline để auto-deploy lên cloud, cấu hình Nginx, setup Sentry
+- [ ] **Database Sharding**: Horizontal partitioning, consistent hashing
+- [ ] **Read Replicas**: Master-slave replication, khi nào đọc từ replica
+- [ ] **CAP Theorem**: Consistency vs Availability vs Partition tolerance — trade-offs thực tế
+- [ ] **Redis advanced**: Pub/Sub, sorted sets, distributed locks, Redis Cluster
+- [ ] **Schema migrations production**: Zero-downtime migrations, expand-contract pattern
+- [ ] **Full-text search**: PostgreSQL FTS vs Elasticsearch — khi nào cần Elasticsearch
 
 ---
 
-## Phase 5 — Nâng cao & Chuyên sâu (ongoing)
+## Phase 03 — Frontend Developer
 
-> Sau khi có việc làm Fullstack, học song song với công việc
+> Bạn đã có 5 năm React. Phase này **lấp lỗ hổng** và nâng lên Senior FE level.
+> Thời gian: 3–4 tuần | Folder: [03-frontend/](03-frontend/)
 
-### System Design
-- [ ] Scalability: horizontal vs vertical scaling
-- [ ] CAP theorem — Consistency, Availability, Partition tolerance
-- [ ] Caching deep dive: Redis cluster, cache stampede, thundering herd
-- [ ] Message Queue: RabbitMQ / BullMQ / Kafka — tại sao cần, use case
-- [ ] Load balancing: round-robin, least connections, consistent hashing
-- [ ] Monolith vs Microservices — trade-offs thực tế, đừng micro quá sớm
-- [ ] API Gateway pattern
+### Junior — Core (Ôn lại / Chắc chắn đã biết)
 
-### Architecture Patterns
-- [ ] Clean Architecture / Hexagonal Architecture — tách business logic khỏi framework
-- [ ] Domain-Driven Design (DDD) cơ bản — Entity, Value Object, Repository, Service
-- [ ] Event-driven architecture cơ bản
-- [ ] CQRS + Event Sourcing (đọc hiểu, không cần implement ngay)
+- [ ] **HTML semantic**: Accessibility (a11y), ARIA roles — nhiều công ty yêu cầu
+- [ ] **CSS layout**: Flexbox, Grid — master edge cases
+- [ ] **JavaScript**: Event Loop, Prototype chain, Closure, `this`
+- [ ] **TypeScript**: Generics, Mapped Types, Conditional Types, Utility Types
+- [ ] **Module system**: CommonJS vs ESM — biết sự khác nhau và tại sao quan trọng
+- [ ] **Build tools**: Vite — tại sao nhanh hơn Webpack (native ESM, esbuild)
 
-### NestJS (Enterprise Node.js)
-- [ ] NestJS module system — Dependency Injection
-- [ ] Guards, Interceptors, Pipes — tương đương Middleware nhưng có cấu trúc hơn
-- [ ] NestJS + Prisma + PostgreSQL
-- [ ] Microservices với NestJS (TCP, RabbitMQ transport)
+### Mid — Framework Depth + Vue 3
 
-### gRPC & Advanced APIs
-- [ ] Protocol Buffers — binary serialization
-- [ ] gRPC vs REST vs GraphQL — khi nào dùng gì
-- [ ] gRPC trong Node.js (@grpc/grpc-js)
+- [ ] **React internals**: Fiber architecture, reconciliation, diffing — tại sao React nhanh
+- [ ] **React 18**: Concurrent rendering, `useTransition`, `useDeferredValue`, Suspense thực sự
+- [ ] **React performance**: Khi nào **KHÔNG** nên dùng `memo`/`useMemo`/`useCallback`
+- [ ] **Vue 3 Composition API**: `ref`, `reactive`, `computed`, `watch`, `watchEffect`
+- [ ] **Vue 3**: Slots (default/named/scoped), provide/inject, Teleport
+- [ ] **Pinia**: Vue's state management (tương đương Zustand)
+- [ ] **Vue Router 4**: Dynamic routes, navigation guards, lazy loading
+- [ ] **Testing**: Vitest + Testing Library, Playwright E2E
 
-### Testing (đừng bỏ qua)
-- [ ] Unit test: Vitest / Jest — test pure functions, services
-- [ ] Integration test cho API: Supertest
-- [ ] E2E test: Playwright
-- [ ] Testing philosophy: test behavior, not implementation
-- [ ] Test database: SQLite in-memory hoặc test container
+**Project 03-Mid**: Build cùng 1 app (Kanban board nhỏ) bằng cả React lẫn Vue — so sánh tư duy của 2 framework
 
-### Performance
-- [ ] FE: Core Web Vitals, bundle analysis, lazy loading nâng cao
-- [ ] BE: Profiling Node.js (clinic.js), query optimization, connection pooling
-- [ ] Caching strategy tổng thể (CDN → Application cache → Database cache)
-- [ ] Compression (gzip/brotli) — cấu hình đúng
+### Senior — Performance, SSR, Architecture
 
-### Edge Computing
-- [ ] Cloudflare Workers / Vercel Edge Functions — code chạy gần user nhất
-- [ ] Edge middleware — authentication, A/B testing tại edge
-- [ ] Durable Objects (Cloudflare) — stateful edge
+- [ ] **React 19**: `use()` hook, Server Actions, React Compiler
+- [ ] **Nuxt.js 3**: SSR, SSG, file-based routing, server routes, auto-imports
+- [ ] **Core Web Vitals**: LCP, CLS, INP — đo và tối ưu thực tế với Lighthouse CI
+- [ ] **Bundle optimization**: Tree shaking, code splitting, lazy loading, bundle analysis
+- [ ] **CSS hiện đại**: Container Queries, `@layer`, CSS custom properties (design tokens)
+- [ ] **PWA**: Service workers, offline support, Web App Manifest
+- [ ] **Micro-frontends**: Module Federation — awareness level
 
 ---
 
-## Tổng thời gian ước tính
+## Phase 04 — Fullstack Integration
 
-| Giai đoạn | Thời gian |
-|-----------|-----------|
-| Phase 0 — Nền tảng | 2–3 tuần |
-| Phase 0.5 — Hoàn thiện FE (React + Vue 3) | 3–4 tuần |
-| Phase 1 — Node.js + Express | 6–8 tuần |
-| Phase 2 — Database | 5–6 tuần |
-| Phase 3 — Fullstack Integration | 4–5 tuần |
-| Phase 4 — DevOps cơ bản | 3–4 tuần |
-| **Tổng** | **~6–7 tháng** |
+> Đây là phần quan trọng nhất. FE và BE không phải 2 thứ rời nhau — phải hiểu chúng nói chuyện với nhau.
+> Thời gian: 4–5 tuần | Folder: [04-fullstack/](04-fullstack/)
 
-> Phase 0.5 có thể học song song với Phase 1 (Vue 3 vào buổi tối, Node.js vào buổi sáng) → rút ngắn còn **5–6 tháng**
+### Junior — Connect FE + BE
+
+- [ ] **Next.js App Router**: RSC vs Client Components — tư duy mới, hiểu kỹ
+- [ ] **Next.js**: Server Actions, API Routes, SSR/SSG/ISR/PPR
+- [ ] **TanStack Query**: Caching, stale time, invalidation, optimistic updates
+- [ ] **Auth fullstack**: Token storage (localStorage vs httpOnly cookie), CSRF protection
+- [ ] **tRPC**: Type-safe API không cần code gen — dùng với TypeScript monorepo
+- [ ] **API documentation**: Swagger/OpenAPI spec
+- [ ] **MSW (Mock Service Worker)**: Phát triển FE độc lập với BE
+
+### Mid — Real-time, Files, Monorepo
+
+- [ ] **WebSockets với Socket.io**: Real-time notifications/chat
+- [ ] **Server-Sent Events**: Khi nào dùng SSE thay WebSocket
+- [ ] **File upload pattern**: Presigned URL (FE → S3 trực tiếp, không qua server)
+- [ ] **S3 / Cloudflare R2**: Lưu và serve file, CDN integration
+- [ ] **Monorepo với Turborepo**: FE + BE trong cùng repo, shared types, shared Zod schemas
+- [ ] **Refresh token rotation**: Implement đúng cách, handle race conditions
+- [ ] **NextAuth / Auth.js**: Library phổ biến cho Next.js, multiple providers
+- [ ] **Storybook**: Document và test UI components
+
+**Project 04**: Fullstack app hoàn chỉnh — Project management tool (Trello-like)
+- Next.js + tRPC hoặc REST
+- Real-time (Socket.io)
+- Auth đầy đủ (JWT + refresh rotation hoặc NextAuth)
+- File upload (S3/R2)
+- Monorepo với shared types
+- Deploy: Vercel + Supabase/Neon
 
 ---
 
-## Tài nguyên học (chọn lọc)
+## Phase 05 — DevOps
 
-### Node.js & Backend
-- **Node.js**: Official docs + "Node.js Design Patterns" (Mario Casciaro — sách hay nhất)
-- **Express**: expressjs.com/en/guide
-- **NestJS**: docs.nestjs.com (rất chi tiết)
+> Fullstack thực sự cần biết code chạy ở đâu. Không cần thành DevOps engineer — cần biết đủ để tự deploy và không phá production.
+> Thời gian: 4–5 tuần | Folder: [05-devops/](05-devops/)
+
+### Junior — Linux, Docker, Basic CI/CD
+
+- [ ] **Linux CLI**: Navigation, permissions (chmod/chown), process management (ps/kill/top)
+- [ ] **Bash scripting**: Variables, conditionals, loops, functions — đủ để viết deploy script
+- [ ] **systemd**: Quản lý service, start/stop/restart/enable, journalctl logs
+- [ ] **Nginx**: Reverse proxy cho Node.js, SSL termination + Let's Encrypt (Certbot)
+- [ ] **Docker**: Container vs VM, Dockerfile từ đầu cho Node.js app, image layers
+- [ ] **Docker Compose**: Multi-service (app + PostgreSQL + Redis + Nginx)
+- [ ] **GitHub Actions**: Pipeline đơn giản — lint → test → build → deploy
+- [ ] **Secrets management**: GitHub Secrets, không commit `.env` vào git
+
+**Project 05-Junior**: Containerize project Phase 04, viết GitHub Actions pipeline auto-deploy lên VPS
+
+### Mid — Cloud, Monitoring, Security
+
+- [ ] **Docker advanced**: Multi-stage build, image optimization, Docker networking, volumes
+- [ ] **AWS fundamentals**: EC2, VPC, Route53, S3, RDS, ECR, IAM — hiểu từng service làm gì
+- [ ] **AWS ECS hoặc Cloud Run**: Deploy container lên managed service
+- [ ] **Infrastructure as Code**: Terraform cơ bản — không click-ops
+- [ ] **Ansible**: Configuration management, không SSH thủ công vào từng server
+- [ ] **Sentry**: Error tracking cho cả FE + BE
+- [ ] **Structured logging**: Winston/Pino với correlation ID, không dùng `console.log` ở production
+- [ ] **Monitoring**: Prometheus + Grafana cơ bản, hoặc Datadog free tier
+
+**Project 05-Mid**: Infrastructure-as-code cho toàn bộ stack (Terraform + Ansible), monitoring với alerts
+
+### Senior — Kubernetes, Scale, SRE
+
+- [ ] **Kubernetes**: Pod, Deployment, Service, Ingress, ConfigMap, Secret
+- [ ] **Kubernetes**: HPA (autoscaling), rolling updates, health checks, resource limits
+- [ ] **Service Mesh**: Istio/Linkerd — awareness level
+- [ ] **HashiCorp Vault**: Secret management đúng cách
+- [ ] **Log aggregation**: ELK Stack hoặc Grafana Loki
+- [ ] **SRE practices**: SLO, SLI, SLA — error budget, incident management
+
+---
+
+## Phase 06 — Senior / Advanced
+
+> Học song song với công việc, không cần xong hết trước khi đi làm.
+> Folder: [06-senior-advanced/](06-senior-advanced/)
+
+### System Design (Mid → Senior)
+
+- [ ] **Scalability**: Horizontal vs vertical scaling, stateless services
+- [ ] **Load balancing**: Round-robin, least connections, consistent hashing
+- [ ] **Caching tổng thể**: CDN → Application cache → Database cache — biết đặt cache ở đâu
+- [ ] **Message queues nâng cao**: Kafka — event streaming, consumer groups
+- [ ] **API Gateway**: Rate limiting, auth, routing, transformation
+- [ ] **Monolith vs Microservices**: Trade-offs thực tế, khi nào tách, khi nào gộp
+
+### Architecture Patterns (Senior)
+
+- [ ] **Clean Architecture / Hexagonal**: Tách business logic khỏi framework — dependency rule
+- [ ] **Domain-Driven Design (DDD)**: Entity, Value Object, Aggregate, Repository, Domain Service
+- [ ] **Event-driven architecture**: Event sourcing, eventual consistency
+- [ ] **CQRS**: Command Query Responsibility Segregation — khi nào cần
+- [ ] **Twelve-Factor App**: Methodology cho modern cloud-native applications
+
+### Performance Deep Dive (Senior)
+
+- [ ] **Node.js profiling**: clinic.js, flame graphs, memory leaks detection
+- [ ] **Database tuning**: Connection pool sizing, slow query log, vacuum/analyze
+- [ ] **CDN & Edge**: Cloudflare Workers, Vercel Edge — computation gần user nhất
+- [ ] **Compression**: gzip/brotli, khi nào compress, khi nào không
+
+---
+
+## Tài nguyên học (chọn lọc theo roadmap.sh)
+
+### Foundations
+- [roadmap.sh/full-stack](https://roadmap.sh/full-stack) — Roadmap chính
+- [MDN Web Docs](https://developer.mozilla.org) — HTTP, HTML, CSS, JS reference
+- [The Odin Project](https://www.theodinproject.com) — Free, hands-on
+
+### Backend
+- **Node.js Design Patterns** (Mario Casciaro) — sách hay nhất về Node.js
+- [expressjs.com/en/guide](https://expressjs.com/en/guide/) — Official guide
+- [docs.nestjs.com](https://docs.nestjs.com) — Enterprise Node.js
 
 ### Database
-- **SQL**: "Use The Index, Luke" (usetheindexluke.com — free, giải thích SQL và index cực hay)
-- **PostgreSQL**: postgresqltutorial.com
-- **Prisma**: prisma.io/docs
+- [Use The Index, Luke](https://use-the-index-luke.com) — SQL + Index, free, rất hay
+- [postgresqltutorial.com](https://www.postgresqltutorial.com) — PostgreSQL hands-on
+- [prisma.io/docs](https://www.prisma.io/docs) — Prisma ORM
 
-### System Design
-- "System Design Interview" (Alex Xu) — đọc sau khi có nền tảng
-- "Designing Data-Intensive Applications" (Martin Kleppmann) — quyển kinh điển
-
-### Frontend — Vue 3
-- **Vue 3**: vuejs.org/guide (official docs, rất tốt)
-- **Nuxt 3**: nuxt.com/docs
-- **Vue Mastery**: vuemastery.com (có free courses)
-- **Pinia**: pinia.vuejs.org
-
-### Fullstack
-- **Next.js**: nextjs.org/docs (đủ tốt)
-- **YouTube**: Josh tried coding, Theo (t3.gg), Fireship, Vue School (YouTube)
+### Frontend
+- [vuejs.org/guide](https://vuejs.org/guide) — Vue 3 official docs (rất tốt)
+- [nuxt.com/docs](https://nuxt.com/docs) — Nuxt 3
+- [react.dev](https://react.dev) — React docs mới với hooks-first approach
 
 ### DevOps
-- **Docker**: "Docker Deep Dive" (Nigel Poulton) — ngắn, đủ dùng
-- **Nginx**: nginx.org/en/docs + digitalocean nginx tutorials
+- **Docker Deep Dive** (Nigel Poulton) — ngắn, đủ dùng
+- [roadmap.sh/devops](https://roadmap.sh/devops) — DevOps roadmap chi tiết
+- [DigitalOcean Tutorials](https://www.digitalocean.com/community/tutorials) — Nginx, Linux, Docker
 
-### Roadmap tham khảo
-- roadmap.sh/full-stack
-- roadmap.sh/backend
-- roadmap.sh/devops
+### System Design
+- **System Design Interview Vol 1+2** (Alex Xu) — đọc sau khi có nền tảng
+- **Designing Data-Intensive Applications** (Martin Kleppmann) — kinh điển
 
----
-
-## Công cụ theo dõi tiến độ
-
-### Option 1: GitHub Projects (khuyên dùng — miễn phí, tích hợp với code)
-1. Push repo này lên GitHub
-2. Vào tab **Projects** → New Project → chọn **Board** (Kanban)
-3. Tạo columns: `Backlog | In Progress | Done`
-4. Tạo Issues cho từng topic, gán vào Project
-5. Khi học xong 1 topic → kéo card sang `Done`
-
-### Option 2: Notion
-- Tạo database với Property: Phase, Status (Not started / In progress / Done), Notes
-- Filter theo Phase để focus từng giai đoạn
-
-### Option 3: Checkbox trong file này (đơn giản nhất)
-- Tick checkbox khi học xong
-- GitHub render checkbox tự động nếu dùng `- [ ]`
-- Cập nhật bảng tiến độ ở đầu file
+### YouTube
+- Fireship — nhanh, rõ, overview tốt
+- Theo (t3.gg) — TypeScript fullstack thực tế
+- TechWorld with Nana — Docker, Kubernetes, DevOps
+- Hussein Nasser — Backend, database, networking sâu
 
 ---
 
-## Nguyên tắc khi đi làm Fullstack
+## Nguyên tắc học
 
-1. **Đừng làm FE giả vờ BE** — khi nhận task BE, nghĩ từ góc độ data, business logic, không phải UI
-2. **Database là trái tim** — query chậm làm hỏng cả hệ thống, luôn chú ý
-3. **Security không phải afterthought** — nghĩ đến bảo mật từ lúc thiết kế
-4. **Đọc error log** — BE error khác FE error, học cách đọc stack trace phía server
-5. **Hiểu cả hai phía của network call** — khi debug, trace từ browser request → DNS → server → database → response
-6. **Shared types là superpower của TypeScript fullstack** — tận dụng tối đa, tránh type drift giữa FE và BE
+1. **Hiểu tại sao** trước khi học cách dùng — framework đến rồi đi, nguyên lý ở lại
+2. **Build project** sau mỗi phase — không học chay
+3. **Không FOMO** — học 1 thứ thật chắc rồi mới sang thứ khác
+4. **TypeScript xuyên suốt** — tận dụng ở cả FE lẫn BE
+5. **Đọc error thực sự** — stack trace, logs, không chỉ google lỗi
+6. **Bảo mật không phải afterthought** — nghĩ đến security từ lúc thiết kế
+
+---
+
+## Cấu trúc repo
+
+```
+fullstack-learning/
+├── 00-foundations/      # Internet, HTTP, Git, Terminal, SSH
+├── 01-backend/          # Node.js, Express, NestJS, APIs, Auth, Security
+├── 02-database/         # PostgreSQL, Prisma, MongoDB, Redis
+├── 03-frontend/         # React advanced, Vue 3, Performance, SSR
+├── 04-fullstack/        # Next.js, tRPC, WebSockets, Monorepo, Auth fullstack
+├── 05-devops/           # Linux, Docker, GitHub Actions, AWS, Kubernetes
+├── 06-senior-advanced/  # System Design, Architecture, DDD, Performance
+└── resources/           # Books, links, cheatsheets
+```

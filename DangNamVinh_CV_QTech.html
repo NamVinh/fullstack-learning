@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đặng Nam Vinh – Full Stack Engineer</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11.5px;
+        color: #222;
+        background: #fff;
+        padding: 44px 52px;
+        max-width: 860px;
+        margin: 0 auto;
+        line-height: 1.5;
+      }
+      h1 {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: #111;
+        margin-bottom: 4px;
+      }
+      .subtitle {
+        text-align: center;
+        font-size: 10.5px;
+        letter-spacing: 3.5px;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: #444;
+        margin-bottom: 10px;
+      }
+      .contact-row {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 6px 20px;
+        font-size: 11px;
+        color: #444;
+        margin-bottom: 3px;
+      }
+      .contact-row a { color: #444; text-decoration: none; }
+      .section { margin-top: 20px; }
+      .section-title {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        border-bottom: 1.5px solid #222;
+        padding-bottom: 4px;
+        margin-bottom: 12px;
+      }
+      .job-block {
+        margin-bottom: 14px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid #ddd;
+      }
+      .job-block:last-child { border-bottom: none; }
+      .job-header { display: flex; justify-content: space-between; align-items: baseline; }
+      .job-title { font-weight: 700; font-size: 12px; }
+      .job-date { font-size: 11px; color: #555; font-weight: 600; }
+      .company-name { font-weight: 700; font-size: 11.5px; margin: 2px 0 4px; }
+      .company-desc { font-size: 11px; color: #444; margin-bottom: 6px; }
+      .meta-row { font-size: 11px; margin-bottom: 6px; color: #333; }
+      .meta-row b { font-weight: 700; }
+      .tech-row { font-size: 11px; margin-bottom: 8px; color: #333; }
+      .tech-row b { font-weight: 700; }
+      .projects-label { font-weight: 700; font-size: 11.5px; margin: 8px 0 6px; }
+      .project-block { margin-bottom: 10px; }
+      .project-name { font-weight: 700; font-size: 11.5px; margin-bottom: 2px; }
+      .project-desc { font-size: 11px; color: #444; margin-bottom: 4px; }
+      .resp-label { font-weight: 700; font-size: 11px; margin-bottom: 3px; }
+      ul { padding-left: 15px; }
+      ul li { font-size: 11px; margin-bottom: 3px; line-height: 1.55; }
+      .edu-header { display: flex; justify-content: space-between; }
+      .edu-name { font-weight: 700; font-size: 12px; }
+      .edu-date { font-size: 11px; color: #555; font-weight: 600; }
+      .edu-degree { font-size: 11px; color: #555; margin-top: 2px; }
+      .skills-grid { display: grid; grid-template-columns: 110px 1fr; row-gap: 5px; }
+      .skill-cat { font-weight: 700; font-size: 11px; padding-top: 2px; }
+      .skill-tags { display: flex; flex-wrap: wrap; gap: 3px; }
+      .skill-tag {
+        background: #f0f0f0;
+        border-radius: 3px;
+        padding: 2px 7px;
+        font-size: 10.5px;
+        color: #333;
+      }
+      .lang-row { display: flex; gap: 12px; }
+      .lang-tag {
+        background: #f0f0f0;
+        border-radius: 3px;
+        padding: 3px 12px;
+        font-size: 11px;
+      }
+      .lang-tag b { font-weight: 700; }
+      @media print {
+        body { padding: 24px 36px; }
+        @page { margin: 0; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <h1>Đặng Nam Vinh</h1>
+    <div class="subtitle">Full Stack Engineer</div>
+    <div class="contact-row">
+      <span>&#128222; 0973660074</span>
+      <span>&#9993; <a href="mailto:dnamvinh@gmail.com">dnamvinh@gmail.com</a></span>
+      <span>&#128100; 16/06/2000</span>
+    </div>
+    <div class="contact-row">
+      <span>&#128205; TP Hồ Chí Minh</span>
+      <span>&#128279; <a href="https://linkedin.com/in/nam-vinh" target="_blank">linkedin.com/in/nam-vinh</a></span>
+      <span>&#128025; <a href="https://github.com/NamVinh" target="_blank">github.com/NamVinh</a></span>
+    </div>
+
+    <!-- ABOUT ME -->
+    <div class="section">
+      <div class="section-title">About Me</div>
+      <p style="font-size: 11px; line-height: 1.65; color: #333">
+        Full Stack Engineer with 5+ years of experience specializing in React, React Native, and TypeScript —
+        delivering scalable web and mobile applications from design system to production. At Herond Labs I work
+        across the full stack: owning frontend products (browser WebUI, React micro-frontends, component library)
+        and collaborating on ASP.NET Core C# backend services (OAuth2/OIDC identity, loyalty points) — gaining
+        hands-on exposure to DDD / CQRS architecture, SQL Server, and PostgreSQL in a team-managed Docker and
+        CI/CD environment. I take full ownership of my deliverables, care deeply about code quality, and pick up
+        new technologies quickly.
+      </p>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="section">
+      <div class="section-title">Skills</div>
+      <div class="skills-grid">
+        <div class="skill-cat">Frontend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">ReactJS (5 yrs)</span>
+          <span class="skill-tag">React Native (5 yrs)</span>
+          <span class="skill-tag">TypeScript (5 yrs)</span>
+          <span class="skill-tag">NextJS (3 yrs)</span>
+          <span class="skill-tag">Redux / RTK Query</span>
+          <span class="skill-tag">Module Federation</span>
+          <span class="skill-tag">Vite</span>
+          <span class="skill-tag">Tailwind CSS / SASS</span>
+        </div>
+        <div class="skill-cat">Backend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">NestJS / Node.js (2 yrs)</span>
+          <span class="skill-tag">REST API / GraphQL</span>
+          <span class="skill-tag">JWT / OAuth2 / OIDC</span>
+          <span class="skill-tag">ASP.NET Core C# (exposure)</span>
+          <span class="skill-tag">CQRS / DDD (exposure)</span>
+        </div>
+        <div class="skill-cat">Database</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">SQL Server</span>
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">Redis (caching)</span>
+          <span class="skill-tag">Prisma ORM</span>
+        </div>
+        <div class="skill-cat">Cloud / Infra</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Docker (containerized environments)</span>
+          <span class="skill-tag">GitHub Actions (CI/CD pipelines)</span>
+          <span class="skill-tag">Firebase (Realtime DB)</span>
+          <span class="skill-tag">Git</span>
+        </div>
+        <div class="skill-cat">Testing</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Vitest (unit)</span>
+          <span class="skill-tag">Playwright (E2E — familiar)</span>
+        </div>
+        <div class="skill-cat">Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Nx monorepo</span>
+          <span class="skill-tag">Turborepo</span>
+          <span class="skill-tag">Storybook</span>
+          <span class="skill-tag">Swagger / Scalar</span>
+        </div>
+        <div class="skill-cat">AI Tooling</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Claude Code</span>
+          <span class="skill-tag">Cursor</span>
+          <span class="skill-tag">Google Antigravity</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WORK EXPERIENCE -->
+    <div class="section">
+      <div class="section-title">Work Experience</div>
+
+      <!-- Herond Labs -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Full Stack Engineer</div>
+          <div class="job-date">12/2024 – Present</div>
+        </div>
+        <div class="company-name">Herond Labs</div>
+        <div class="company-desc">
+          Herond Labs builds a privacy-focused browser ecosystem on Chromium — including a multi-chain crypto wallet,
+          an OAuth2/OIDC identity platform, a loyalty points engine, and a multi-service admin portal.
+        </div>
+        <div class="meta-row"><b>Team size:</b> 20+</div>
+
+        <div class="projects-label">Projects:</div>
+
+        <!-- Design System -->
+        <div class="project-block">
+          <div class="project-name">Herond Design System — React Component Library</div>
+          <div class="project-desc">
+            Shared React component library (56 components on Radix UI primitives) published to GitHub Packages
+            and consumed across all Herond products, with live Storybook documentation.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Architected the library build with Vite 7: dual ESM + CJS output, full TypeScript declarations,
+              tree-shaking, and automated CSS token generation from JSON design sources — adopted across all Herond
+              products and the entire engineering team.
+            </li>
+            <li>
+              Wrote Vitest unit tests to cover component reliability; worked with the team's Storybook + Chromatic
+              visual regression setup for live documentation.
+            </li>
+          </ul>
+          <div class="tech-row" style="margin-top:4px;">
+            <b>Stack:</b> React, TypeScript, Vite 7, Radix UI, PostCSS, Storybook 9, Vitest
+          </div>
+        </div>
+
+        <!-- Browser -->
+        <div class="project-block">
+          <div class="project-name">Herond Browser — Cross-Platform Chromium Browser</div>
+          <div class="project-desc">
+            Privacy-focused browser (macOS, Windows, Linux, Android) built on Chromium, extended with Herond Wallet,
+            VPN, AI Chat, Points, and Accounts services.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Built browser WebUI pages (Welcome, New Tab, Private Tab, Wallet, Points) with React + Redux on the
+              Chromium WebUI framework across 4 platforms; configured GN build flags and environment-based feature
+              toggles per platform target.
+            </li>
+            <li>
+              Maintained the multi-chain crypto wallet UI integrating Web3Auth, ethers.js, and Solana Web3.js —
+              supporting keyless authentication as the primary differentiator alongside private key and seed phrase flows.
+            </li>
+          </ul>
+          <div class="tech-row" style="margin-top:4px;">
+            <b>Stack:</b> React 18, TypeScript, Redux Toolkit, Styled Components, GN build system, Webpack, ethers.js, Solana Web3.js
+          </div>
+        </div>
+
+        <!-- Points UI -->
+        <div class="project-block">
+          <div class="project-name">Herond Points UI — React Micro-Frontend</div>
+          <div class="project-desc">
+            React 18 SPA (Vite + TypeScript) exposing a Module Federation remote entry, serving all user-facing
+            pages for the loyalty system: Quests, Collect, Rewards, Profile, Referrals, and social integrations.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Built all feature pages with Redux Toolkit + RTK Query for server-state management and Firebase
+              Realtime Database for live updates; implemented i18n (English / Vietnamese) and mobile-responsive layouts.
+            </li>
+            <li>
+              Configured Module Federation (vite-plugin-federation) to expose the app as a loadable remote in the
+              browser shell; set up Husky + lint-staged + commitlint for pre-commit code quality enforcement.
+            </li>
+          </ul>
+          <div class="tech-row" style="margin-top:4px;">
+            <b>Stack:</b> React 18, TypeScript, Vite, Redux Toolkit, React Query, Module Federation,
+            Tailwind CSS v4, Firebase
+          </div>
+        </div>
+
+        <!-- Portal -->
+        <div class="project-block">
+          <div class="project-name">Herond Portal — Internal Admin System</div>
+          <div class="project-desc">
+            Nx monorepo with NestJS microservice backend (4 modules: point, user, identity, template) and React
+            micro-frontend shell, each module deployable independently.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Built NestJS backend modules (point, user, identity, template) with Prisma ORM (MongoDB), JWT /
+              Passport authentication, CQRS pattern, and Swagger API documentation.
+            </li>
+            <li>
+              Developed React micro-frontends (Ant Design, React Query, Zustand) with Module Federation for
+              independent deployment; worked within the team's Nx affected CI pipeline.
+            </li>
+          </ul>
+          <div class="tech-row" style="margin-top:4px;">
+            <b>Stack:</b> NestJS, TypeScript, Prisma, MongoDB, React 18, Ant Design, Module Federation,
+            Nx, Zustand, React Query
+          </div>
+        </div>
+
+        <!-- Accounts + Points (collaborated) -->
+        <div class="project-block">
+          <div class="project-name">Herond Accounts & Points — ASP.NET Core C# Backend (Collaboration)</div>
+          <div class="project-desc">
+            Collaborated on two .NET microservices: an OAuth2/OIDC identity platform (.NET 9, SQL Server +
+            PostgreSQL) and a DDD/CQRS loyalty engine (.NET 10, PostgreSQL + Redis).
+          </div>
+          <div class="resp-label">Contributions:</div>
+          <ul>
+            <li>
+              Worked alongside the backend team on feature development and bug fixes; gained working knowledge of
+              Clean Architecture, DDD / CQRS patterns, EF Core, and event-driven messaging architecture.
+            </li>
+            <li>
+              Integrated frontend products directly against these services — building practical understanding of
+              OAuth2 flows, BFF proxy patterns, and the underlying PostgreSQL / SQL Server data models.
+            </li>
+          </ul>
+          <div class="tech-row" style="margin-top:4px;">
+            <b>Stack (exposure):</b> ASP.NET Core C# .NET 9/10, SQL Server, PostgreSQL, Redis, EF Core, MediatR, Docker
+          </div>
+        </div>
+      </div>
+
+      <!-- Biso24 -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">08/2022 – 12/2024</div>
+        </div>
+        <div class="company-name">Biso24</div>
+        <div class="company-desc">
+          Digital transformation platform providing expert consulting and full-stack software solutions to businesses —
+          with built-in API integration, cloud storage, and domain management.
+        </div>
+        <div class="meta-row"><b>Team size:</b> 10</div>
+        <div class="tech-row">
+          <b>Technologies:</b> React Native, GlueStack UI, ReactJS, Ant Design, MUI, Zustand, React Query,
+          React Hook Form, Yup, react-native-maps, d3-shape, SASS, CSS Modules, Turborepo
+        </div>
+        <div class="resp-label">Responsibilities:</div>
+        <ul>
+          <li>
+            Architected the monorepo foundation with Turborepo, enabling code sharing across web and mobile modules
+            and improving build performance by eliminating duplication.
+          </li>
+          <li>
+            Integrated and customized GlueStack UI to standardize the mobile developer experience; developed and
+            maintained features across 3 core product modules end-to-end.
+          </li>
+          <li>
+            Managed App Store and Google Play releases; contributed to frontend coding conventions, technology
+            evaluation, and architectural decisions for mobile development.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Zens -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">06/2021 – 08/2022</div>
+        </div>
+        <div class="company-name">Zens Technology Company Limited</div>
+        <div class="company-desc">
+          Software outsourcing company delivering custom web and mobile solutions across multiple industries.
+        </div>
+        <div class="meta-row"><b>Team size:</b> 6</div>
+        <div class="tech-row">
+          <b>Technologies:</b> React Native, ReactJS, TypeScript, Material UI, Redux, Apollo GraphQL, React Hook Form
+        </div>
+        <div class="resp-label">Responsibilities:</div>
+        <ul>
+          <li>
+            Architected codebase foundation, layout system, and shared component library to ensure consistency and
+            scalability across multiple client projects.
+          </li>
+          <li>
+            Built a React Native mobile application to manage and accelerate COVID-19 kit testing workflows for a
+            healthcare client, improving operational efficiency during the pandemic.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section">
+      <div class="section-title">Education</div>
+      <div class="edu-header">
+        <div class="edu-name">FPT Polytechnic</div>
+        <div class="edu-date">08/2018 – 09/2021</div>
+      </div>
+      <div class="edu-degree">College – Software Technology (Mobile Programming)</div>
+    </div>
+
+    <!-- FOREIGN LANGUAGE -->
+    <div class="section">
+      <div class="section-title">Foreign Language</div>
+      <div class="lang-row">
+        <div class="lang-tag"><b>English</b> (Intermediate – technical reading & written communication)</div>
+        <div class="lang-tag"><b>Vietnamese</b> (Fluent)</div>
+      </div>
+    </div>
+  </body>
+</html>
