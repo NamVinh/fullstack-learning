@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>InstancedMesh — 1000 robots, 1 draw call</title>
+  <style>
+    * { margin:0; padding:0; }
+    body { background:#0d0d1a; overflow:hidden; color:white; font-family:monospace; }
+    #hud { position:absolute; top:10px; left:10px; font-size:13px; line-height:1.8; }
+  </style>
+</head>
+<body>
+<div id="hud">
+  <div id="drawcalls">Draw calls: —</div>
+  <div id="triangles">Triangles: —</div>
+  <div id="fps">FPS: —</div>
+</div>
+<script type="importmap">
+  { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/" } }
+</script>
+<script type="module">
+  import * as THREE from 'three'
+  import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+
+  const scene = new THREE.Scene()
+  scene.fog = new THREE.FogExp2(0x0d0d1a, 0.04)
+
+  const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 200)
+  camera.position.set(0, 15, 25)
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true })
+  renderer.setSize(innerWidth, innerHeight)
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
+  renderer.shadowMap.enabled = true
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap
+  document.body.appendChild(renderer.domElement)
+
+  const controls = new OrbitControls(camera, renderer.domElement)
+  controls.enableDamping = true
+
+  // Lighting
+  scene.add(new THREE.AmbientLight(0x4466aa, 0.8))
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1)
+  dirLight.position.set(10, 20, 10)
+  dirLight.castShadow = true
+  dirLight.shadow.mapSize.set(2048, 2048)
+  dirLight.shadow.camera.left = -30
+  dirLight.shadow.camera.right = 30
+  dirLight.shadow.camera.top = 30
+  dirLight.shadow.camera.bottom = -30
+  scene.add(dirLight)
+
+  // ── Warehouse floor ────────────────────────────────────────
+  const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(50, 50),
+    new THREE.MeshStandardMaterial({ color: 0x1a1a2e, roughness: 0.9 })
+  )
+  floor.rotation.x = -Math.PI / 2
+  floor.receiveShadow = true
+  scene.add(floor)
+  scene.add(new THREE.GridHelper(50, 50, 0x223355, 0x1a2244))
+
+  // ── InstancedMesh — 1000 robots in 1 draw call ─────────────
+  const ROBOT_COUNT = 1000
+
+  const robotGeom = new THREE.BoxGeometry(0.6, 0.5, 0.8)
+  const robotMat  = new THREE.MeshStandardMaterial({ roughness: 0.3, metalness: 0.5 })
+
+  const robots = new THREE.InstancedMesh(robotGeom, robotMat, ROBOT_COUNT)
+  robots.castShadow = true
+  robots.receiveShadow = true
+  scene.add(robots)
+
+  // Store target positions for animation
+  const startPos  = new Float32Array(ROBOT_COUNT * 3)
+  const targetPos = new Float32Array(ROBOT_COUNT * 3)
+  const speeds    = new Float32Array(ROBOT_COUNT)
+  const progress  = new Float32Array(ROBOT_COUNT)
+  const dummy     = new THREE.Object3D()
+  const color     = new THREE.Color()
+
+  for (let i = 0; i < ROBOT_COUNT; i++) {
+    const x = (Math.random() - 0.5) * 45
+    const z = (Math.random() - 0.5) * 45
+
+    startPos[i*3]   = x
+    startPos[i*3+1] = 0.25
+    startPos[i*3+2] = z
+
+    targetPos[i*3]   = (Math.random() - 0.5) * 45
+    targetPos[i*3+1] = 0.25
+    targetPos[i*3+2] = (Math.random() - 0.5) * 45
+
+    speeds[i]   = 0.001 + Math.random() * 0.003
+    progress[i] = Math.random()
+
+    // Status color: teal=idle, orange=busy
+    color.setHSL(Math.random() < 0.7 ? 0.5 : 0.08, 0.8, 0.5)
+    robots.setColorAt(i, color)
+  }
+  robots.instanceColor.needsUpdate = true
+
+  // FPS counter
+  let fps = 0, frameCount = 0, fpsTimer = 0
+
+  // ── Animation loop ─────────────────────────────────────────
+  const clock = new THREE.Clock()
+  function animate() {
+    requestAnimationFrame(animate)
+    const delta = clock.getDelta()
+    const elapsed = clock.getElapsedTime()
+
+    // FPS
+    frameCount++
+    fpsTimer += delta
+    if (fpsTimer > 0.5) {
+      fps = Math.round(frameCount / fpsTimer)
+      frameCount = 0
+      fpsTimer = 0
+    }
+
+    // Update robot positions
+    for (let i = 0; i < ROBOT_COUNT; i++) {
+      progress[i] += speeds[i]
+
+      if (progress[i] >= 1) {
+        // New target
+        startPos[i*3]   = targetPos[i*3]
+        startPos[i*3+1] = targetPos[i*3+1]
+        startPos[i*3+2] = targetPos[i*3+2]
+        targetPos[i*3]   = (Math.random() - 0.5) * 45
+        targetPos[i*3+1] = 0.25
+        targetPos[i*3+2] = (Math.random() - 0.5) * 45
+        progress[i] = 0
+      }
+
+      const t = progress[i]
+      const sx = startPos[i*3], sz = startPos[i*3+2]
+      const tx = targetPos[i*3], tz = targetPos[i*3+2]
+
+      const x = sx + (tx - sx) * t
+      const z = sz + (tz - sz) * t
+
+      // Face direction of travel
+      const angle = Math.atan2(tx - sx, tz - sz)
+
+      dummy.position.set(x, 0.25, z)
+      dummy.rotation.y = angle
+      dummy.updateMatrix()
+      robots.setMatrixAt(i, dummy.matrix)
+    }
+    robots.instanceMatrix.needsUpdate = true
+
+    // HUD
+    document.getElementById('drawcalls').textContent = `Draw calls: ${renderer.info.render.calls}`
+    document.getElementById('triangles').textContent = `Triangles: ${renderer.info.render.triangles.toLocaleString()}`
+    document.getElementById('fps').textContent = `FPS: ${fps}`
+    renderer.info.reset()
+
+    controls.update()
+    renderer.render(scene, camera)
+  }
+  animate()
+
+  window.addEventListener('resize', () => {
+    camera.aspect = innerWidth/innerHeight
+    camera.updateProjectionMatrix()
+    renderer.setSize(innerWidth, innerHeight)
+  })
+</script>
+</body>
+</html>

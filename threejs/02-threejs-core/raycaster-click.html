@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Raycaster — Click Objects</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { overflow: hidden; background: #0d0d1a; cursor: default; }
+    #info {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: #aaa;
+      font-family: monospace;
+      font-size: 13px;
+    }
+    #tooltip {
+      position: absolute;
+      background: rgba(0,0,0,0.8);
+      color: #4ecdc4;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+      pointer-events: none;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="info">Hover objects | Click to select</div>
+  <div id="tooltip"></div>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module">
+    import * as THREE from 'three'
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+
+    const scene = new THREE.Scene()
+    scene.background = new THREE.Color(0x0d0d1a)
+
+    const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 100)
+    camera.position.set(0, 5, 8)
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true })
+    renderer.setSize(innerWidth, innerHeight)
+    document.body.appendChild(renderer.domElement)
+
+    const controls = new OrbitControls(camera, renderer.domElement)
+    controls.enableDamping = true
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.5))
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1)
+    dirLight.position.set(5, 10, 5)
+    scene.add(dirLight)
+
+    // Create clickable objects (simulating robots/items)
+    const objects = []
+    const colors = [0xff6b6b, 0x4ecdc4, 0xffe66d, 0xa8e6cf, 0xffd3b6]
+    const labels = ['Robot A', 'Robot B', 'Robot C', 'Robot D', 'Robot E']
+
+    for (let i = 0; i < 5; i++) {
+      const mesh = new THREE.Mesh(
+        new THREE.BoxGeometry(0.8, 0.8, 0.8),
+        new THREE.MeshStandardMaterial({ color: colors[i] })
+      )
+      mesh.position.set((i - 2) * 2, 0.4, 0)
+      mesh.userData = { label: labels[i], id: i, originalColor: colors[i] }
+      scene.add(mesh)
+      objects.push(mesh)
+    }
+
+    const floor = new THREE.Mesh(
+      new THREE.PlaneGeometry(12, 6),
+      new THREE.MeshStandardMaterial({ color: 0x1a1a2e })
+    )
+    floor.rotation.x = -Math.PI / 2
+    scene.add(floor)
+
+    // Raycaster setup
+    const raycaster = new THREE.Raycaster()
+    const mouse = new THREE.Vector2()
+    const tooltip = document.getElementById('tooltip')
+
+    let hoveredObject = null
+    let selectedObject = null
+
+    window.addEventListener('mousemove', (e) => {
+      // Convert mouse position to NDC (-1 to +1)
+      mouse.x = (e.clientX / innerWidth) * 2 - 1
+      mouse.y = -(e.clientY / innerHeight) * 2 + 1
+
+      raycaster.setFromCamera(mouse, camera)
+      const intersects = raycaster.intersectObjects(objects)
+
+      // Reset previous hover
+      if (hoveredObject && hoveredObject !== selectedObject) {
+        hoveredObject.material.emissive.setHex(0x000000)
+        document.body.style.cursor = 'default'
+      }
+
+      if (intersects.length > 0) {
+        hoveredObject = intersects[0].object
+        if (hoveredObject !== selectedObject) {
+          hoveredObject.material.emissive.setHex(0x333333)
+        }
+        document.body.style.cursor = 'pointer'
+
+        tooltip.style.display = 'block'
+        tooltip.style.left = (e.clientX + 15) + 'px'
+        tooltip.style.top = (e.clientY - 10) + 'px'
+        tooltip.textContent = hoveredObject.userData.label
+      } else {
+        hoveredObject = null
+        tooltip.style.display = 'none'
+      }
+    })
+
+    window.addEventListener('click', (e) => {
+      raycaster.setFromCamera(mouse, camera)
+      const intersects = raycaster.intersectObjects(objects)
+
+      // Reset previous selection
+      if (selectedObject) {
+        selectedObject.material.emissive.setHex(0x000000)
+        selectedObject.material.color.setHex(selectedObject.userData.originalColor)
+      }
+
+      if (intersects.length > 0) {
+        selectedObject = intersects[0].object
+        selectedObject.material.emissive.setHex(0x555555)
+        document.getElementById('info').textContent =
+          `Selected: ${selectedObject.userData.label} | ID: ${selectedObject.userData.id}`
+      } else {
+        selectedObject = null
+        document.getElementById('info').textContent = 'Hover objects | Click to select'
+      }
+    })
+
+    window.addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight
+      camera.updateProjectionMatrix()
+      renderer.setSize(innerWidth, innerHeight)
+    })
+
+    const clock = new THREE.Clock()
+    function animate() {
+      requestAnimationFrame(animate)
+      objects.forEach((obj, i) => {
+        obj.position.y = 0.4 + Math.sin(clock.getElapsedTime() * 2 + i) * 0.1
+      })
+      controls.update()
+      renderer.render(scene, camera)
+    }
+    animate()
+  </script>
+</body>
+</html>

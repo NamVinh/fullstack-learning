@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Particle System</title>
+  <style>* { margin:0; padding:0; } body { background:#000; overflow:hidden; }</style>
+</head>
+<body>
+<script type="importmap">
+  { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/" } }
+</script>
+<script type="module">
+  import * as THREE from 'three'
+  import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+
+  const scene = new THREE.Scene()
+  const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 100)
+  camera.position.set(0, 3, 8)
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true })
+  renderer.setSize(innerWidth, innerHeight)
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
+  document.body.appendChild(renderer.domElement)
+
+  new OrbitControls(camera, renderer.domElement)
+
+  // ── Particle system ───────────────────────────────────────
+  const COUNT = 8000
+  const geometry = new THREE.BufferGeometry()
+
+  const positions = new Float32Array(COUNT * 3)
+  const colors    = new Float32Array(COUNT * 3)
+  const sizes     = new Float32Array(COUNT)
+  const randoms   = new Float32Array(COUNT)  // custom attribute for shader
+
+  const color = new THREE.Color()
+
+  for (let i = 0; i < COUNT; i++) {
+    // Sphere distribution
+    const r = 4 + Math.random() * 2
+    const theta = Math.random() * Math.PI * 2
+    const phi = Math.acos((Math.random() * 2) - 1)
+
+    positions[i*3]   = r * Math.sin(phi) * Math.cos(theta)
+    positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta)
+    positions[i*3+2] = r * Math.cos(phi)
+
+    // HSL color ring
+    color.setHSL(i / COUNT, 0.9, 0.6)
+    colors[i*3]   = color.r
+    colors[i*3+1] = color.g
+    colors[i*3+2] = color.b
+
+    sizes[i]   = 0.5 + Math.random() * 2.0
+    randoms[i] = Math.random()
+  }
+
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+  geometry.setAttribute('color',    new THREE.BufferAttribute(colors, 3))
+  geometry.setAttribute('aSize',    new THREE.BufferAttribute(sizes, 1))
+  geometry.setAttribute('aRandom',  new THREE.BufferAttribute(randoms, 1))
+
+  // Custom shader material for round particles
+  const material = new THREE.ShaderMaterial({
+    vertexColors: true,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    uniforms: {
+      uTime: { value: 0 },
+      uPixelRatio: { value: Math.min(devicePixelRatio, 2) },
+    },
+    vertexShader: `
+      attribute float aSize;
+      attribute float aRandom;
+      uniform float uTime;
+      uniform float uPixelRatio;
+      varying vec3 vColor;
+
+      void main() {
+        vColor = color;
+        vec3 pos = position;
+
+        // Oscillate position
+        float offset = aRandom * 6.28318;
+        pos.y += sin(uTime * 0.5 + offset) * 0.3;
+
+        vec4 mvPos = modelViewMatrix * vec4(pos, 1.0);
+        gl_PointSize = aSize * uPixelRatio * (200.0 / -mvPos.z);
+        gl_Position = projectionMatrix * mvPos;
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vColor;
+
+      void main() {
+        // Round point (discard outside circle)
+        float dist = length(gl_PointCoord - 0.5);
+        if (dist > 0.5) discard;
+
+        // Soft edges
+        float alpha = 1.0 - smoothstep(0.3, 0.5, dist);
+
+        gl_FragColor = vec4(vColor, alpha);
+      }
+    `,
+  })
+
+  const particles = new THREE.Points(geometry, material)
+  scene.add(particles)
+
+  // ── Inner glow sphere ─────────────────────────────────────
+  const coreMat = new THREE.MeshBasicMaterial({
+    color: 0x88ddff,
+    transparent: true,
+    opacity: 0.15,
+  })
+  scene.add(new THREE.Mesh(new THREE.SphereGeometry(1.5, 32, 32), coreMat))
+
+  // ── Animate ───────────────────────────────────────────────
+  const clock = new THREE.Clock()
+  function animate() {
+    requestAnimationFrame(animate)
+    const t = clock.getElapsedTime()
+
+    material.uniforms.uTime.value = t
+    particles.rotation.y = t * 0.05
+
+    renderer.render(scene, camera)
+  }
+  animate()
+
+  window.addEventListener('resize', () => {
+    camera.aspect = innerWidth / innerHeight
+    camera.updateProjectionMatrix()
+    renderer.setSize(innerWidth, innerHeight)
+    material.uniforms.uPixelRatio.value = Math.min(devicePixelRatio, 2)
+  })
+</script>
+</body>
+</html>

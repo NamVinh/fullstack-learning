@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Shaders Demo</title>
+  <style>
+    * { margin: 0; padding: 0; }
+    body { overflow: hidden; background: #000; }
+    #label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: #aaa;
+      font-family: monospace;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div id="label">Custom GLSL ShaderMaterial — wave + UV gradient + circle</div>
+  <script type="importmap">
+    { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/" } }
+  </script>
+  <script type="module">
+    import * as THREE from 'three'
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 100)
+    camera.position.set(0, 2, 5)
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true })
+    renderer.setSize(innerWidth, innerHeight)
+    document.body.appendChild(renderer.domElement)
+
+    new OrbitControls(camera, renderer.domElement)
+
+    // --- Shader 1: Wave plane ---
+    const waveMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uColorA: { value: new THREE.Color(0x4ecdc4) },
+        uColorB: { value: new THREE.Color(0x1a1a2e) },
+      },
+      vertexShader: `
+        uniform float uTime;
+        varying vec2 vUv;
+        varying float vElevation;
+
+        void main() {
+          vUv = uv;
+          vec3 pos = position;
+
+          // Wave
+          float elevation = sin(pos.x * 3.0 + uTime) * 0.15
+                          + sin(pos.y * 2.0 + uTime * 0.8) * 0.1;
+          pos.z += elevation;
+          vElevation = elevation;
+
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 uColorA;
+        uniform vec3 uColorB;
+        varying vec2 vUv;
+        varying float vElevation;
+
+        void main() {
+          float t = (vElevation + 0.25) / 0.5; // normalize to 0-1
+          vec3 color = mix(uColorB, uColorA, t);
+          gl_FragColor = vec4(color, 1.0);
+        }
+      `,
+      side: THREE.DoubleSide,
+      wireframe: false,
+    })
+
+    const wavePlane = new THREE.Mesh(
+      new THREE.PlaneGeometry(4, 4, 64, 64),
+      waveMaterial
+    )
+    wavePlane.rotation.x = -Math.PI / 4
+    wavePlane.position.set(-2.5, 0, 0)
+    scene.add(wavePlane)
+
+    // --- Shader 2: Circle pulse ---
+    const circleMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float uTime;
+        varying vec2 vUv;
+
+        void main() {
+          vec2 center = vec2(0.5);
+          float dist = length(vUv - center);
+
+          // Animated rings
+          float ring = sin(dist * 20.0 - uTime * 3.0) * 0.5 + 0.5;
+
+          // Fade at edges
+          float edge = 1.0 - smoothstep(0.3, 0.5, dist);
+
+          vec3 color = mix(
+            vec3(0.06, 0.06, 0.1),
+            vec3(0.3, 0.8, 0.76),
+            ring * edge
+          );
+
+          gl_FragColor = vec4(color, 1.0);
+        }
+      `,
+    })
+
+    const circleMesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(3, 3),
+      circleMaterial
+    )
+    circleMesh.position.set(2, 0.5, 0)
+    scene.add(circleMesh)
+
+    // --- Lights ---
+    scene.add(new THREE.AmbientLight(0xffffff, 0.3))
+
+    // --- Animate ---
+    const clock = new THREE.Clock()
+    function animate() {
+      requestAnimationFrame(animate)
+      const t = clock.getElapsedTime()
+      waveMaterial.uniforms.uTime.value = t
+      circleMaterial.uniforms.uTime.value = t
+      renderer.render(scene, camera)
+    }
+    animate()
+
+    window.addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight
+      camera.updateProjectionMatrix()
+      renderer.setSize(innerWidth, innerHeight)
+    })
+  </script>
+</body>
+</html>
