@@ -167,6 +167,50 @@ describe('Matcher examples', () => {
 });
 ```
 
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior): "What's the difference between `toBe` and `toEqual` in Jest?"**
+
+**Model Answer:**
+"`toBe` uses strict equality — the same as `===`. It works for primitives: numbers, strings, booleans. `toEqual` does a deep recursive equality check, so it works for objects and arrays. If I write `expect({ a: 1 }).toBe({ a: 1 })` that fails, because those are two different object references even though the contents are the same. `toEqual` would pass. A related one is `toMatchObject`, which checks that the expected properties exist in the actual object, but the actual object can have extra properties. I use that when I only care about certain fields and don't want to assert the full shape."
+
+**Trả lời (Tiếng Việt):**
+"`toBe` dùng strict equality — giống hệt `===`. Nó hoạt động với primitive: số, string, boolean. `toEqual` thực hiện deep recursive equality check, nên dùng được cho object và array. Nếu mình viết `expect({ a: 1 }).toBe({ a: 1 })` thì sẽ fail, vì đó là hai object reference khác nhau dù nội dung giống nhau. `toEqual` thì sẽ pass. Có thêm một cái liên quan là `toMatchObject` — nó kiểm tra các property mong đợi có tồn tại trong actual object không, nhưng actual object có thể có thêm property khác. Mình dùng cái này khi chỉ quan tâm đến một số field nhất định và không muốn assert toàn bộ shape."
+
+---
+
+**Q2 (Junior/Mid): "What should you actually test in a frontend application? What shouldn't you bother testing?"**
+
+**Model Answer:**
+"I focus tests on behavior that can break and would be hard to catch manually: business logic functions like price calculations or input validation, component behavior like what renders when a prop changes or what happens when a button is clicked, error handling paths, and accessibility attributes on interactive elements. What I tend not to test: straightforward styling, which would make tests brittle to cosmetic changes; simple getters and setters with no logic; third-party library internals; or components where the test would be a line-for-line mirror of the implementation. The guiding question is: if this breaks, would a test catch it before it reaches users? If yes, write the test. If the test would mostly just confirm the code compiles, skip it."
+
+**Trả lời (Tiếng Việt):**
+"Mình tập trung test những behavior có thể bị lỗi và khó phát hiện thủ công: các hàm business logic như tính giá hay validate input, behavior của component như render gì khi prop thay đổi hoặc khi button được click, các đường xử lý lỗi, và accessibility attribute trên interactive element. Những thứ mình thường không test: styling thuần túy vì sẽ làm test dễ vỡ với các thay đổi cosmetic; getter/setter đơn giản không có logic; nội bộ thư viện third-party; hay component mà test chỉ là copy paste lại implementation. Câu hỏi dẫn đường là: nếu cái này bị lỗi, liệu test có bắt được trước khi đến tay user không? Nếu có, viết test. Nếu test chủ yếu chỉ xác nhận code compile được, bỏ qua."
+
+---
+
+**Q3 (Mid): "What are lifecycle hooks in Jest and when do you use each one?"**
+
+**Model Answer:**
+"There are four: `beforeAll` runs once before any test in the describe block — useful for expensive setup like a database connection or starting a mock server. `afterAll` runs once at the end — useful for cleanup like closing that connection. `beforeEach` runs before every individual test — the most common one, I use it to reset mocks with `jest.clearAllMocks()` and reset any state so tests are isolated from each other. `afterEach` runs after every test — useful for cleanup that's specific to a test, like clearing localStorage or removing DOM elements. The key principle is test isolation: each test should be able to run alone or in any order and produce the same result. `beforeEach` clearing shared state is usually what enforces that."
+
+**Trả lời (Tiếng Việt):**
+"Có bốn cái: `beforeAll` chạy một lần trước tất cả test trong describe block — dùng cho setup nặng như kết nối database hay khởi động mock server. `afterAll` chạy một lần ở cuối — dùng để cleanup như đóng kết nối đó. `beforeEach` chạy trước mỗi test — cái này mình dùng nhiều nhất, để reset mock bằng `jest.clearAllMocks()` và reset state để các test độc lập với nhau. `afterEach` chạy sau mỗi test — dùng cho cleanup cụ thể của từng test, như clear localStorage hay remove DOM element. Nguyên tắc then chốt là test isolation: mỗi test phải có thể chạy một mình hoặc theo bất kỳ thứ tự nào mà vẫn cho kết quả giống nhau. `beforeEach` clearing shared state thường là thứ đảm bảo điều đó."
+
+---
+
+**Q4 (Mid): "How do you test that a function throws an error?"**
+
+**Model Answer:**
+"You wrap the call in a function and pass that to `expect`, then chain `.toThrow`. So it's `expect(() => divide(10, 0)).toThrow('Division by zero')`. The reason you need the wrapper function is that if you just wrote `expect(divide(10, 0)).toThrow()`, the error would throw before Jest even evaluates the `expect`, so Jest would see an unhandled exception and fail the test for the wrong reason. You can also pass an Error class instead of a string — `.toThrow(Error)` — or a regex if you want to match part of the message. For async functions that reject, the pattern is `await expect(asyncFn()).rejects.toThrow('message')`."
+
+**Trả lời (Tiếng Việt):**
+"Mình bọc lời gọi trong một function rồi truyền vào `expect`, sau đó chain `.toThrow`. Tức là `expect(() => divide(10, 0)).toThrow('Division by zero')`. Lý do cần wrapper function là nếu viết thẳng `expect(divide(10, 0)).toThrow()`, error sẽ throw trước khi Jest kịp evaluate `expect`, nên Jest thấy unhandled exception và fail test vì lý do sai. Mình cũng có thể truyền Error class thay vì string — `.toThrow(Error)` — hoặc regex nếu muốn match một phần message. Với async function reject thì pattern là `await expect(asyncFn()).rejects.toThrow('message')`."
+
+---
+
 ---
 
 ## 3. Mocking in Jest
@@ -339,6 +383,50 @@ describe('Fake timers', () => {
 });
 ```
 
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior/Mid): "What's the difference between `jest.fn()`, `jest.mock()`, and `jest.spyOn()`?"**
+
+**Model Answer:**
+"`jest.fn()` creates a standalone mock function from scratch — it's just a callable function that tracks calls. You'd use it when you need to pass a callback as a prop, like `render(<Button onClick={jest.fn()} />)`. `jest.mock('moduleName')` replaces an entire module — all its exports become mock functions. You use it when you want to control what an imported module returns, like mocking your API service so it doesn't make real HTTP requests. `jest.spyOn(object, 'methodName')` is different — it wraps a real method on an existing object, so you can observe calls without necessarily changing the behavior. It's useful when you want to assert that a method was called, but still let the original implementation run. And unlike `jest.mock`, spy mocks can be restored with `.mockRestore()` after the test."
+
+**Trả lời (Tiếng Việt):**
+"`jest.fn()` tạo một mock function độc lập từ đầu — chỉ là một callable function theo dõi các lần được gọi. Dùng khi cần truyền callback làm prop, ví dụ `render(<Button onClick={jest.fn()} />)`. `jest.mock('moduleName')` thay thế toàn bộ một module — tất cả export của nó trở thành mock function. Dùng khi muốn kiểm soát những gì module import trả về, ví dụ mock API service để nó không gửi HTTP request thật. `jest.spyOn(object, 'methodName')` thì khác — nó bọc lấy một method thực trên object có sẵn, nên mình có thể quan sát lời gọi mà không nhất thiết phải thay đổi behavior. Dùng khi muốn assert rằng một method đã được gọi nhưng vẫn để implementation thật chạy. Và khác với `jest.mock`, spy mock có thể restore về ban đầu bằng `.mockRestore()` sau khi test."
+
+---
+
+**Q2 (Mid): "You have a component that calls `Date.now()` or `Math.random()` — how do you test deterministic output?"**
+
+**Model Answer:**
+"For `Math.random` I'd use `jest.spyOn(Math, 'random').mockReturnValue(0.5)` to control what it returns. For `Date.now` I'd do `jest.spyOn(Date, 'now').mockReturnValue(1700000000000)` or use `jest.useFakeTimers()` which gives you control over the entire time system. Both approaches should call `.mockRestore()` in `afterEach` so they don't bleed into other tests. The principle is that any side input to a function — current time, random numbers, environment variables — needs to be injectable or mockable, otherwise your tests are non-deterministic and will flake."
+
+**Trả lời (Tiếng Việt):**
+"Với `Math.random` mình dùng `jest.spyOn(Math, 'random').mockReturnValue(0.5)` để kiểm soát giá trị nó trả về. Với `Date.now` thì `jest.spyOn(Date, 'now').mockReturnValue(1700000000000)` hoặc dùng `jest.useFakeTimers()` để có control toàn bộ hệ thống thời gian. Cả hai cách đều nên gọi `.mockRestore()` trong `afterEach` để không rò rỉ sang các test khác. Nguyên tắc là bất kỳ input phụ nào vào function — thời gian hiện tại, số ngẫu nhiên, environment variable — đều cần có thể inject hoặc mock được, nếu không test sẽ non-deterministic và flaky."
+
+---
+
+**Q3 (Mid): "How do fake timers work in Jest, and what's a common use case?"**
+
+**Model Answer:**
+"When you call `jest.useFakeTimers()`, Jest replaces the global timer functions — `setTimeout`, `setInterval`, `Date` — with mock versions it controls. Your code still calls `setTimeout(fn, 1000)` normally, but that timer doesn't actually tick on real time. You then call `jest.advanceTimersByTime(1000)` in your test to simulate time passing, which fires the callback synchronously. A classic use case is testing debounce or throttle logic — you don't want to actually wait 300 milliseconds in your test suite. Another use case is testing retry logic with exponential backoff. Always pair `useFakeTimers` in `beforeEach` with `useRealTimers` in `afterEach` to avoid leaking fake timers into other tests."
+
+**Trả lời (Tiếng Việt):**
+"Khi gọi `jest.useFakeTimers()`, Jest thay thế các global timer function — `setTimeout`, `setInterval`, `Date` — bằng các version mock mà nó kiểm soát. Code của mình vẫn gọi `setTimeout(fn, 1000)` bình thường, nhưng timer đó không thực sự chạy theo thời gian thật. Rồi mình gọi `jest.advanceTimersByTime(1000)` trong test để giả lập thời gian trôi qua, kích hoạt callback đồng bộ. Use case cổ điển là test debounce hoặc throttle logic — mình không muốn thực sự chờ 300 milliseconds trong test suite. Trường hợp khác là test retry logic với exponential backoff. Luôn ghép `useFakeTimers` trong `beforeEach` với `useRealTimers` trong `afterEach` để tránh fake timer rò rỉ sang test khác."
+
+---
+
+**Q4 (Senior): "Your test suite is slow because many tests hit real `localStorage`. How do you approach fixing that?"**
+
+**Model Answer:**
+"I'd mock `localStorage` at the module level using `Object.defineProperty` on `window.localStorage` with a hand-rolled mock object backed by a plain JavaScript object. The mock implements `getItem`, `setItem`, `removeItem`, and `clear` using `jest.fn()` so I can assert on what was called and control return values. In `beforeEach` I call `.clear()` and `jest.clearAllMocks()` so each test starts with a clean slate. This is faster than real `localStorage` and also avoids tests interfering with each other through shared storage. An alternative for newer setups is to use `jsdom`'s built-in localStorage which does work in tests, but it persists between tests in the same file unless you clear it manually — so explicit clearing in `beforeEach` is still needed."
+
+**Trả lời (Tiếng Việt):**
+"Mình sẽ mock `localStorage` ở module level bằng cách dùng `Object.defineProperty` trên `window.localStorage` với một mock object tự viết, backed bởi plain JavaScript object. Mock đó implement `getItem`, `setItem`, `removeItem`, và `clear` bằng `jest.fn()` để mình có thể assert xem cái gì đã được gọi và kiểm soát return value. Trong `beforeEach` gọi `.clear()` và `jest.clearAllMocks()` để mỗi test bắt đầu với trạng thái sạch. Cách này nhanh hơn `localStorage` thật và cũng tránh các test can thiệp lẫn nhau qua shared storage. Một alternative cho setup mới hơn là dùng built-in localStorage của `jsdom` — cái này cũng hoạt động trong test, nhưng nó persist giữa các test trong cùng file trừ khi mình clear thủ công — nên vẫn cần explicit clearing trong `beforeEach`."
+
+---
+
 ---
 
 ## 4. React Testing Library Philosophy
@@ -463,6 +551,50 @@ describe('LoginForm', () => {
   await userEvent.type(input, 'hello'); // trigger: focus, keydown, keypress, input, keyup cho mỗi ký tự
 */
 ```
+
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior): "What's the difference between `getBy`, `queryBy`, and `findBy` queries in React Testing Library?"**
+
+**Model Answer:**
+"They differ in how they handle missing elements. `getBy` expects the element to be there right now — it throws immediately if it's not found, which gives you a clear error message in your test. Use it when the element should definitely exist at that moment. `queryBy` returns null instead of throwing when nothing is found — that makes it the right choice when you want to assert something is NOT in the document: `expect(screen.queryByText('Error')).not.toBeInTheDocument()`. If you used `getBy` for that, you'd get an error before your assertion even runs. `findBy` is the async version — it returns a Promise and keeps trying until the element appears or the timeout expires, default one second. Use it after things like API calls, animations, or any state update that happens asynchronously."
+
+**Trả lời (Tiếng Việt):**
+"Ba cái này khác nhau ở cách xử lý khi không tìm thấy element. `getBy` mong đợi element phải có ngay lúc đó — nó throw ngay nếu không tìm thấy, cho mình error message rõ ràng trong test. Dùng khi element chắc chắn phải tồn tại tại thời điểm đó. `queryBy` trả null thay vì throw khi không tìm thấy gì — đây là lựa chọn đúng khi mình muốn assert rằng thứ gì đó KHÔNG có trong document: `expect(screen.queryByText('Error')).not.toBeInTheDocument()`. Nếu dùng `getBy` cho trường hợp đó thì sẽ bị lỗi trước cả khi assertion chạy. `findBy` là version async — nó trả Promise và cứ thử tiếp cho đến khi element xuất hiện hoặc timeout, mặc định là một giây. Dùng sau các operation như API call, animation, hay bất kỳ state update nào xảy ra bất đồng bộ."
+
+---
+
+**Q2 (Junior/Mid): "Why does React Testing Library discourage `getByTestId`? What should you use instead?"**
+
+**Model Answer:**
+"The philosophy of RTL is 'test like a user' — users interact with text, labels, and semantic roles, not test IDs. `getByTestId` tests implementation details: it'll still pass even if the button is visually broken or has wrong text. `getByRole` is preferred because it finds elements by their semantic ARIA role — `getByRole('button', { name: /submit/i })` confirms the element exists, has the right role for accessibility, and has the right label. `getByLabelText` is great for form inputs because it confirms the label is correctly associated, which also validates accessibility. The hierarchy from RTL docs goes: ByRole, ByLabelText, ByPlaceholderText, ByText, ByDisplayValue, ByAltText, ByTitle — and `ByTestId` is explicitly the last resort for things with no other accessible identity."
+
+**Trả lời (Tiếng Việt):**
+"Triết lý của RTL là 'test như user' — user tương tác với text, label, và semantic role, không phải test ID. `getByTestId` test implementation detail: nó vẫn pass dù button bị hỏng về mặt visual hoặc có text sai. `getByRole` được ưu tiên hơn vì nó tìm element theo semantic ARIA role — `getByRole('button', { name: /submit/i })` xác nhận element tồn tại, có đúng role cho accessibility, và có đúng label. `getByLabelText` rất tốt cho form input vì nó xác nhận label được associate đúng cách, qua đó cũng validate accessibility. Thứ tự ưu tiên theo RTL docs: ByRole, ByLabelText, ByPlaceholderText, ByText, ByDisplayValue, ByAltText, ByTitle — và `ByTestId` rõ ràng là lựa chọn cuối cùng cho những thứ không có accessible identity nào khác."
+
+---
+
+**Q3 (Mid): "What's the difference between `userEvent` and `fireEvent`? Which one should you use?"**
+
+**Model Answer:**
+"`fireEvent` is a lower-level API that dispatches a single DOM event — `fireEvent.click(button)` fires one click event. `userEvent` simulates what a real user does, which involves many events. When a user types a character, there's a `focus`, `keydown`, `keypress`, `input`, and `keyup` event in sequence. When a user clicks, there's `mouseover`, `mousemove`, `mousedown`, `mouseup`, then `click`. `userEvent` simulates all of that, which means components that rely on the full event sequence behave correctly in tests. Since version 14 the setup is `const user = userEvent.setup()` at the top of your test and then `await user.type(...)` and `await user.click(...)`. Prefer `userEvent` for anything that simulates user interaction. `fireEvent` is acceptable for low-level edge cases where you specifically want to test a single event."
+
+**Trả lời (Tiếng Việt):**
+"`fireEvent` là API cấp thấp, chỉ dispatch một DOM event đơn lẻ — `fireEvent.click(button)` chỉ fire một click event. `userEvent` mô phỏng những gì user thực sự làm, bao gồm rất nhiều event. Khi user gõ một ký tự, có `focus`, `keydown`, `keypress`, `input`, và `keyup` nối tiếp nhau. Khi user click, có `mouseover`, `mousemove`, `mousedown`, `mouseup`, rồi mới `click`. `userEvent` mô phỏng tất cả cái đó, nên các component phụ thuộc vào chuỗi event đầy đủ sẽ hoạt động đúng trong test. Từ version 14, setup là `const user = userEvent.setup()` ở đầu test rồi dùng `await user.type(...)` và `await user.click(...)`. Ưu tiên `userEvent` cho bất kỳ thứ gì mô phỏng tương tác của user. `fireEvent` chấp nhận được cho edge case cấp thấp khi mình muốn test đúng một event cụ thể."
+
+---
+
+**Q4 (Mid/Senior): "You get a warning: 'An update to Component inside a test was not wrapped in act(...)'. What does that mean and how do you fix it?"**
+
+**Model Answer:**
+"It means a state update happened after your test finished — the component is still doing work asynchronously and updating, but React can't flush those updates cleanly. It usually means you have an async operation you didn't wait for. The fix depends on the cause. If you have a `useEffect` that fetches data and updates state, you need to `await` a `findBy` query or wrap assertions in `waitFor` so the test waits for that update to complete. If you're using `userEvent`, make sure you're awaiting it — `await user.click(...)`. If you're rendering a component that kicks off async work in `useEffect`, you need at least one `await` somewhere so React can process all pending state updates. The warning itself is React telling you your test assertions ran too early."
+
+**Trả lời (Tiếng Việt):**
+"Cảnh báo này có nghĩa là state update xảy ra sau khi test đã chạy xong — component vẫn đang làm việc bất đồng bộ và update, nhưng React không thể flush các update đó một cách sạch. Thường là do có async operation mình chưa await. Cách fix tùy vào nguyên nhân. Nếu có `useEffect` fetch data và update state, cần `await` một `findBy` query hoặc bọc assertion trong `waitFor` để test chờ update hoàn thành. Nếu đang dùng `userEvent`, đảm bảo có await — `await user.click(...)`. Nếu render một component khởi động async work trong `useEffect`, cần ít nhất một `await` ở đâu đó để React xử lý hết các state update đang pending. Bản thân cảnh báo là React nói với mình rằng assertions trong test chạy quá sớm."
+
+---
 
 ---
 
@@ -1336,6 +1468,50 @@ export default config;
 **Khi nào chọn gì:**
 - **Cypress**: Team mới với e2e, cần DX tốt, Time Travel debugging, đã dùng Cypress Cloud
 - **Playwright**: Cần cross-browser (Safari), parallel miễn phí, multi-tab, CI/CD tốc độ cao, mobile emulation
+
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Mid): "What's the difference between unit tests, integration tests, and E2E tests? How do you decide what to write?"**
+
+**Model Answer:**
+"Unit tests cover a single function or component in isolation, with all dependencies mocked. They're fast — milliseconds each — and you can have thousands of them. Integration tests check that multiple pieces work together: a form component with its validation logic, a custom hook with the state it manages, or a component that reads from a context. E2E tests run against a real or staging environment and drive an actual browser through user flows. The classic advice is the testing pyramid: lots of unit tests, fewer integration tests, a small number of E2E tests. E2E tests are expensive to write, slow to run, and can be flaky on network or timing issues. I focus E2E on critical user journeys — login, checkout, core workflows — and rely on unit and integration tests for edge cases and error handling."
+
+**Trả lời (Tiếng Việt):**
+"Unit test bao phủ một function hoặc component đơn lẻ trong môi trường cô lập, tất cả dependency đều được mock. Chúng rất nhanh — vài millisecond mỗi test — và có thể có hàng nghìn cái. Integration test kiểm tra nhiều phần phối hợp với nhau: form component với validation logic của nó, custom hook với state nó quản lý, hoặc component đọc từ context. E2E test chạy trên môi trường thật hoặc staging và điều khiển browser thật đi qua các user flow. Lời khuyên cổ điển là testing pyramid: nhiều unit test, ít integration test hơn, một số ít E2E test. E2E test tốn công viết, chạy chậm, và có thể flaky vì network hay timing. Mình tập trung E2E vào các critical user journey — login, checkout, core workflow — và dựa vào unit và integration test cho edge case và error handling."
+
+---
+
+**Q2 (Mid): "What is Cypress's 'Time Travel' feature and why is it useful for debugging?"**
+
+**Model Answer:**
+"Cypress captures a DOM snapshot at every command step — every `cy.get`, every `cy.click`, every assertion. In the Cypress test runner, you can hover over any step in the command log and the UI rewinds to show you exactly what the DOM looked like at that point. This is extremely useful for debugging failing tests because you can see what was on screen when Cypress tried to click something, whether the element existed, what text it had, and whether it was visible. You can also pin a step and get browser devtools access to inspect the DOM at that exact moment. It's the biggest DX advantage Cypress has over alternatives, especially for developers who are new to writing E2E tests."
+
+**Trả lời (Tiếng Việt):**
+"Cypress chụp DOM snapshot ở mỗi bước lệnh — mỗi `cy.get`, mỗi `cy.click`, mỗi assertion. Trong Cypress test runner, mình có thể hover vào bất kỳ bước nào trong command log và UI sẽ tua lại để hiện chính xác DOM trông như thế nào tại thời điểm đó. Cực kỳ hữu ích để debug test fail vì mình có thể thấy trên màn hình có gì khi Cypress cố click, element có tồn tại không, text là gì, và có visible không. Mình cũng có thể pin một bước và mở browser devtools để inspect DOM tại đúng moment đó. Đây là lợi thế DX lớn nhất của Cypress so với các công cụ khác, đặc biệt với developer mới bắt đầu viết E2E test."
+
+---
+
+**Q3 (Mid/Senior): "Why would you choose Playwright over Cypress for a project?"**
+
+**Model Answer:**
+"There are a few clear reasons. First, Safari — Cypress doesn't support WebKit, so if your users include Safari on iPhone or Mac, Playwright is the only option for cross-browser E2E. Second, parallel execution: Playwright runs tests in parallel by default at no extra cost. Cypress requires the paid Cypress Cloud service for parallel CI runs, which adds budget friction. Third, multi-tab and multi-page scenarios — Playwright handles those natively, Cypress has significant limitations. Fourth, speed — Playwright is generally faster in CI because of the built-in parallel workers. I'd still choose Cypress if the team is new to E2E and values the interactive runner experience for writing and debugging tests, or if you're already invested in the Cypress ecosystem."
+
+**Trả lời (Tiếng Việt):**
+"Có một vài lý do rõ ràng. Đầu tiên là Safari — Cypress không hỗ trợ WebKit, nên nếu user của mình dùng Safari trên iPhone hay Mac, Playwright là lựa chọn duy nhất cho cross-browser E2E. Thứ hai là parallel execution: Playwright chạy test song song mặc định mà không tốn thêm chi phí. Cypress cần dịch vụ Cypress Cloud trả phí để chạy song song trên CI, điều đó gây friction về ngân sách. Thứ ba là multi-tab và multi-page — Playwright xử lý tốt, Cypress có nhiều hạn chế. Thứ tư là tốc độ — Playwright thường nhanh hơn trên CI nhờ built-in parallel workers. Mình vẫn chọn Cypress nếu team mới làm quen với E2E và cần interactive runner để viết và debug test, hoặc đã đầu tư vào Cypress ecosystem rồi."
+
+---
+
+**Q4 (Senior): "Your E2E tests are flaky — they pass most of the time but fail occasionally. What are the common causes and how do you fix them?"**
+
+**Model Answer:**
+"Flakiness in E2E tests almost always comes from timing. The most common cause is a test asserting something exists before the UI has finished updating — for example, clicking a button and immediately checking for a success message before the API call completes. The fix is to wait for something explicit rather than using fixed delays: in Cypress use `cy.wait('@aliasedRequest')` to wait for a specific network request, or chain `.should('be.visible')` which automatically retries. In Playwright use `await expect(page.getByText('Success')).toBeVisible()` which retries until the element appears. Other causes: network instability in CI — solved by stubbing requests with `cy.intercept` or `page.route`; shared state between tests — solved by resetting database and auth state in `beforeEach` hooks; and animation delays — solved by disabling CSS animations in test environments."
+
+**Trả lời (Tiếng Việt):**
+"Flakiness trong E2E test gần như luôn đến từ timing. Nguyên nhân phổ biến nhất là test assert thứ gì đó tồn tại trước khi UI cập nhật xong — ví dụ click button xong kiểm tra success message ngay trong khi API call chưa hoàn thành. Cách fix là chờ một thứ gì đó cụ thể thay vì dùng fixed delay: trong Cypress dùng `cy.wait('@aliasedRequest')` để chờ đúng network request, hoặc chain `.should('be.visible')` vốn tự động retry. Trong Playwright dùng `await expect(page.getByText('Success')).toBeVisible()` sẽ retry cho đến khi element xuất hiện. Các nguyên nhân khác: network không ổn định trong CI — giải quyết bằng cách stub request với `cy.intercept` hoặc `page.route`; shared state giữa các test — giải quyết bằng cách reset database và auth state trong `beforeEach` hook; và animation delay — giải quyết bằng cách disable CSS animation trong môi trường test."
+
+---
 
 ---
 

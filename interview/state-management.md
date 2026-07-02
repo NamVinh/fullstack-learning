@@ -567,6 +567,40 @@ function ProductList() {
 
 **Khi nào dùng createAsyncThunk:** Upload file, WebSocket events, business logic phức tạp không phải API request đơn thuần.
 
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior): "You have a React app with user authentication and a product list that changes often. Which state management tools would you pick?"**
+
+**Model Answer:**
+"I'd split it into two concerns. For the product list — that's server data, so I'd use TanStack Query or RTK Query. It handles caching, loading states, and background refetching automatically, which saves a ton of boilerplate. For auth — the logged-in user is global client state that rarely changes, so I'd use Zustand or even just Context. The key insight is that server state and client state have very different needs: server state goes stale, needs sync with the backend, and has loading/error lifecycles, while client state is just data you own on the frontend."
+
+**Trả lời (Tiếng Việt):**
+"Mình sẽ tách ra thành hai vấn đề riêng. Danh sách sản phẩm là dữ liệu từ server, nên mình dùng TanStack Query hoặc RTK Query — nó tự lo caching, loading state, background refetch, tiết kiệm rất nhiều boilerplate. Còn thông tin user đang đăng nhập thì đó là global client state, thay đổi ít, nên dùng Zustand hoặc thậm chí Context là đủ. Điểm mấu chốt là server state và client state có bản chất rất khác nhau: server state có thể bị stale, cần sync với backend, có vòng đời loading/error — trong khi client state là dữ liệu mình tự quản lý ở phía frontend."
+
+---
+
+**Q2 (Mid): "Walk me through how you decide between Zustand and Redux Toolkit for a new project."**
+
+**Model Answer:**
+"My first question is: how large is the team and how complex is the app? For a startup or a small-to-medium app, I'd reach for Zustand — the API is tiny, there's no Provider setup, and you get selectors out of the box so components only re-render when their slice of state actually changes. For an enterprise project with many teams, Redux Toolkit makes more sense: the Redux DevTools are best-in-class, the mental model of unidirectional data flow is well understood by most engineers, and you can layer on middleware like saga or observable if needed. That said, in 2024-2025 the most common stack I see is TanStack Query plus Zustand — you get the best tool for each job without the Redux overhead."
+
+**Trả lời (Tiếng Việt):**
+"Câu hỏi đầu tiên mình hỏi là: team có bao nhiêu người và app phức tạp đến đâu? Với startup hoặc app vừa và nhỏ, mình chọn Zustand — API gọn, không cần Provider, có selector sẵn để component chỉ re-render khi đúng phần state nó cần thay đổi. Với dự án enterprise nhiều team thì Redux Toolkit hợp lý hơn: Redux DevTools mạnh nhất thị trường, tư duy unidirectional data flow ai cũng hiểu, và có thể gắn thêm middleware như saga hay observable khi cần. Thực tế trong 2024-2025, stack mình hay thấy nhất là TanStack Query cộng với Zustand — mỗi công cụ làm đúng việc của nó mà không cần kéo theo overhead của Redux."
+
+---
+
+**Q3 (Senior): "A colleague says 'just use Redux for everything including API calls.' How do you respond?"**
+
+**Model Answer:**
+"I'd push back on that, but diplomatically. The problem is that server state has fundamentally different characteristics: it lives on the server, it can become stale, it needs refetching on window focus or network reconnect, and it needs cache invalidation. If you manage all of that with Redux, you end up writing a ton of boilerplate — pending/fulfilled/rejected cases, loading flags, error handling, manual invalidation logic. RTK Query or TanStack Query solve all of that for free. I'd suggest treating Redux as the tool for shared client-side state — UI state, user preferences, wizard steps — and using a dedicated server state library for anything that touches an API. The cognitive overhead is actually lower because each tool has a clear, focused purpose."
+
+**Trả lời (Tiếng Việt):**
+"Mình sẽ phản biện, nhưng nhẹ nhàng thôi. Vấn đề là server state có đặc điểm hoàn toàn khác: nó nằm trên server, có thể bị stale, cần refetch khi user focus lại tab hoặc mạng reconnect, và cần cache invalidation. Nếu quản lý hết bằng Redux thì phải viết một đống boilerplate — các case pending/fulfilled/rejected, loading flag, error handling, logic invalidate thủ công. RTK Query hay TanStack Query giải quyết tất cả cái đó miễn phí. Mình sẽ đề xuất dùng Redux cho shared client state — UI state, user preferences, wizard steps — còn bất kỳ thứ gì chạm vào API thì dùng thư viện server state chuyên dụng. Thực ra cognitive overhead còn thấp hơn vì mỗi tool có mục đích rõ ràng."
+
+---
+
 ---
 
 ## 8. RTK Query
@@ -686,6 +720,50 @@ function ProductList() {
 }
 ```
 
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Mid): "What's the difference between a query endpoint and a mutation endpoint in RTK Query?"**
+
+**Model Answer:**
+"A query is for reading data — GET requests. RTK Query caches the response, and the same query key anywhere in the app shares that cache. By default data is considered stale immediately, so it refetches on mount if it's been a while, but you can set `staleTime` to control that. A mutation is for write operations — POST, PUT, DELETE. Mutations don't cache anything, and their job is usually to invalidate the cache of related queries so those queries refetch fresh data. In code, the hooks look different too: `useGetProductsQuery` returns data directly, while `useCreateProductMutation` gives you a trigger function you call imperatively."
+
+**Trả lời (Tiếng Việt):**
+"Query dùng để đọc dữ liệu — tức là GET request. RTK Query cache response lại, và bất kỳ chỗ nào trong app dùng cùng query key thì đều share chung cache đó. Mặc định data được coi là stale ngay lập tức, nên nó sẽ refetch khi mount nếu đã qua một thời gian, nhưng mình có thể set `staleTime` để kiểm soát. Còn mutation thì dùng cho các thao tác ghi — POST, PUT, DELETE. Mutation không cache gì hết, nhiệm vụ chính của nó thường là invalidate cache của các query liên quan để những query đó tự fetch lại data mới. Về cú pháp hook cũng khác: `useGetProductsQuery` trả data trực tiếp, còn `useCreateProductMutation` trả về một trigger function mà mình gọi thủ công khi cần."
+
+---
+
+**Q2 (Mid): "What does the `skip` option do in RTK Query and when would you use it?"**
+
+**Model Answer:**
+"The `skip` option prevents a query from running at all. The most common case is when you have a dependency — for example, you're fetching a user's orders, but you need the user's ID first, and that comes from another query or from auth state. You'd write something like `skip: !userId`, so the orders query just sits idle until the ID is available. Another use case is feature flags or permissions — if a user doesn't have access to a section, you skip the query entirely instead of fetching data they can't see. It's cleaner than having conditional hook calls, which React doesn't allow."
+
+**Trả lời (Tiếng Việt):**
+"Option `skip` ngăn query chạy hoàn toàn. Trường hợp phổ biến nhất là khi bạn có dependency — ví dụ đang fetch orders của user, nhưng cần có user ID trước, mà ID đó lại đến từ một query khác hoặc từ auth state. Thì viết `skip: !userId`, query orders cứ ngồi chờ đến khi có ID. Một trường hợp khác là feature flag hoặc phân quyền — nếu user không có quyền xem một section, thì skip query luôn thay vì fetch data họ không nhìn thấy được. Cách này gọn hơn nhiều so với việc gọi hook có điều kiện, vì React không cho phép conditional hook calls."
+
+---
+
+**Q3 (Senior): "How does RTK Query handle caching — what happens when two components request the same endpoint with the same arguments?"**
+
+**Model Answer:**
+"RTK Query deduplicates requests automatically. If two components mount at the same time and both call `useGetUserQuery('123')`, only one network request goes out. The response is stored in the Redux store under that endpoint and argument combination, and both components read from that shared cache. RTK Query also tracks how many subscribers are using a given cache entry. When the last subscriber unmounts, it starts a timer — by default 60 seconds — and if no new subscriber appears before the timer runs out, it garbage collects that cache entry. You can tune this per endpoint with the `keepUnusedDataFor` option. This whole mechanism means you can have components freely query the same data without worrying about N+1 request problems."
+
+**Trả lời (Tiếng Việt):**
+"RTK Query tự động deduplicate request. Nếu hai component mount cùng lúc và cả hai đều gọi `useGetUserQuery('123')`, thì chỉ có một network request được gửi đi thôi. Response được lưu trong Redux store theo tổ hợp endpoint và argument, và cả hai component đọc từ cache chung đó. RTK Query cũng theo dõi có bao nhiêu subscriber đang dùng một cache entry. Khi subscriber cuối cùng unmount, nó bắt đầu đếm ngược — mặc định là 60 giây — nếu không có subscriber mới trước khi hết giờ thì nó garbage collect cache entry đó. Mình có thể chỉnh thời gian này per endpoint bằng option `keepUnusedDataFor`. Cơ chế này cho phép component thoải mái query cùng data mà không lo vấn đề N+1 request."
+
+---
+
+**Q4 (Senior): "You call a mutation to update a product, but the list of products on screen doesn't refresh. What's wrong and how do you fix it?"**
+
+**Model Answer:**
+"Almost certainly a missing `invalidatesTags` on the mutation. RTK Query's cache invalidation is tag-based — you declare which tags a query `provides`, and which tags a mutation `invalidates`. If the mutation doesn't invalidate the right tag, the query cache stays untouched. The fix is to add `invalidatesTags` to the mutation that matches the `providesTags` on the list query. For a product update, you'd invalidate `{ type: 'Product', id }` for that specific product, and the list query refetches because it provides that tag. If you're adding a new product, you'd invalidate `{ type: 'Product', id: 'LIST' }` — that's the LIST pattern — to trigger a full list refetch."
+
+**Trả lời (Tiếng Việt):**
+"Gần như chắc chắn là thiếu `invalidatesTags` trong mutation. Cache invalidation của RTK Query hoạt động theo tag — mình khai báo query `provides` tag gì, và mutation `invalidates` tag gì. Nếu mutation không invalidate đúng tag thì query cache giữ nguyên, không refetch. Cách fix là thêm `invalidatesTags` vào mutation sao cho khớp với `providesTags` của list query. Với update product thì invalidate `{ type: 'Product', id }` của sản phẩm đó, list query sẽ tự refetch vì nó provides tag đó. Còn nếu thêm product mới thì invalidate `{ type: 'Product', id: 'LIST' }` — đó là LIST pattern — để kích hoạt refetch toàn bộ danh sách."
+
+---
+
 ---
 
 ## 9. RTK Query Tags & Optimistic Updates
@@ -780,6 +858,30 @@ updateProduct: builder.mutation<Product, { id: string; data: Partial<Product> }>
   },
 }),
 ```
+
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Senior): "Explain optimistic updates. Why do you update the cache before the server responds?"**
+
+**Model Answer:**
+"The goal is to make the UI feel instant. Instead of waiting for the network round-trip before showing the user's change, you apply it to the local cache immediately, and then either confirm it when the server succeeds or roll it back if it fails. The pattern in RTK Query's `onQueryStarted` is: first, snapshot the current cache so you can restore it, then apply the optimistic patch with `updateQueryData`, then await the server response, and in the catch block call `patchResult.undo()` to revert. It's a UX technique — most of the time the server succeeds, so users see a zero-latency response. The rollback covers the minority failure case."
+
+**Trả lời (Tiếng Việt):**
+"Mục tiêu là làm cho UI cảm giác phản hồi tức thì. Thay vì đợi network round-trip xong mới hiện thay đổi cho user, mình áp dụng nó vào local cache ngay lập tức, rồi hoặc là xác nhận khi server thành công, hoặc là rollback nếu thất bại. Pattern trong `onQueryStarted` của RTK Query là: đầu tiên snapshot cache hiện tại để có thể restore, rồi apply optimistic patch bằng `updateQueryData`, rồi await server response, và trong catch block gọi `patchResult.undo()` để revert. Đây là kỹ thuật UX — phần lớn thời gian server thành công, nên user thấy response zero-latency. Rollback chỉ xử lý trường hợp thất bại là thiểu số."
+
+---
+
+**Q2 (Senior): "When would you use the LIST pattern in `providesTags` vs just tagging by ID?"**
+
+**Model Answer:**
+"They serve different purposes. When you tag individual items by ID — `{ type: 'Product', id: '123' }` — you're enabling surgical invalidation. A mutation that updates product 123 only invalidates that one cache entry, not the whole list. But when you create or delete an item, the list itself has changed — the total count, the ordering, which items appear. For those operations you need to invalidate the `LIST` tag to force a full list refetch. The best practice is to have list queries provide both the LIST tag and per-item ID tags. That way update mutations can target just the changed item, but create and delete mutations can invalidate the LIST to get the fresh count and ordering."
+
+**Trả lời (Tiếng Việt):**
+"Hai cái này phục vụ mục đích khác nhau. Khi tag từng item theo ID — `{ type: 'Product', id: '123' }` — mình đang bật chế độ invalidation chính xác theo từng item. Một mutation update product 123 chỉ invalidate đúng cache entry đó, không đụng vào list. Nhưng khi tạo mới hoặc xóa một item, bản thân danh sách đã thay đổi — tổng số lượng, thứ tự, item nào xuất hiện. Với các operation đó thì cần invalidate tag `LIST` để buộc refetch toàn bộ list. Best practice là list query nên provide cả tag LIST lẫn tag ID từng item. Như vậy update mutation chỉ target đúng item bị thay đổi, còn create và delete mutation invalidate LIST để lấy lại số lượng và thứ tự mới nhất."
+
+---
 
 ---
 
@@ -913,6 +1015,40 @@ const useStore = create<StoreState>()((...a) => ({
 | Learning curve | Thấp | Cao hơn |
 | Phù hợp | App vừa, team nhỏ | Enterprise, team lớn |
 
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior/Mid): "What is Zustand and why would you choose it over Context API?"**
+
+**Model Answer:**
+"Zustand is a small state management library — about 1 kilobyte — built around a hook-based API. The main reason to choose it over Context is performance: with Context, any change to the context value re-renders all consumers, even components that only care about part of the state. Zustand uses a subscription model with selectors, so a component only re-renders when the specific slice of state it subscribes to actually changes. The API is also much simpler — no Provider wrapper, no createContext boilerplate. You just call `create` with your state and actions, then use the hook wherever you need it. I usually reach for Zustand when I have global client state that changes frequently enough to cause performance issues with Context."
+
+**Trả lời (Tiếng Việt):**
+"Zustand là thư viện state management nhỏ — khoảng 1 kilobyte — xây dựng xung quanh hook-based API. Lý do chính để chọn thay Context là performance: với Context, bất kỳ thay đổi nào trong context value đều re-render tất cả consumer, kể cả những component chỉ quan tâm đến một phần state. Zustand dùng subscription model với selector, nên component chỉ re-render khi đúng phần state nó subscribe thực sự thay đổi. API cũng đơn giản hơn nhiều — không cần Provider wrapper, không cần boilerplate createContext. Chỉ cần gọi `create` với state và actions, rồi dùng hook ở bất kỳ đâu. Mình thường chuyển sang Zustand khi có global client state thay đổi đủ thường xuyên để gây ra performance issue với Context."
+
+---
+
+**Q2 (Mid): "How does the `persist` middleware work in Zustand? What would you NOT persist?"**
+
+**Model Answer:**
+"The `persist` middleware wraps your store and serializes state to a storage backend — usually `localStorage` — after every update. On initialization, it reads from storage first, so state survives page refreshes. You configure it with a `name` key for the storage key and optionally a `partialize` function to control exactly which parts of state get persisted. For a shopping cart, I'd persist the items array. What I would NOT persist: loading states, error states, derived data, or anything that should always start fresh. Also be careful with anything that contains non-serializable values like functions or class instances — those break JSON serialization. And sensitive data like auth tokens in localStorage is a security consideration, though some apps do it anyway."
+
+**Trả lời (Tiếng Việt):**
+"Middleware `persist` bọc store của mình lại và serialize state vào một storage backend — thường là `localStorage` — sau mỗi lần update. Khi khởi tạo, nó đọc từ storage trước, nên state tồn tại được qua các lần refresh trang. Mình cấu hình với key `name` cho storage key và tùy chọn hàm `partialize` để kiểm soát chính xác phần nào của state được persist. Với shopping cart thì mình persist mảng items. Những thứ KHÔNG nên persist: loading state, error state, derived data, hay bất cứ thứ gì cần bắt đầu fresh mỗi lần. Cũng cẩn thận với những thứ chứa non-serializable value như function hay class instance — những cái đó sẽ làm vỡ JSON serialization. Và dữ liệu nhạy cảm như auth token trong localStorage là vấn đề bảo mật cần cân nhắc."
+
+---
+
+**Q3 (Mid): "How do you prevent unnecessary re-renders with Zustand selectors?"**
+
+**Model Answer:**
+"The key is to only subscribe to the exact piece of state you need. If a component only shows the cart item count, you write `const count = useStore(state => state.items.length)` rather than `const { items } = useStore()`. Zustand compares the return value of the selector on each state change — by default with strict equality. If the selector returns the same value, the component doesn't re-render. The gotcha is with selectors that return objects or arrays — since those are new references on every call, Zustand will re-render even if the contents are the same. For that case you either select primitive values, or pass a custom equality function like `shallow` from Zustand's utilities."
+
+**Trả lời (Tiếng Việt):**
+"Chìa khóa là chỉ subscribe vào đúng phần state mình cần. Nếu component chỉ hiển thị số lượng item trong cart, thì viết `const count = useStore(state => state.items.length)` thay vì `const { items } = useStore()`. Zustand so sánh giá trị trả về của selector sau mỗi lần state thay đổi — mặc định dùng strict equality. Nếu selector trả về cùng giá trị thì component không re-render. Điểm cần chú ý là với selector trả về object hoặc array — vì mỗi lần gọi sẽ tạo reference mới, Zustand sẽ re-render dù nội dung không đổi. Trường hợp đó thì hoặc là select primitive value, hoặc truyền custom equality function như `shallow` từ Zustand utilities."
+
+---
+
 ---
 
 ## 11. TanStack Query — Cơ bản
@@ -1027,6 +1163,50 @@ function CreateProductForm() {
   };
 }
 ```
+
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior): "What problem does TanStack Query solve that useState doesn't?"**
+
+**Model Answer:**
+"When you fetch data with `useState` and `useEffect`, you end up writing a lot of repetitive code: set loading to true, try/catch, set data or error, set loading to false. And you don't get caching — every time a component mounts, it fires a fresh request. You don't get background refetching when the user switches tabs and comes back. You don't get deduplication when two components need the same data. TanStack Query handles all of that automatically. You just define a query key and a fetch function, and you get back `data`, `isLoading`, and `error` with all the lifecycle management handled. It also has concepts like `staleTime` — data within that window is considered fresh and won't trigger a refetch — and `gcTime` — how long unused data stays in the cache before being garbage collected."
+
+**Trả lời (Tiếng Việt):**
+"Khi fetch data bằng `useState` và `useEffect`, mình phải viết rất nhiều code lặp đi lặp lại: set loading thành true, try/catch, set data hoặc error, set loading thành false. Và không có caching — mỗi lần component mount là gửi request mới. Không có background refetching khi user chuyển tab rồi quay lại. Không có deduplication khi hai component cần cùng một data. TanStack Query xử lý tất cả những thứ đó tự động. Mình chỉ cần định nghĩa query key và fetch function, rồi nhận lại `data`, `isLoading`, `error` với toàn bộ lifecycle management được handle sẵn. Nó còn có `staleTime` — data trong khoảng thời gian đó được coi là fresh và không trigger refetch — và `gcTime` — bao lâu data không dùng thì bị garbage collect khỏi cache."
+
+---
+
+**Q2 (Mid): "Explain the difference between `isLoading` and `isFetching` in TanStack Query."**
+
+**Model Answer:**
+"`isLoading` is true only when there's no cached data AND a fetch is in progress — it's the initial loading state. `isFetching` is true any time a fetch is happening, including background refetches when you already have data. This distinction is useful in the UI: for the initial load you want to show a full loading skeleton, but for a background refetch you might just show a subtle spinner in the corner so the user can still interact with the existing data. A common pattern is `if (isLoading) return <Skeleton />` and then separately `{isFetching && <RefreshIndicator />}` in the component."
+
+**Trả lời (Tiếng Việt):**
+"`isLoading` chỉ true khi không có cached data VÀ đang fetch — đây là trạng thái loading lần đầu. `isFetching` thì true bất cứ khi nào đang có fetch diễn ra, kể cả background refetch khi đã có data rồi. Sự phân biệt này rất hữu ích trên UI: khi load lần đầu thì mình muốn hiện full loading skeleton, nhưng khi background refetch thì chỉ cần hiện một spinner nhỏ ở góc để user vẫn tương tác được với data cũ. Pattern phổ biến là `if (isLoading) return <Skeleton />` và riêng phần `{isFetching && <RefreshIndicator />}` trong component."
+
+---
+
+**Q3 (Mid): "How does the `queryKey` array work? Why does changing a value in the key cause a refetch?"**
+
+**Model Answer:**
+"The query key is TanStack Query's cache key. It can be an array with any serializable values. When the key changes — say a filter param or an ID — TanStack Query treats it as a completely different cache entry and fetches fresh data. This is intentional and powerful: you can put all your query dependencies in the key, and the fetching behavior becomes declarative. For example, `['products', { category, page }]` — whenever `category` or `page` changes, the query automatically refetches. You don't have to write any `useEffect` with a dependency array to trigger the fetch. The convention is to go from general to specific: resource type first, then IDs, then filters."
+
+**Trả lời (Tiếng Việt):**
+"Query key là cache key của TanStack Query. Nó là một mảng chứa bất kỳ serializable value nào. Khi key thay đổi — ví dụ filter param hay ID — TanStack Query coi đó là cache entry hoàn toàn khác và fetch data mới. Đây là thiết kế có chủ đích và rất mạnh: mình đặt tất cả dependency của query vào key, và hành vi fetching trở thành declarative. Ví dụ `['products', { category, page }]` — bất cứ khi nào `category` hoặc `page` thay đổi, query tự động refetch. Không cần viết `useEffect` với dependency array để trigger fetch nữa. Convention là đi từ chung đến cụ thể: loại resource trước, rồi đến ID, rồi đến filter."
+
+---
+
+**Q4 (Senior): "Walk me through how you'd implement optimistic updates with TanStack Query's `useMutation`."**
+
+**Model Answer:**
+"The pattern uses the three callbacks on `useMutation`. In `onMutate`, which runs before the mutation fires, you first cancel any pending refetches for that query so they don't overwrite your optimistic state. Then you snapshot the current cache with `getQueryData`. Then you call `setQueryData` to apply the change immediately. You return the snapshot as context. In `onError`, which receives that context, you call `setQueryData` again with the snapshot to roll back. In `onSettled`, you call `invalidateQueries` to trigger a fresh fetch from the server regardless of success or failure — this syncs the cache to the ground truth. The reason you need to cancel pending refetches first is to avoid a race condition where a stale refetch comes back and overwrites your optimistic update."
+
+**Trả lời (Tiếng Việt):**
+"Pattern này dùng ba callback trong `useMutation`. Trong `onMutate` — chạy trước khi mutation được gửi đi — đầu tiên mình cancel các refetch đang pending của query đó để chúng không overwrite optimistic state. Rồi snapshot cache hiện tại bằng `getQueryData`. Rồi gọi `setQueryData` để apply thay đổi ngay lập tức. Return snapshot đó làm context. Trong `onError` nhận được context đó, mình gọi `setQueryData` lại với snapshot để rollback. Trong `onSettled`, gọi `invalidateQueries` để trigger fresh fetch từ server bất kể thành công hay thất bại — cái này sync cache về ground truth. Lý do cần cancel pending refetch trước là để tránh race condition, khi refetch cũ trả về và overwrite mất optimistic update của mình."
+
+---
 
 ---
 
@@ -1301,6 +1481,50 @@ Next.js / Server Components:
 2. **Tách server state và client state** — luôn dùng tool chuyên dụng cho server state
 3. **Đánh giá team** — Redux tốt hơn khi team lớn, nhiều người mới cần học codebase
 4. **Đánh giá app hiện tại** — migration cost so với lợi ích
+
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior/Mid): "If you're starting a greenfield React app, what state management stack would you recommend and why?"**
+
+**Model Answer:**
+"For most apps today I'd start with TanStack Query for server state and Zustand for global client state. TanStack Query gives you caching, background sync, loading/error states, and optimistic updates without any setup beyond a QueryClient provider. Zustand covers shared UI state like sidebar open/closed, user preferences, or cart contents — it's about 1KB, no providers needed, and the selector API means components only re-render when their specific piece of state changes. I wouldn't reach for Redux unless the team is large and needs strong conventions, the app requires time-travel debugging heavily, or you're already invested in the RTK Query ecosystem. Context is fine for truly static things like theme or locale, but not for frequently changing data."
+
+**Trả lời (Tiếng Việt):**
+"Với hầu hết app hiện nay, mình sẽ bắt đầu với TanStack Query cho server state và Zustand cho global client state. TanStack Query cho mình caching, background sync, loading/error state, và optimistic update mà không cần setup gì nhiều ngoài QueryClient provider. Zustand lo shared UI state như sidebar mở/đóng, user preference, cart contents — khoảng 1KB, không cần provider, và selector API giúp component chỉ re-render khi đúng phần state của nó thay đổi. Mình sẽ không với tay lấy Redux trừ khi team lớn cần conventions chặt chẽ, app yêu cầu time-travel debugging nhiều, hoặc đã đầu tư vào RTK Query ecosystem rồi. Context thì ổn cho những thứ gần như tĩnh như theme hay locale, nhưng không phù hợp với data thay đổi thường xuyên."
+
+---
+
+**Q2 (Mid): "When does using React's built-in Context become a performance problem?"**
+
+**Model Answer:**
+"Context re-renders every consumer whenever the context value changes — and 'changes' means reference inequality. So if your provider creates a new object on every render, every consumer re-renders even if the actual data is the same. The bigger problem is granularity: if you put user, theme, cart, and notification state all in one context, a cart update re-renders components that only care about the theme. The fixes are: split contexts by domain, memoize the value object with `useMemo`, or if you're seeing real performance issues, switch to Zustand which has built-in selectors. Context is great for things like auth user or locale that barely change and are read everywhere — it's not great for frequently updating state."
+
+**Trả lời (Tiếng Việt):**
+"Context re-render tất cả consumer mỗi khi context value thay đổi — và 'thay đổi' ở đây là reference inequality. Nên nếu provider tạo object mới mỗi lần render, tất cả consumer đều re-render dù data thực sự không đổi. Vấn đề lớn hơn là độ granular: nếu nhét user, theme, cart, và notification state vào một context, thì một lần update cart sẽ re-render cả những component chỉ quan tâm đến theme. Cách fix là: tách context theo domain, memoize value object bằng `useMemo`, hoặc nếu đang gặp performance issue thực sự thì chuyển sang Zustand vốn có built-in selector. Context rất tốt cho những thứ như auth user hay locale gần như không thay đổi và được đọc ở khắp nơi — không phù hợp cho state thay đổi thường xuyên."
+
+---
+
+**Q3 (Senior): "Describe a real scenario where you'd use Redux Toolkit's `createAsyncThunk` over RTK Query."**
+
+**Model Answer:**
+"RTK Query is optimized for REST-style request/response patterns — you define an endpoint, it handles the lifecycle. But `createAsyncThunk` is better when the async operation isn't a simple HTTP request. For example: a multi-step file upload where you track progress and can cancel mid-upload, or a WebSocket message handler that updates state in response to server push events, or a complex sequence where you need to read from the current Redux state mid-operation and conditionally dispatch different actions. RTK Query has `onQueryStarted` for side effects, but for complex orchestration logic that involves multiple dispatches or reading state, `createAsyncThunk` with `getState` gives you more control. Another case: server-sent events or polling with custom backoff logic where you're managing the fetch lifecycle yourself."
+
+**Trả lời (Tiếng Việt):**
+"RTK Query được tối ưu cho pattern request/response kiểu REST — mình define endpoint, nó lo vòng đời. Nhưng `createAsyncThunk` tốt hơn khi async operation không phải là HTTP request đơn giản. Ví dụ: upload file nhiều bước có theo dõi progress và có thể cancel giữa chừng, hoặc WebSocket message handler cập nhật state khi server push event, hoặc một chuỗi phức tạp cần đọc Redux state giữa chừng và dispatch các action khác nhau tùy điều kiện. RTK Query có `onQueryStarted` cho side effect, nhưng với logic orchestration phức tạp cần nhiều dispatch hoặc đọc state, `createAsyncThunk` với `getState` cho mình nhiều control hơn. Trường hợp khác: server-sent event hay polling với custom backoff logic khi mình tự quản lý fetch lifecycle."
+
+---
+
+**Q4 (Senior): "How would you architect state management for a large Next.js app with both server components and client components?"**
+
+**Model Answer:**
+"The key insight with Next.js App Router is that server components run on the server and can fetch data directly — no need for any client-side fetching library for the initial data. So the architecture splits cleanly: for data that can be fetched on the server, I use React Server Components with direct database or API calls, and pass data down as props. For client-side interactivity — mutations, optimistic updates, real-time sync — I'd use TanStack Query with its Next.js prefetching support so the server-fetched data hydrates the client cache seamlessly. For global client state that's truly UI-only — things like modals, shopping cart, user preferences — I'd use Zustand with the `persist` middleware where needed. The goal is to push as much data fetching to the server as possible, and only bring in client-side state management where you actually need interactivity."
+
+**Trả lời (Tiếng Việt):**
+"Điểm mấu chốt với Next.js App Router là server component chạy trên server và có thể fetch data trực tiếp — không cần client-side fetching library cho initial data. Nên architecture tách ra khá rõ: với data có thể fetch trên server, mình dùng React Server Components với direct database hoặc API call, rồi pass data xuống qua props. Với client-side interactivity — mutation, optimistic update, real-time sync — mình dùng TanStack Query với prefetching support của Next.js để data fetch từ server hydrate client cache một cách liền mạch. Với global client state thuần UI — modal, shopping cart, user preference — mình dùng Zustand với `persist` middleware khi cần. Mục tiêu là đẩy càng nhiều data fetching lên server càng tốt, chỉ đưa client-side state management vào khi thực sự cần interactivity."
+
+---
 
 ---
 

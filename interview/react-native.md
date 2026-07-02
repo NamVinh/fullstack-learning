@@ -86,6 +86,114 @@ import * as Haptics from 'expo-haptics';
 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 ```
 
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior): "You've been a React web developer. Why would React Native feel familiar, and where would you get tripped up first?"**
+
+**Model Answer:**
+"The familiar parts are everything React: components, hooks, JSX, state management, context, lifecycle — all of that carries over directly. I can use the same patterns for fetching data, the same libraries like React Query or Zustand, and write components the same way.
+
+Where I'd get tripped up: first, there's no DOM. No `div`, no `span`, no CSS classes. Every piece of text must live inside a `<Text>` component — React Native throws an error if you put a string directly inside a `<View>`. That trips up web developers constantly in the first week.
+
+Second, styling is completely different. You use JavaScript objects through `StyleSheet.create`, not CSS. There's no cascade, no inheritance between components, only a limited subset of CSS properties, and the unit is density-independent pixels, not `px`. Flexbox works but `flexDirection` defaults to `column` instead of `row`, which throws off your mental model.
+
+Third, navigation is much more manual. There's no browser URL bar, no back-forward history — you set up a navigator stack explicitly with something like React Navigation. And platform-specific quirks show up constantly: shadow styles work differently on iOS vs Android, keyboard behavior is different, the safe area insets around the notch need to be handled manually.
+
+So I'd say the learning curve is not React — it's unlearning the browser APIs and learning the native platform APIs instead."
+
+**Trả lời (Tiếng Việt):**
+"Những thứ quen thuộc là tất cả những gì thuộc về React: components, hooks, JSX, state management, context, lifecycle — tất cả đều dùng được y chang. Tôi vẫn dùng cùng một pattern để fetch data, cùng thư viện như React Query hay Zustand, viết component theo cách tương tự.
+
+Điểm dễ bị vấp: đầu tiên là không có DOM. Không có `div`, không có `span`, không có CSS class. Mọi đoạn text đều phải nằm trong component `<Text>` — React Native sẽ báo lỗi nếu bạn đặt chuỗi ký tự trực tiếp trong `<View>`. Cái này làm tripped up developer web liên tục trong tuần đầu.
+
+Thứ hai, styling hoàn toàn khác. Phải dùng JavaScript object thông qua `StyleSheet.create`, không phải CSS. Không có cascade, không có inheritance giữa các component, chỉ hỗ trợ một subset CSS properties, và đơn vị là density-independent pixels chứ không phải `px`. Flexbox vẫn dùng được nhưng `flexDirection` mặc định là `column` thay vì `row`, cái đó đảo lộn mental model của mình.
+
+Thứ ba, navigation phải setup thủ công nhiều hơn. Không có URL bar của browser, không có lịch sử back-forward — bạn phải tự setup navigator stack bằng React Navigation. Và các quirk theo nền tảng xuất hiện liên tục: shadow style khác nhau giữa iOS và Android, keyboard behavior khác nhau, safe area insets quanh notch phải xử lý thủ công.
+
+Tóm lại, đường cong học không phải ở React mà là ở việc 'unlearn' browser APIs và học native platform APIs thay thế."
+
+---
+
+**Q2 (Mid): "How does React Native actually render components to the screen? Walk me through the architecture."**
+
+**Model Answer:**
+"In the old architecture, React Native ran three threads: the JavaScript thread where your React code ran, the native main thread where UI rendering happened, and a shadow thread for layout calculations using the Yoga layout engine.
+
+Your React code produces a virtual DOM of components. That gets serialized as JSON messages and sent over the 'bridge' to the shadow thread, which computed layouts, then passed instructions to the main thread to create or update actual native views — `UIView` on iOS, `View` on Android. Every interaction and update required crossing this bridge asynchronously.
+
+The problem was the bridge was the bottleneck. Animations would jank if the JS thread was busy because they had to wait for bridge messages. Synchronous calls to native code were impossible. And serializing large data structures to JSON just to move them between threads was wasteful.
+
+The New Architecture — which is the default from React Native 0.74 — replaces the bridge with JSI, JavaScript Interface. JSI lets JavaScript hold direct C++ references to native objects. No serialization, no async round trips for things that should be synchronous. TurboModules are native modules that load lazily and can be called synchronously. Fabric is the new renderer that does layout in C++ and can synchronously read layout measurements.
+
+The result is better animation performance, React 18 concurrent mode support, and faster startup because native modules don't all load upfront."
+
+**Trả lời (Tiếng Việt):**
+"Trong old architecture, React Native chạy 3 thread: JavaScript thread nơi code React của bạn chạy, native main thread nơi UI rendering xảy ra, và shadow thread để tính toán layout bằng Yoga layout engine.
+
+Code React của bạn tạo ra virtual DOM của các component. Cái đó được serialize thành JSON messages và gửi qua 'bridge' đến shadow thread, thread này tính toán layout rồi truyền instructions đến main thread để tạo hoặc cập nhật các native view thực sự — `UIView` trên iOS, `View` trên Android. Mỗi tương tác và cập nhật đều phải vượt qua bridge này theo kiểu bất đồng bộ.
+
+Vấn đề là bridge chính là điểm bottleneck. Animation bị jank nếu JS thread đang bận vì phải chờ bridge messages. Gọi synchronous đến native code là không thể. Serialize data structure lớn sang JSON chỉ để di chuyển chúng giữa các thread là rất lãng phí.
+
+New Architecture — mặc định từ React Native 0.74 — thay thế bridge bằng JSI, tức là JavaScript Interface. JSI cho phép JavaScript giữ tham chiếu C++ trực tiếp đến native objects. Không serialize, không async round trip cho những thứ cần synchronous. TurboModules là native modules load lazily và có thể gọi synchronously. Fabric là renderer mới thực hiện layout trong C++ và có thể đọc layout measurements một cách synchronous.
+
+Kết quả là animation performance tốt hơn, hỗ trợ React 18 concurrent mode, và startup nhanh hơn vì native modules không cần load hết lúc khởi động."
+
+---
+
+**Q3 (Mid): "What's the difference between React Navigation and a native navigator? When would you choose one over the other?"**
+
+**Model Answer:**
+"React Navigation is JavaScript-based navigation. The navigation stack and animations are implemented in React Native itself, using Reanimated and Gesture Handler under the hood. It's cross-platform with consistent APIs and very customizable.
+
+A native navigator, like React Native Navigation from Wix, uses the actual native navigation components — `UINavigationController` on iOS, `Fragment` and `Activity` on Android. The animations are literally the system animations that iOS and Android users are used to. It can feel more native to platform-savvy users.
+
+The trade-off: React Navigation is much easier to set up, has excellent TypeScript support, a huge community, and its Expo integration is seamless. The animations with Reanimated are smooth and customizable. React Native Navigation is harder to set up — you need to link native modules manually — and requires more platform-specific thinking.
+
+In practice, I'd choose React Navigation for almost every project. The gap in 'native feel' has narrowed significantly as Reanimated has improved, and the developer experience and community support are far better. React Native Navigation makes more sense if you're integrating into an existing native app where you need to match the exact system navigation behavior, or if your app is extremely navigation-heavy and the 'close to real native' feel is a hard product requirement."
+
+**Trả lời (Tiếng Việt):**
+"React Navigation là navigation dựa trên JavaScript. Navigation stack và animation được implement trong React Native, sử dụng Reanimated và Gesture Handler bên dưới. Nó cross-platform với API nhất quán và rất dễ customize.
+
+Native navigator, như React Native Navigation của Wix, sử dụng đúng các native navigation components thực sự — `UINavigationController` trên iOS, `Fragment` và `Activity` trên Android. Animation là đúng system animation mà người dùng iOS và Android quen dùng. Cảm giác native hơn với những người dùng tinh tế.
+
+Trade-off: React Navigation dễ setup hơn nhiều, TypeScript support xuất sắc, cộng đồng lớn, và tích hợp với Expo rất liền mạch. Animation với Reanimated mượt và dễ customize. React Native Navigation khó setup hơn — cần link native modules thủ công — và đòi hỏi phải suy nghĩ theo kiểu platform-specific nhiều hơn.
+
+Trong thực tế, tôi sẽ chọn React Navigation cho gần như mọi dự án. Khoảng cách về 'cảm giác native' đã thu hẹp đáng kể khi Reanimated cải thiện, và developer experience cũng như community support tốt hơn nhiều. React Native Navigation có ý nghĩa hơn khi bạn tích hợp vào một app native đã có sẵn và cần khớp đúng với system navigation behavior, hoặc khi app của bạn cực kỳ nặng về navigation và 'gần với native thực sự' là yêu cầu sản phẩm bắt buộc."
+
+---
+
+**Q4 (Senior): "A user on your team says you should rewrite a React web app as a React Native app to 'get both platforms for free.' What's your response?"**
+
+**Model Answer:**
+"The shared knowledge is real — React skills transfer, state management patterns work the same, and the business logic can often be shared. But 'for free' overstates it significantly.
+
+The UI layer is essentially a full rewrite. Every HTML element becomes a native component, all CSS has to be rewritten as StyleSheet objects, web-specific patterns like hover states, focus rings, and relative URLs don't exist. If the web app has any significant CSS or styling, that's not shared.
+
+APIs diverge significantly. `localStorage` becomes AsyncStorage or MMKV. `window` and `document` don't exist. Routing is completely different. Web-specific libraries — many charting, animation, or rich text libraries — don't work in React Native. You'll spend a lot of time finding native equivalents.
+
+Platform-specific quirks multiply. Instead of dealing with browser differences, you now deal with iOS vs Android differences, plus different iOS and Android versions, different screen sizes and pixel densities, notches, safe areas, and hardware back buttons.
+
+There's also the build and deployment overhead — dealing with Xcode, Android Studio, code signing, App Store review cycles.
+
+A better framing is: React Native significantly lowers the barrier to mobile development for a React team compared to learning Swift and Kotlin from scratch. But it's still a meaningful investment — probably a 60% rewrite, not a 10% one. If the business case for a native mobile app is strong, it's the right choice. But 'we have a web app, let's get mobile for free' usually leads to underestimating the effort."
+
+**Trả lời (Tiếng Việt):**
+"Kiến thức chung là có thật — kỹ năng React có thể dùng được, pattern state management hoạt động tương tự, và business logic thường có thể dùng lại. Nhưng 'miễn phí' là nói quá đáng kể.
+
+Tầng UI về cơ bản là viết lại hoàn toàn. Mọi HTML element trở thành native component, tất cả CSS phải viết lại thành StyleSheet object, các pattern dành riêng cho web như hover states, focus rings, và relative URL không tồn tại. Nếu web app có CSS hoặc styling đáng kể, phần đó không được dùng lại.
+
+API phân kỳ đáng kể. `localStorage` trở thành AsyncStorage hoặc MMKV. `window` và `document` không tồn tại. Routing hoàn toàn khác. Các thư viện dành riêng cho web — nhiều thư viện charting, animation, hay rich text — không hoạt động trong React Native. Bạn sẽ tốn nhiều thời gian tìm native equivalent.
+
+Quirk theo nền tảng nhân lên. Thay vì phải lo browser differences, bạn giờ phải xử lý iOS vs Android differences, cộng thêm các phiên bản iOS và Android khác nhau, kích thước màn hình và pixel density khác nhau, notch, safe area, và hardware back button.
+
+Còn có overhead về build và deployment — phải xử lý Xcode, Android Studio, code signing, App Store review cycles.
+
+Cách nói chính xác hơn là: React Native giảm đáng kể rào cản vào mobile development cho một team React so với việc học Swift và Kotlin từ đầu. Nhưng đó vẫn là một khoản đầu tư có ý nghĩa — có lẽ là viết lại 60%, không phải 10%. Nếu business case cho native mobile app đủ mạnh, đó là lựa chọn đúng. Nhưng 'mình có web app rồi, lấy mobile miễn phí thôi' thường dẫn đến việc đánh giá thấp công sức."
+
+---
+
 ---
 
 ## 2. Core Components
@@ -391,6 +499,88 @@ const renderItem = useCallback(({ item }) => (
   <Card item={item} onPress={handlePress} />
 ), [handlePress]);
 ```
+
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Mid): "We have a list of 5000 products. Using FlatList, users are reporting jank when scrolling. Where would you start debugging?"**
+
+**Model Answer:**
+"First I'd open the Performance Monitor in the Dev Menu to see which thread is dropping frames. If the JS FPS is dropping, the issue is computation on the JavaScript thread — re-renders, heavy calculations in render. If UI FPS is dropping but JS FPS is fine, the issue is in the native rendering layer.
+
+For JS thread issues, the first thing I'd check is whether the renderItem function is creating new function references on every parent render. Wrapping renderItem in `useCallback` and the item component in `React.memo` prevents unnecessary re-renders.
+
+Next I'd check if the item component is doing any expensive work during render — complex calculations, large object spreads. Anything that can be memoized or moved outside the component should be.
+
+Then I'd look at whether the list items have fixed height. If they do, adding `getItemLayout` is a big win — it lets FlatList calculate scroll positions without measuring every item. Without it, the list has to render items it hasn't shown yet just to know the scroll offset.
+
+I'd also review the `windowSize` and `maxToRenderPerBatch` props. The defaults are conservative — 21 windows and 10 items per batch. For a product list with images, I'd reduce `windowSize` to around 5 to 10, which means fewer off-screen items are mounted.
+
+If those changes aren't enough, I'd seriously consider switching to Shopify's FlashList. It recycles native views instead of unmounting and remounting components, which is fundamentally more efficient — typically around 10x faster for long lists."
+
+**Trả lời (Tiếng Việt):**
+"Đầu tiên tôi sẽ mở Performance Monitor trong Dev Menu để xem thread nào đang bị drop frame. Nếu JS FPS giảm, vấn đề là tính toán trên JavaScript thread — re-render, tính toán nặng trong render. Nếu UI FPS giảm nhưng JS FPS vẫn ổn, vấn đề nằm ở native rendering layer.
+
+Với JS thread issues, điều đầu tiên tôi kiểm tra là liệu hàm renderItem có đang tạo function reference mới mỗi lần parent render không. Wrap renderItem bằng `useCallback` và component item bằng `React.memo` để tránh re-render không cần thiết.
+
+Tiếp theo tôi kiểm tra xem component item có đang làm công việc nặng trong render không — tính toán phức tạp, spread object lớn. Bất cứ thứ gì có thể memoize hoặc đưa ra ngoài component thì nên làm.
+
+Sau đó tôi xem items có chiều cao cố định không. Nếu có, thêm `getItemLayout` là một cải thiện lớn — nó cho FlatList tính vị trí scroll mà không cần render từng item. Không có nó, list phải render những items chưa hiển thị chỉ để biết scroll offset.
+
+Tôi cũng xem lại props `windowSize` và `maxToRenderPerBatch`. Default khá bảo thủ — 21 windows và 10 items mỗi batch. Với danh sách sản phẩm có ảnh, tôi sẽ giảm `windowSize` xuống khoảng 5 đến 10, tức là ít off-screen items được mount hơn.
+
+Nếu các thay đổi đó vẫn không đủ, tôi sẽ nghiêm túc xem xét chuyển sang FlashList của Shopify. Nó recycle native views thay vì unmount và remount components, hiệu quả hơn về bản chất — thường nhanh hơn khoảng 10 lần với danh sách dài."
+
+---
+
+**Q2 (Mid): "What is `getItemLayout` and when should you NOT use it?"**
+
+**Model Answer:**
+"`getItemLayout` is a prop that lets you tell FlatList the exact dimensions of each item without rendering them. You provide a function that takes the data array and an index, and returns the item's length — height for vertical lists — its offset from the top of the list, and its index.
+
+This is really valuable when items have a fixed, known height. FlatList can calculate any item's scroll position instantly without rendering intermediate items, which makes `scrollToIndex` and `initialScrollIndex` accurate and fast. Without `getItemLayout`, if you try to scroll to index 500, the list has to render items 0 through 499 to figure out where 500 is.
+
+You should NOT use it if your items have variable heights. If you calculate wrong offsets, scrolling will be incorrect — items will visually jump or overlap when the list tries to scroll to a position that doesn't match the actual rendered position. It's better to have a slightly slower list than broken scroll behavior.
+
+Also don't use it if items can resize dynamically — for example, expandable items or items that change height based on loaded content. Stick to `getItemLayout` only when you can guarantee the height is constant and known at render time."
+
+**Trả lời (Tiếng Việt):**
+"`getItemLayout` là một prop cho phép bạn nói với FlatList kích thước chính xác của từng item mà không cần render chúng. Bạn cung cấp một hàm nhận data array và một index, trả về chiều dài của item — height cho vertical list — offset của nó tính từ đầu list, và index của nó.
+
+Cái này rất có giá trị khi items có chiều cao cố định và đã biết. FlatList có thể tính vị trí scroll của bất kỳ item nào ngay lập tức mà không cần render các item trung gian, làm cho `scrollToIndex` và `initialScrollIndex` trở nên chính xác và nhanh. Không có `getItemLayout`, nếu bạn thử scroll đến index 500, list phải render item 0 đến 499 để biết vị trí của 500.
+
+Bạn KHÔNG NÊN dùng nó nếu items có chiều cao thay đổi. Nếu bạn tính offset sai, scroll sẽ bị lỗi — items sẽ nhảy hoặc chồng lên nhau khi list cố gắng scroll đến vị trí không khớp với vị trí render thực tế. Tốt hơn là có list hơi chậm còn hơn là scroll bị vỡ.
+
+Cũng đừng dùng nếu items có thể resize dynamically — ví dụ như expandable items hoặc items thay đổi chiều cao dựa trên content đã load. Chỉ dùng `getItemLayout` khi bạn có thể đảm bảo chiều cao là cố định và biết trước lúc render."
+
+---
+
+**Q3 (Senior): "Explain the difference between `windowSize`, `maxToRenderPerBatch`, and `initialNumToRender`. How do you tune these for a product catalog?"**
+
+**Model Answer:**
+"These three props control different aspects of how FlatList manages its render work.
+
+`initialNumToRender` is how many items to render on the first paint. It should be enough to fill the screen — so if each item is 100 points tall and the screen is 800 points, you'd want at least 8, but I'd set it to 12 or 15 to have a small buffer above the fold. Setting it too high means slower initial render; too low means you see a flash of empty space right after mount.
+
+`maxToRenderPerBatch` is how many items FlatList renders in each incremental batch as the user scrolls. The default is 10. Lower values mean each individual scroll step does less work on the JS thread, so you get smoother frame rates, but more blank space if the user scrolls quickly. Higher values mean content appears faster but each batch takes more JS thread time.
+
+`windowSize` controls how large the render window is, measured in 'screens.' The default of 21 means 10 screens above the visible area and 10 screens below are rendered. For a dense product catalog on a phone with 6GB RAM, I'd bring this down to 5 — 2 screens above, viewport, 2 screens below. This dramatically reduces the number of mounted components and memory usage, at the cost of more blank space if the user flings the scroll very quickly.
+
+For a product catalog specifically, I'd also pair this with image lazy loading — use `FastImage` or `expo-image` which have better caching, and only start loading images when items enter the window. That way reducing the window size doesn't cause visible image popping either."
+
+**Trả lời (Tiếng Việt):**
+"Ba props này kiểm soát các khía cạnh khác nhau của cách FlatList quản lý công việc render.
+
+`initialNumToRender` là số items render trong lần paint đầu tiên. Nên đủ để fill màn hình — nếu mỗi item cao 100 points và màn hình cao 800 points, bạn cần ít nhất 8, nhưng tôi thường set là 12 hoặc 15 để có một buffer nhỏ trên fold. Set quá cao sẽ làm render ban đầu chậm hơn; set quá thấp sẽ thấy flash khoảng trắng ngay sau khi mount.
+
+`maxToRenderPerBatch` là số items FlatList render trong mỗi batch tăng dần khi người dùng scroll. Default là 10. Giá trị thấp hơn có nghĩa là mỗi bước scroll riêng lẻ làm ít việc hơn trên JS thread, nên frame rate mượt hơn, nhưng nhiều khoảng trắng hơn nếu người dùng scroll nhanh. Giá trị cao hơn có nghĩa là content xuất hiện nhanh hơn nhưng mỗi batch tốn nhiều JS thread time hơn.
+
+`windowSize` kiểm soát cửa sổ render lớn đến đâu, tính bằng 'số màn hình'. Default là 21, tức là 10 màn hình phía trên vùng nhìn thấy và 10 màn hình phía dưới đều được render. Với catalog sản phẩm dày đặc trên điện thoại 6GB RAM, tôi sẽ giảm xuống còn 5 — 2 màn hình phía trên, viewport, 2 màn hình phía dưới. Điều này giảm mạnh số components đang được mount và mức sử dụng bộ nhớ, đánh đổi bằng nhiều khoảng trắng hơn nếu người dùng fling scroll rất nhanh.
+
+Với catalog sản phẩm cụ thể, tôi cũng kết hợp với image lazy loading — dùng `FastImage` hoặc `expo-image` với caching tốt hơn, và chỉ bắt đầu load ảnh khi items vào cửa sổ. Cách đó giảm window size mà không gây ra hiện tượng ảnh bị nhấp nháy."
+
+---
 
 ---
 
@@ -748,6 +938,164 @@ const linkingConfig = {
 };
 ```
 
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior): "How does navigation work in React Native? How is it different from React Router on the web?"**
+
+**Model Answer:**
+"On the web, navigation is URL-based. React Router maps URL paths to components, and the browser's built-in history API handles back-forward. You can deep link directly to any page, share URLs, and bookmarks just work.
+
+In React Native, there's no URL bar. Navigation is stack-based — you push screens onto a stack and pop them off. React Navigation is the standard library. You define navigators and screens in JavaScript, and React Navigation manages the history stack and transitions in React Native.
+
+The most common setup is a native stack navigator for the main screen flow, and a bottom tab navigator for the app's top-level sections. You nest them — tabs are a screen in the stack, each tab has its own stack, and so on.
+
+One difference I appreciate: React Navigation with TypeScript gives you strongly-typed params. You define a type that maps screen names to their required params, and TypeScript will error if you try to navigate to a screen without providing the right params. On the web with React Router, passing params through route state isn't typed the same way.
+
+Deep linking is supported but requires explicit configuration — you map URL patterns to screen names and React Navigation handles parsing the params out of the URL."
+
+**Trả lời (Tiếng Việt):**
+"Trên web, navigation dựa trên URL. React Router map đường dẫn URL đến components, và browser's history API xử lý back-forward. Bạn có thể deep link trực tiếp đến bất kỳ trang nào, chia sẻ URL, và bookmark hoạt động tự nhiên.
+
+Trong React Native, không có URL bar. Navigation dựa trên stack — bạn push màn hình lên stack và pop chúng xuống. React Navigation là thư viện chuẩn. Bạn định nghĩa navigators và screens bằng JavaScript, và React Navigation quản lý history stack và transition trong React Native.
+
+Setup phổ biến nhất là native stack navigator cho luồng màn hình chính, và bottom tab navigator cho các section cấp cao nhất của app. Bạn lồng chúng vào nhau — tabs là một màn hình trong stack, mỗi tab có stack riêng của nó, và cứ thế.
+
+Một điểm tôi thích: React Navigation với TypeScript cho bạn typed params rõ ràng. Bạn định nghĩa một type map tên màn hình đến params bắt buộc của chúng, và TypeScript sẽ báo lỗi nếu bạn navigate đến một màn hình mà không cung cấp đúng params. Trên web với React Router, truyền params qua route state không được typed theo cách tương tự.
+
+Deep linking được hỗ trợ nhưng cần cấu hình rõ ràng — bạn map các pattern URL đến tên màn hình và React Navigation xử lý việc parse params ra từ URL."
+
+---
+
+**Q2 (Mid): "How do you pass data between screens in React Navigation? What are the pitfalls of passing complex objects as params?"**
+
+**Model Answer:**
+"You pass params in the second argument to `navigation.navigate`: `navigation.navigate('ProductDetail', { productId: '123', productName: 'iPhone 15' })`. In the destination screen you access them through `route.params`.
+
+The pitfall with complex objects is that React Navigation serializes params to support deep linking and state persistence. If you pass a full product object with images, nested categories, and methods, you're creating serialization overhead on every navigation, and if those params are stored in navigation state for deep linking, you've made your navigation state very heavy.
+
+The recommended pattern is to pass only identifiers — pass `productId`, not the full product object. The destination screen fetches or looks up the full data from your data store using that ID. This is cleaner and more resilient: if the screen is opened from a deep link, it has an ID to fetch from, not a serialized object that might be stale.
+
+Another pitfall: non-serializable values like functions or class instances as params. React Navigation will warn about these and they won't survive deep linking or state restoration. Callbacks between screens should go through navigation events, a shared context, or a state management store, not as params.
+
+For data that needs to be shared across many screens, I put it in a Zustand store or React Query cache rather than threading it through navigation params."
+
+**Trả lời (Tiếng Việt):**
+"Bạn truyền params ở argument thứ hai của `navigation.navigate`: `navigation.navigate('ProductDetail', { productId: '123', productName: 'iPhone 15' })`. Trong màn hình đích bạn truy cập chúng qua `route.params`.
+
+Pitfall với object phức tạp là React Navigation serialize params để hỗ trợ deep linking và state persistence. Nếu bạn truyền một object product đầy đủ với ảnh, nested categories, và methods, bạn đang tạo serialization overhead mỗi lần navigate, và nếu params đó được lưu trong navigation state cho deep linking, bạn đã làm navigation state rất nặng.
+
+Pattern được khuyến nghị là chỉ truyền identifiers — truyền `productId`, không phải object product đầy đủ. Màn hình đích fetch hoặc lookup data đầy đủ từ data store dùng ID đó. Cách này clean hơn và resilient hơn: nếu màn hình được mở từ deep link, nó có ID để fetch, không phải object serialize có thể đã stale.
+
+Một pitfall khác: các giá trị non-serializable như functions hay class instances làm params. React Navigation sẽ warn về những cái này và chúng sẽ không tồn tại qua deep linking hay state restoration. Callbacks giữa các màn hình nên đi qua navigation events, shared context, hoặc state management store, không phải params.
+
+Với data cần chia sẻ qua nhiều màn hình, tôi đặt nó trong Zustand store hoặc React Query cache thay vì threading qua navigation params."
+
+---
+
+**Q3 (Mid): "How do you implement deep linking in React Navigation? Give me a concrete example."**
+
+**Model Answer:**
+"Deep linking lets external URLs open specific screens in your app. You configure it in the `linking` prop on `NavigationContainer`.
+
+The config has two parts: `prefixes` — the URL schemes your app handles, like `myapp://` for the custom scheme and `https://myapp.com` for universal links — and `config`, which maps path patterns to screen names.
+
+For example, if I want `myapp://product/123` to open the `ProductDetail` screen with `productId` set to `123`, I'd write:
+
+```
+config: {
+  screens: {
+    Home: '',
+    ProductDetail: 'product/:productId',
+    Cart: 'cart',
+  }
+}
+```
+
+React Navigation automatically parses the `:productId` segment from the URL and passes it as a route param. So the screen gets `route.params.productId` equal to `'123'`.
+
+For iOS you register the URL scheme in `Info.plist` and configure universal links through an Apple App Site Association file on your web server. Android uses intent filters in `AndroidManifest.xml`. With Expo, you configure this in `app.json` and the managed workflow handles most of the boilerplate.
+
+One thing to test carefully: what happens when the deep link arrives and the app is in a killed state. React Navigation handles this correctly — it reconstructs the navigation state from the URL — but you need to make sure your screens don't crash if opened without the normal preceding screens in the stack."
+
+**Trả lời (Tiếng Việt):**
+"Deep linking cho phép URL bên ngoài mở các màn hình cụ thể trong app của bạn. Bạn cấu hình nó trong prop `linking` của `NavigationContainer`.
+
+Config có hai phần: `prefixes` — các URL scheme mà app của bạn xử lý, như `myapp://` cho custom scheme và `https://myapp.com` cho universal links — và `config`, map các pattern đường dẫn đến tên màn hình.
+
+Ví dụ, nếu tôi muốn `myapp://product/123` mở màn hình `ProductDetail` với `productId` được set là `123`, tôi sẽ viết:
+
+```
+config: {
+  screens: {
+    Home: '',
+    ProductDetail: 'product/:productId',
+    Cart: 'cart',
+  }
+}
+```
+
+React Navigation tự động parse segment `:productId` từ URL và truyền nó như route param. Vậy màn hình nhận được `route.params.productId` bằng `'123'`.
+
+Với iOS bạn đăng ký URL scheme trong `Info.plist` và cấu hình universal links thông qua Apple App Site Association file trên web server của bạn. Android dùng intent filters trong `AndroidManifest.xml`. Với Expo, bạn cấu hình trong `app.json` và managed workflow xử lý hầu hết boilerplate.
+
+Một thứ cần test kỹ: điều gì xảy ra khi deep link đến và app đang ở trạng thái bị kill. React Navigation xử lý đúng — nó reconstruct navigation state từ URL — nhưng bạn cần đảm bảo các màn hình không crash khi được mở mà không có các màn hình trước đó bình thường trong stack."
+
+---
+
+**Q4 (Senior): "How would you navigate to a screen from outside the component tree — for example, from a push notification handler?"**
+
+**Model Answer:**
+"Since React Navigation lives inside the component tree, you normally call `useNavigation()` inside a component. But notification handlers, background tasks, and auth callbacks run outside the component tree, so you can't use the hook.
+
+The solution is a navigation ref. React Navigation provides `createNavigationContainerRef()`. You create the ref outside the component tree — in its own module — and pass it to `NavigationContainer` via the `ref` prop.
+
+```typescript
+// navigationRef.ts
+export const navigationRef = createNavigationContainerRef<RootStackParamList>();
+
+// App.tsx
+<NavigationContainer ref={navigationRef}>
+
+// notificationHandler.ts
+import { navigationRef } from './navigationRef';
+
+if (navigationRef.isReady()) {
+  navigationRef.navigate('ProductDetail', { productId: data.id });
+}
+```
+
+The `isReady()` check is important — if the app just launched, the navigator might not be mounted yet. In that case you store the pending navigation action and dispatch it once the navigator is ready, typically using a `useEffect` in App.tsx that runs when the navigator mounts.
+
+For push notifications specifically, you also need to handle the case where the app was in a killed state and launched by a notification tap — you check `getInitialNotification()` or the equivalent, and navigate after the navigator is ready. The sequence is: app launches, navigator mounts, `isReady()` becomes true, then you dispatch the pending navigation."
+
+**Trả lời (Tiếng Việt):**
+"Vì React Navigation nằm trong component tree, bạn thường gọi `useNavigation()` bên trong component. Nhưng notification handlers, background tasks, và auth callbacks chạy ngoài component tree, nên không thể dùng hook được.
+
+Giải pháp là navigation ref. React Navigation cung cấp `createNavigationContainerRef()`. Bạn tạo ref bên ngoài component tree — trong module riêng của nó — và truyền nó vào `NavigationContainer` qua prop `ref`.
+
+```typescript
+// navigationRef.ts
+export const navigationRef = createNavigationContainerRef<RootStackParamList>();
+
+// App.tsx
+<NavigationContainer ref={navigationRef}>
+
+// notificationHandler.ts
+import { navigationRef } from './navigationRef';
+
+if (navigationRef.isReady()) {
+  navigationRef.navigate('ProductDetail', { productId: data.id });
+}
+```
+
+Check `isReady()` là quan trọng — nếu app vừa launch, navigator có thể chưa được mount. Trong trường hợp đó bạn lưu pending navigation action và dispatch nó khi navigator ready, thường dùng `useEffect` trong App.tsx chạy khi navigator mount.
+
+Với push notifications cụ thể, bạn cũng cần xử lý trường hợp app ở trạng thái bị kill và được launch bởi notification tap — bạn check `getInitialNotification()` hay tương đương, và navigate sau khi navigator đã sẵn sàng. Trình tự là: app launch, navigator mount, `isReady()` trở thành true, sau đó bạn dispatch pending navigation."
+
+---
+
 ---
 
 ## 7. Platform-specific Code
@@ -952,6 +1300,96 @@ export function MyModuleView(props: ViewProps) {
   return <NativeView {...props} />;
 }
 ```
+
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Senior): "What problem does the New Architecture solve? Can you explain JSI in plain terms?"**
+
+**Model Answer:**
+"The old architecture had a fundamental bottleneck: the JavaScript bridge. Every time JavaScript needed to talk to native code — to update a UI, call a native API, do a layout calculation — it had to serialize the data as JSON, pass it over an asynchronous message queue to the native side, which then deserialized it. The same thing happened for responses going back.
+
+This meant two things: first, you couldn't make synchronous calls to native from JavaScript. Everything was callback-based. Second, for animations that needed to respond to gestures at 60fps, if the JS thread was busy — doing a list re-render, running a heavy calculation — the bridge messages backed up and animations janked.
+
+JSI, JavaScript Interface, replaces the bridge with direct C++ bindings. JavaScript objects in Hermes can hold references to C++ objects. When you call a native method through JSI, you're literally calling a C++ function through a function pointer — no serialization, no async queue, no round trip.
+
+The analogy I use: the old bridge was like communicating between two offices by printing emails, walking them to a mail room, and having someone carry them across the building. JSI is like both offices sharing the same file system — you write to a file and the other side reads it directly, in memory.
+
+This enables TurboModules — native modules that can be called synchronously and load lazily. And it enables Fabric, the new renderer, to do layout calculations in C++ synchronously, which lets React 18's concurrent mode work properly in React Native."
+
+**Trả lời (Tiếng Việt):**
+"Old architecture có một điểm bottleneck cơ bản: JavaScript bridge. Mỗi khi JavaScript cần nói chuyện với native code — để update UI, gọi native API, tính toán layout — nó phải serialize data thành JSON, truyền qua một async message queue đến phía native, bên đó deserialize lại. Chuyện tương tự xảy ra cho response đi ngược lại.
+
+Điều này có nghĩa là hai thứ: thứ nhất, bạn không thể gọi synchronous đến native từ JavaScript. Tất cả đều dựa trên callback. Thứ hai, với animation cần phản hồi gesture ở 60fps, nếu JS thread bận — đang re-render list, chạy tính toán nặng — bridge messages bị tắc nghẽn và animation bị jank.
+
+JSI, JavaScript Interface, thay thế bridge bằng C++ bindings trực tiếp. JavaScript objects trong Hermes có thể giữ tham chiếu đến C++ objects. Khi bạn gọi native method qua JSI, bạn đang thực sự gọi một C++ function qua function pointer — không serialize, không async queue, không round trip.
+
+Analogy tôi hay dùng: old bridge giống như giao tiếp giữa hai văn phòng bằng cách in email, đi bộ đến phòng thư, và nhờ ai đó mang qua tòa nhà. JSI giống như cả hai văn phòng chia sẻ cùng một file system — bạn ghi vào file và bên kia đọc trực tiếp, trong bộ nhớ.
+
+Điều này cho phép TurboModules — native modules có thể gọi synchronously và load lazily. Và cho phép Fabric, renderer mới, thực hiện layout calculations trong C++ synchronously, giúp React 18's concurrent mode hoạt động đúng trong React Native."
+
+---
+
+**Q2 (Senior): "What are TurboModules and how do they differ from the old NativeModules pattern?"**
+
+**Model Answer:**
+"In the old architecture, all native modules were registered at startup and available through the `NativeModules` object. Even if your app never used the Camera module or the Bluetooth module, they were all loaded into memory when the app started. This hurt startup time proportionally to how many native modules you had.
+
+TurboModules change this to lazy loading. A TurboModule is only loaded from native code the first time JavaScript actually calls it. If you never use Bluetooth in a given session, that module's native code is never initialized.
+
+The other big difference is typing. Old-style native modules had no type information — you'd call `NativeModules.Camera.takePicture()` and TypeScript had no idea what that function expected or returned. Errors only surfaced at runtime.
+
+TurboModules require a TypeScript spec file that defines the exact interface. A code generator uses that spec to generate native boilerplate for both iOS and Android, and TypeScript enforces the types at call sites. So type errors are caught at compile time.
+
+And because TurboModules work through JSI, they can expose synchronous methods when that's appropriate — something that was impossible with the old bridge where every call was inherently async.
+
+In practice, if you're using Expo's Modules API, a lot of this is abstracted — you write the native code and a TypeScript spec, and the framework handles the JSI plumbing. But understanding what's happening underneath helps when you're debugging or writing a module from scratch."
+
+**Trả lời (Tiếng Việt):**
+"Trong old architecture, tất cả native modules được đăng ký lúc startup và có thể truy cập qua object `NativeModules`. Dù app của bạn có bao giờ dùng Camera module hay Bluetooth module không, chúng đều được load vào bộ nhớ khi app khởi động. Điều này làm tăng startup time tỷ lệ thuận với số lượng native modules bạn có.
+
+TurboModules chuyển sang lazy loading. TurboModule chỉ được load từ native code vào lần đầu tiên JavaScript thực sự gọi nó. Nếu bạn không bao giờ dùng Bluetooth trong một session, native code của module đó không bao giờ được khởi tạo.
+
+Điểm khác biệt lớn khác là typing. Old-style native modules không có thông tin type — bạn gọi `NativeModules.Camera.takePicture()` và TypeScript không biết function đó nhận gì hay trả về gì. Lỗi chỉ xuất hiện lúc runtime.
+
+TurboModules yêu cầu một TypeScript spec file định nghĩa interface chính xác. Code generator dùng spec đó để generate native boilerplate cho cả iOS và Android, và TypeScript enforce types tại call sites. Vì vậy lỗi type được phát hiện lúc compile time.
+
+Và vì TurboModules hoạt động qua JSI, chúng có thể expose synchronous methods khi phù hợp — điều không thể với old bridge nơi mọi call đều inherently async.
+
+Trong thực tế, nếu bạn dùng Expo Modules API, nhiều thứ này được trừu tượng hóa rồi — bạn viết native code và TypeScript spec, framework lo phần JSI plumbing. Nhưng hiểu những gì đang xảy ra bên dưới giúp ích khi bạn debug hoặc viết module từ đầu."
+
+---
+
+**Q3 (Senior): "What is Fabric and how does it affect how we write React Native components?"**
+
+**Model Answer:**
+"Fabric is the new rendering system in React Native's New Architecture. It replaces the old renderer that coordinated between the JavaScript thread, shadow thread, and main thread via bridge messages.
+
+In the old architecture, when React committed changes to the virtual DOM, those had to travel asynchronously over the bridge to a shadow thread for layout calculations, then asynchronously again to the main thread for actual view creation. This meant the native UI was always slightly behind what JavaScript knew.
+
+With Fabric, the renderer is written in C++ and shared across platforms. The shadow tree — the layout tree — lives in C++ and can be manipulated synchronously from both JavaScript and native. When React commits, it can immediately talk to the C++ renderer, and layout calculations happen synchronously.
+
+The developer-visible impacts are: first, React 18 concurrent features work properly. Transitions, `startTransition`, `useDeferredValue` — all of these require the renderer to support interruption and prioritization, which Fabric enables. In the old architecture, concurrent mode was essentially non-functional.
+
+Second, host component measurements can now be synchronous. If a component needs to know its own dimensions to render, it can get that synchronously rather than waiting for a bridge round trip.
+
+Third, animations tied to native gestures can be truly synchronous — no frame lag between a touch event and the UI response. This is what powers the silky animations in Reanimated 3."
+
+**Trả lời (Tiếng Việt):**
+"Fabric là rendering system mới trong React Native's New Architecture. Nó thay thế old renderer phối hợp giữa JavaScript thread, shadow thread, và main thread qua bridge messages.
+
+Trong old architecture, khi React commit changes vào virtual DOM, chúng phải đi bất đồng bộ qua bridge đến shadow thread để tính toán layout, rồi bất đồng bộ một lần nữa đến main thread để tạo view thực sự. Điều này có nghĩa là native UI luôn hơi trễ hơn so với những gì JavaScript biết.
+
+Với Fabric, renderer được viết bằng C++ và chia sẻ across platforms. Shadow tree — cây layout — nằm trong C++ và có thể được thao tác synchronously từ cả JavaScript và native. Khi React commit, nó có thể nói chuyện ngay với C++ renderer, và layout calculations xảy ra synchronously.
+
+Các tác động mà developer nhìn thấy: thứ nhất, React 18 concurrent features hoạt động đúng. Transitions, `startTransition`, `useDeferredValue` — tất cả những thứ này yêu cầu renderer hỗ trợ interruption và prioritization, điều mà Fabric cho phép. Trong old architecture, concurrent mode về cơ bản không hoạt động.
+
+Thứ hai, host component measurements giờ có thể synchronous. Nếu component cần biết kích thước của chính nó để render, nó có thể lấy thông tin đó synchronously thay vì chờ bridge round trip.
+
+Thứ ba, animation gắn với native gestures có thể thực sự synchronous — không có frame lag giữa touch event và UI response. Đây là thứ tạo ra animation mượt mà trong Reanimated 3."
+
+---
 
 ---
 
@@ -1215,6 +1653,92 @@ module.exports = {
   },
 };
 ```
+
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Mid): "Our app feels sluggish after navigation. Users are on older Android phones. Where do you start?"**
+
+**Model Answer:**
+"First, I'd open the Performance Monitor from the Dev Menu to see which thread is struggling. If the UI FPS drops but JS FPS is fine, the issue is in native rendering — complex view hierarchies, too many layers, overdraw. If JS FPS drops, the issue is JavaScript work — heavy renders, synchronous computations.
+
+For navigation-related sluggishness specifically, a common culprit is rendering heavy content while the navigation animation is still in progress. The solution is `InteractionManager.runAfterInteractions`. You wrap your heavy render in a callback passed to it, and it defers that work until all animations have completed. The screen navigates in smoothly, then the heavy content loads.
+
+On older Android, shadow and elevation styles are expensive. If your UI has many layered views with `elevation`, try reducing the number of elevated surfaces or flattening the view hierarchy.
+
+I'd also check if list components are using proper optimization — `getItemLayout` for fixed-height lists, `React.memo` on item components, `useCallback` on handlers passed as props. On older hardware, unnecessary re-renders are much more visible.
+
+If the animation itself is janky rather than the content, I'd check if the navigation is using `react-native-screens` which is a requirement for the native stack navigator to use native platform animations rather than JavaScript-driven ones. Expo includes it by default, but bare workflow apps sometimes miss this."
+
+**Trả lời (Tiếng Việt):**
+"Đầu tiên, tôi sẽ mở Performance Monitor từ Dev Menu để xem thread nào đang gặp vấn đề. Nếu UI FPS giảm nhưng JS FPS ổn, vấn đề là ở native rendering — view hierarchy phức tạp, quá nhiều layer, overdraw. Nếu JS FPS giảm, vấn đề là JavaScript — render nặng, tính toán synchronous.
+
+Với navigation sluggishness cụ thể, thủ phạm phổ biến là render heavy content khi navigation animation vẫn đang chạy. Giải pháp là `InteractionManager.runAfterInteractions`. Bạn wrap heavy render trong callback truyền vào nó, và nó defer công việc đó cho đến khi tất cả animation hoàn thành. Màn hình navigate vào mượt mà, rồi heavy content mới load.
+
+Trên Android cũ, shadow và elevation styles rất đắt. Nếu UI của bạn có nhiều layered views với `elevation`, thử giảm số lượng elevated surfaces hoặc flatten view hierarchy.
+
+Tôi cũng kiểm tra xem list components có dùng optimization đúng không — `getItemLayout` cho fixed-height lists, `React.memo` trên item components, `useCallback` trên handlers truyền làm props. Trên phần cứng cũ, unnecessary re-renders thấy rõ hơn nhiều.
+
+Nếu bản thân animation bị janky thay vì content, tôi kiểm tra xem navigation có dùng `react-native-screens` không — đây là yêu cầu để native stack navigator dùng native platform animations thay vì JavaScript-driven. Expo include mặc định, nhưng bare workflow apps đôi khi bị thiếu."
+
+---
+
+**Q2 (Senior): "Explain the difference between Reanimated and the built-in Animated API. When does each one make sense?"**
+
+**Model Answer:**
+"The built-in Animated API drives animations on the JavaScript thread. When you call `Animated.timing`, React Native schedules frame updates on the JS thread and sends style updates to the native layer each frame. If the JS thread gets busy — list rendering, state updates, heavy computations — animation frames get delayed and you see jank.
+
+There's a partial escape: `useNativeDriver: true`. This offloads certain animations to the native thread, but only supports a limited set of properties — `opacity`, `transform`, and a few others. You can't use native driver for `width`, `height`, `backgroundColor`, or `borderRadius`.
+
+Reanimated 3 runs animations as 'worklets' — small functions that execute directly on the UI thread, written in JavaScript but compiled to run natively. The animation logic itself never touches the JS thread. This means animations stay at 60fps even if the JS thread is completely saturated.
+
+Reanimated is the clear choice for gesture-driven animations — when a pan gesture should move a view, or a swipe should trigger a transition. These need to respond in the same frame as the touch event, which requires UI thread execution.
+
+Use the built-in Animated API for simple, non-interactive animations — a loading spinner, a fade-in on mount, a progress bar that doesn't respond to touch. These are simpler to set up and the code is cleaner for basic cases.
+
+Use Reanimated when: the animation responds to gestures, you need to animate properties not supported by the native driver, you need complex interpolations synchronized with scroll position, or when you've profiled and found the Animated API dropping frames."
+
+**Trả lời (Tiếng Việt):**
+"Built-in Animated API drive animation trên JavaScript thread. Khi bạn gọi `Animated.timing`, React Native lên lịch frame updates trên JS thread và gửi style updates đến native layer mỗi frame. Nếu JS thread bận — render list, state updates, tính toán nặng — animation frames bị delay và bạn thấy jank.
+
+Có một giải pháp thoát một phần: `useNativeDriver: true`. Cái này offload một số animation nhất định sang native thread, nhưng chỉ hỗ trợ một tập properties hạn chế — `opacity`, `transform`, và một vài cái khác. Bạn không thể dùng native driver cho `width`, `height`, `backgroundColor`, hay `borderRadius`.
+
+Reanimated 3 chạy animation như 'worklets' — các hàm nhỏ thực thi trực tiếp trên UI thread, viết bằng JavaScript nhưng được compile để chạy natively. Logic animation không bao giờ chạm đến JS thread. Điều này có nghĩa là animation vẫn ở 60fps ngay cả khi JS thread đang bão hòa hoàn toàn.
+
+Reanimated là lựa chọn rõ ràng cho gesture-driven animations — khi pan gesture cần di chuyển một view, hoặc swipe cần kích hoạt một transition. Những thứ này cần phản hồi trong cùng frame với touch event, điều đòi hỏi UI thread execution.
+
+Dùng built-in Animated API cho animation đơn giản, không tương tác — loading spinner, fade-in khi mount, progress bar không phản hồi touch. Những cái này dễ setup hơn và code clean hơn cho các trường hợp cơ bản.
+
+Dùng Reanimated khi: animation phản hồi gesture, bạn cần animate properties không được native driver hỗ trợ, bạn cần interpolation phức tạp synchronized với scroll position, hoặc khi bạn đã profile và thấy Animated API bị drop frame."
+
+---
+
+**Q3 (Mid): "How does the Hermes engine improve startup time?"**
+
+**Model Answer:**
+"Before Hermes, React Native apps shipped JavaScript source files and used JavaScriptCore — the same engine Safari uses — to parse and compile them at startup. JIT compilation happens at runtime, so every launch required parsing the JS bundle from scratch.
+
+Hermes precompiles JavaScript to bytecode at build time, before the app is distributed. Instead of shipping a text file of JavaScript, the app ships a binary bytecode file. At startup, Hermes just loads and executes the bytecode directly — no parsing, no compilation.
+
+The practical result is faster Time to Interactive. For large apps, the JS bundle can be megabytes of code to parse. Moving that parsing work offline — to the build step — means the app reaches a usable state significantly faster, which matters especially on lower-end Android devices with slower CPUs.
+
+Hermes also has a smaller memory footprint than JSC and V8. It was specifically designed for constrained mobile environments rather than desktop browser performance.
+
+Since React Native 0.70, Hermes is the default engine for both iOS and Android. If you're on an older project that's still using JSC, switching to Hermes is one of the higher-leverage performance improvements you can make with minimal code changes — it's largely a config flag in your Gradle and Podfile settings."
+
+**Trả lời (Tiếng Việt):**
+"Trước Hermes, React Native app ship file JavaScript source và dùng JavaScriptCore — engine mà Safari dùng — để parse và compile chúng lúc startup. JIT compilation xảy ra lúc runtime, vì vậy mỗi lần launch cần parse lại JS bundle từ đầu.
+
+Hermes pre-compile JavaScript thành bytecode lúc build time, trước khi app được phân phối. Thay vì ship file text JavaScript, app ship file bytecode nhị phân. Lúc startup, Hermes chỉ cần load và execute bytecode trực tiếp — không parse, không compile.
+
+Kết quả thực tế là Time to Interactive nhanh hơn. Với app lớn, JS bundle có thể là hàng megabyte code cần parse. Chuyển việc parse đó sang offline — sang bước build — có nghĩa là app đạt được trạng thái có thể dùng được nhanh hơn đáng kể, điều này đặc biệt quan trọng trên các thiết bị Android cấp thấp với CPU chậm hơn.
+
+Hermes cũng có memory footprint nhỏ hơn JSC và V8. Nó được thiết kế đặc biệt cho môi trường mobile hạn chế chứ không phải performance desktop browser.
+
+Từ React Native 0.70, Hermes là engine mặc định cho cả iOS và Android. Nếu bạn đang ở project cũ vẫn dùng JSC, chuyển sang Hermes là một trong những cải thiện performance có đòn bẩy cao nhất bạn có thể làm với thay đổi code tối thiểu — về cơ bản là một config flag trong settings Gradle và Podfile của bạn."
+
+---
 
 ---
 
@@ -1726,6 +2250,122 @@ try {
   });
 }
 ```
+
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior): "A user reports a crash on Android but not iOS. How do you debug it?"**
+
+**Model Answer:**
+"First, if it's a production crash, I'd check the crash logs. In Expo projects that means checking Sentry or Expo's crash reporting. In a bare workflow app, I'd look at the device's logcat output — `adb logcat` filtered to my app package name.
+
+If I can reproduce it locally, I'd open Android Studio's Logcat window while running on an Android emulator or device. This gives me the full native stack trace, which for native crashes is way more informative than the JavaScript stack.
+
+For JavaScript errors, I'd shake the device to open the Dev Menu and enable remote debugging, or use Flipper's Hermes Debugger to set breakpoints. I'd try to trigger the exact user flow that causes the crash.
+
+Common Android-specific issues I'd look for: permissions that are required on Android but not iOS — like READ_EXTERNAL_STORAGE for file access — missing `google-services.json` config if Firebase is involved, `windowSoftInputMode` behaving differently with keyboard overlap, or Android's back button not being handled and causing unexpected navigation behavior.
+
+I'd also check if any package versions have known Android-specific issues. A quick search of the library's GitHub issues filtered to 'Android' usually surfaces common problems quickly."
+
+**Trả lời (Tiếng Việt):**
+"Đầu tiên, nếu đây là production crash, tôi sẽ kiểm tra crash logs. Trong Expo projects điều đó có nghĩa là kiểm tra Sentry hoặc Expo's crash reporting. Trong bare workflow app, tôi sẽ xem logcat output của thiết bị — `adb logcat` filter theo app package name.
+
+Nếu tôi có thể reproduce locally, tôi sẽ mở Android Studio's Logcat window khi chạy trên Android emulator hoặc thiết bị. Cái này cho tôi native stack trace đầy đủ, với native crashes thì thông tin hữu ích hơn nhiều so với JavaScript stack.
+
+Với JavaScript errors, tôi sẽ shake thiết bị để mở Dev Menu và bật remote debugging, hoặc dùng Flipper's Hermes Debugger để đặt breakpoints. Tôi sẽ cố gắng trigger đúng user flow gây ra crash.
+
+Các Android-specific issues phổ biến tôi sẽ tìm: permissions cần trên Android nhưng không cần trên iOS — như READ_EXTERNAL_STORAGE cho file access — thiếu config `google-services.json` nếu có Firebase, `windowSoftInputMode` behave khác với keyboard overlap, hoặc Android's back button không được xử lý gây unexpected navigation behavior.
+
+Tôi cũng kiểm tra xem có package version nào có known Android-specific issues không. Tìm nhanh trên GitHub issues của thư viện lọc theo 'Android' thường phát hiện vấn đề phổ biến nhanh chóng."
+
+---
+
+**Q2 (Mid): "What is Flipper and what specifically can you inspect with it that you can't easily see otherwise?"**
+
+**Model Answer:**
+"Flipper is a desktop debugging platform from Meta. You connect it to your running React Native app and get a set of debugging plugins.
+
+What it gives you beyond the standard Dev Menu: first, the Network Inspector. By default, React Native's debugging doesn't capture network requests made by the app. Flipper's network plugin intercepts all `XMLHttpRequest` and `fetch` calls and shows you the full request and response — URL, headers, body, timing. This is the equivalent of the Chrome DevTools Network tab for your phone app.
+
+Second, the Layout Inspector. This shows you the native view hierarchy rendered on screen — every `UIView` on iOS, every `View` on Android, with their exact sizes, positions, and applied styles. You can tap a view to jump to the corresponding component. This is invaluable for debugging layout issues where the visual output doesn't match what you expected.
+
+Third, the Hermes Debugger. For apps using Hermes, you get proper breakpoint debugging — step through code, inspect call stacks, examine variable values. This is much more powerful than `console.log` debugging.
+
+Fourth, Crash Reporter and Logs, which give you a filtered view of device logs without needing to use `adb logcat` or Xcode's console.
+
+That said, Flipper has become less central since React Native 0.73 — it's no longer included by default. Expo's development build with `expo-dev-client` provides a lot of the same capabilities through its own dev tools UI. For network debugging specifically, Reactotron is a solid alternative that doesn't require native integration."
+
+**Trả lời (Tiếng Việt):**
+"Flipper là desktop debugging platform từ Meta. Bạn kết nối nó với React Native app đang chạy và nhận được một bộ debugging plugins.
+
+Những gì nó cho bạn vượt ngoài Dev Menu chuẩn: thứ nhất là Network Inspector. Theo mặc định, debugging của React Native không capture network requests do app thực hiện. Network plugin của Flipper intercept tất cả `XMLHttpRequest` và `fetch` calls và cho bạn xem request và response đầy đủ — URL, headers, body, timing. Đây là tương đương của Chrome DevTools Network tab cho phone app của bạn.
+
+Thứ hai là Layout Inspector. Cái này cho bạn xem native view hierarchy được render trên màn hình — mọi `UIView` trên iOS, mọi `View` trên Android, với kích thước, vị trí và styles đã áp dụng của chúng. Bạn có thể tap một view để nhảy đến component tương ứng. Cực kỳ hữu ích khi debug layout issues khi visual output không khớp với kỳ vọng.
+
+Thứ ba là Hermes Debugger. Với app dùng Hermes, bạn có breakpoint debugging đúng nghĩa — step through code, inspect call stacks, xem giá trị biến. Mạnh hơn `console.log` debugging nhiều.
+
+Thứ tư, Crash Reporter và Logs, cho bạn filtered view của device logs mà không cần dùng `adb logcat` hay Xcode's console.
+
+Tuy nhiên, Flipper đã trở nên ít trung tâm hơn từ React Native 0.73 — nó không còn được include mặc định. Expo's development build với `expo-dev-client` cung cấp nhiều khả năng tương tự qua dev tools UI riêng. Với network debugging cụ thể, Reactotron là một alternative tốt không cần native integration."
+
+---
+
+**Q3 (Mid): "How do you debug performance issues in a React Native app — specifically, how do you find what's causing frame drops?"**
+
+**Model Answer:**
+"The first tool is the Performance Monitor built into React Native's Dev Menu. It shows two numbers: the UI thread FPS and the JS thread FPS. If only the JS FPS is dropping, the bottleneck is JavaScript computation. If UI FPS drops while JS FPS is fine, it's a native rendering issue. This immediately tells you where to focus.
+
+For JavaScript-level profiling, I'd use the Hermes Sampling Profiler. You start it from the Dev Menu, reproduce the performance issue, then stop it. The profiler downloads a trace file that you open in Chrome DevTools' Performance tab. You see a flame graph of JavaScript execution — which functions are running, how long they take, and what calls them. This is how you find expensive renders or computations.
+
+For native rendering issues, the Layout Inspector in Flipper or the View Hierarchy debugger in Xcode helps spot over-complicated view hierarchies and overdraw — too many overlapping transparent views being composited.
+
+For React-specific re-render issues, the React DevTools Profiler records which components render during an interaction and how long each took. If you see a component re-rendering 50 times during a single scroll, something is creating unstable references — a prop function being created fresh every render, a context value changing unnecessarily.
+
+In practice, I find most performance issues fall into a few categories: unnecessary re-renders from unstable function references in lists, heavy computation happening synchronously on the JS thread during render, or animations driven by the JS thread that should be moved to Reanimated."
+
+**Trả lời (Tiếng Việt):**
+"Tool đầu tiên là Performance Monitor có sẵn trong React Native's Dev Menu. Nó hiện hai con số: UI thread FPS và JS thread FPS. Nếu chỉ JS FPS giảm, điểm bottleneck là JavaScript computation. Nếu UI FPS giảm trong khi JS FPS ổn, đó là native rendering issue. Cái này ngay lập tức cho bạn biết cần tập trung ở đâu.
+
+Với JavaScript-level profiling, tôi dùng Hermes Sampling Profiler. Bạn bật nó từ Dev Menu, reproduce performance issue, rồi tắt. Profiler download trace file mà bạn mở trong Chrome DevTools' Performance tab. Bạn thấy flame graph của JavaScript execution — hàm nào đang chạy, mất bao lâu, và cái gì gọi chúng. Đây là cách bạn tìm expensive renders hoặc computations.
+
+Với native rendering issues, Layout Inspector trong Flipper hoặc View Hierarchy debugger trong Xcode giúp phát hiện over-complicated view hierarchies và overdraw — quá nhiều transparent views chồng lên nhau được composite.
+
+Với React-specific re-render issues, React DevTools Profiler record những components nào render trong một interaction và mỗi cái mất bao lâu. Nếu bạn thấy một component re-render 50 lần trong một lần scroll, có gì đó đang tạo unstable references — prop function được tạo mới mỗi render, context value thay đổi không cần thiết.
+
+Trong thực tế, tôi thấy hầu hết performance issues rơi vào một vài category: unnecessary re-renders từ unstable function references trong lists, heavy computation xảy ra synchronously trên JS thread trong render, hoặc animations driven bởi JS thread mà lẽ ra nên chuyển sang Reanimated."
+
+---
+
+**Q4 (Senior): "You have a production React Native app with occasional crashes that users are reporting but you can't reproduce locally. How do you diagnose this?"**
+
+**Model Answer:**
+"This is where structured production error tracking pays off. If Sentry or a similar tool is already integrated, crashes in production automatically capture a stack trace, device info, OS version, React Native version, and the user's recent breadcrumbs — what screens they visited, what actions they took before the crash.
+
+If error tracking isn't set up yet, step one is adding it. `@sentry/react-native` with `Sentry.wrap(App)` captures both JavaScript errors and native crashes. For native crashes, Sentry can symbolicate the stack traces using the debug symbols from your builds, turning memory addresses into readable function names.
+
+Once I have a few reports, I'd look for patterns: is it only Android, or iOS too? Specific OS version? Specific device type? A particular user flow — breadcrumbs are helpful here.
+
+For crashes that seem random, memory issues are common suspects in production apps. Memory leaks — event listeners not cleaned up in `useEffect` returns, holding references to unmounted components — accumulate over time and crash when the OS kills the app for using too much RAM. The Hermes Profiler's memory view or Xcode's Instruments can catch these in development once you have a reproduction scenario.
+
+If the crash is happening in native code — a null pointer dereference in a native module, for example — the Sentry native crash report gives a native stack trace. That, combined with the device and OS version, usually narrows it to a specific library version or platform API behavior.
+
+When nothing else works, I'd try to add more telemetry around the suspect area — navigation events, API calls, state changes — to reconstruct what the user was doing, then try to reproduce on a device that matches the reported profile."
+
+**Trả lời (Tiếng Việt):**
+"Đây là lúc structured production error tracking phát huy tác dụng. Nếu Sentry hoặc tool tương tự đã được tích hợp, crashes trong production tự động capture stack trace, device info, OS version, React Native version, và user's recent breadcrumbs — những màn hình họ đã visit, những hành động họ thực hiện trước khi crash.
+
+Nếu error tracking chưa được setup, bước một là thêm nó vào. `@sentry/react-native` với `Sentry.wrap(App)` capture cả JavaScript errors và native crashes. Với native crashes, Sentry có thể symbolicate stack traces dùng debug symbols từ builds của bạn, biến memory addresses thành tên hàm đọc được.
+
+Khi đã có một vài reports, tôi sẽ tìm pattern: chỉ Android hay iOS cũng bị? OS version cụ thể? Loại thiết bị cụ thể? User flow cụ thể — breadcrumbs rất hữu ích ở đây.
+
+Với những crashes có vẻ ngẫu nhiên, memory issues là suspect phổ biến trong production apps. Memory leaks — event listeners không được cleanup trong `useEffect` returns, giữ references đến unmounted components — tích lũy theo thời gian và crash khi OS kill app vì dùng quá nhiều RAM. Hermes Profiler's memory view hoặc Xcode's Instruments có thể phát hiện những cái này trong development khi bạn có reproduction scenario.
+
+Nếu crash xảy ra trong native code — null pointer dereference trong native module chẳng hạn — Sentry native crash report cho native stack trace. Kết hợp với device và OS version, thường thu hẹp xuống một thư viện version cụ thể hoặc platform API behavior.
+
+Khi không còn gì khác, tôi sẽ thêm nhiều telemetry hơn xung quanh khu vực bị nghi ngờ — navigation events, API calls, state changes — để reconstruct người dùng đang làm gì, rồi cố reproduce trên thiết bị khớp với profile được báo cáo."
+
+---
 
 ---
 

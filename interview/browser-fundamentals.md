@@ -159,6 +159,76 @@ HTML: =======[STOP]=============[resume]===========>
 JS:        [download--][execute]
 ```
 
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior): "In simple terms, what is the Critical Rendering Path?"**
+
+**Model Answer:**
+"The Critical Rendering Path is the sequence of steps the browser goes through to turn HTML, CSS, and JavaScript into pixels on screen. First it parses the HTML into a DOM tree. At the same time it downloads and parses CSS into a CSSOM tree. Then it combines the two into a Render Tree — which only includes visible elements, so things with `display: none` are excluded. Then it runs Layout, sometimes called Reflow, to figure out the exact size and position of every element. Then it Paints — fills in the pixels for each element. Finally it Composites the layers together, often using the GPU, and displays the result.
+
+The reason this matters for performance is that CSS blocks rendering — the Render Tree can't be built until the CSSOM is complete — and synchronous JavaScript blocks HTML parsing. Optimizing this path means getting critical content visible as fast as possible."
+
+**Trả lời (Tiếng Việt):**
+"Critical Rendering Path là chuỗi các bước mà trình duyệt thực hiện để chuyển đổi HTML, CSS và JavaScript thành các điểm ảnh hiển thị trên màn hình. Đầu tiên, trình duyệt phân tích HTML thành DOM tree. Đồng thời, nó tải xuống và phân tích CSS thành CSSOM tree. Sau đó kết hợp cả hai thành Render Tree — chỉ bao gồm các phần tử hiển thị, những thứ như `display: none` sẽ bị loại bỏ. Tiếp theo là bước Layout — còn gọi là Reflow — để tính toán kích thước và vị trí chính xác của từng phần tử. Rồi đến bước Paint — tô màu các điểm ảnh cho từng phần tử. Cuối cùng là Composite — ghép các layer lại với nhau, thường dùng GPU, và hiển thị kết quả ra màn hình.
+
+Lý do điều này quan trọng với hiệu năng là: CSS chặn quá trình render — Render Tree không thể được xây dựng cho đến khi CSSOM hoàn chỉnh — và JavaScript đồng bộ chặn quá trình phân tích HTML. Tối ưu hóa con đường này có nghĩa là đưa nội dung quan trọng hiển thị đến người dùng càng nhanh càng tốt."
+
+---
+
+**Q2 (Mid): "Why does CSS block rendering but HTML doesn't? Explain the actual mechanism."**
+
+**Model Answer:**
+"HTML parsing is incremental — the browser starts building the DOM as soon as it receives the first bytes. It can render partial DOM immediately, which is why you see content appearing progressively on slow connections. This is by design for perceived performance.
+
+CSS is different. The browser can't build the Render Tree until the CSSOM is fully complete. The reason is CSS cascade — a rule later in the stylesheet can override a rule earlier in it. If the browser started rendering with an incomplete CSSOM, a user might see text in one color briefly before it switches to the correct color — that's called FOUC, Flash of Unstyled Content. Browser designers decided it's better to delay rendering entirely than to show visually incorrect content.
+
+So if you have a large CSS file, the browser downloads it, pauses rendering, parses the entire thing into CSSOM, then starts rendering. This is why inlining critical CSS — just the styles needed for above-the-fold content — is such an effective optimization. The browser doesn't need to wait for a network request to start rendering the visible part of the page."
+
+**Trả lời (Tiếng Việt):**
+"Việc phân tích HTML là tăng dần — trình duyệt bắt đầu xây dựng DOM ngay khi nhận được những byte đầu tiên. Nó có thể render một phần DOM ngay lập tức, đó là lý do tại sao bạn thấy nội dung xuất hiện dần dần trên kết nối chậm. Đây là thiết kế có chủ đích để cải thiện perceived performance.
+
+CSS thì khác. Trình duyệt không thể xây dựng Render Tree cho đến khi CSSOM hoàn toàn đầy đủ. Lý do là CSS cascade — một quy tắc ở cuối stylesheet có thể ghi đè quy tắc ở đầu. Nếu trình duyệt bắt đầu render với CSSOM chưa hoàn chỉnh, người dùng có thể thấy chữ hiện ra một màu rồi lại chuyển sang màu đúng — đó gọi là FOUC, Flash of Unstyled Content. Các nhà thiết kế trình duyệt quyết định rằng tốt hơn là trì hoãn render hoàn toàn còn hơn là hiển thị nội dung sai về mặt giao diện.
+
+Vì vậy, nếu bạn có một file CSS lớn, trình duyệt tải nó xuống, tạm dừng render, phân tích toàn bộ thành CSSOM, rồi mới bắt đầu render. Đó là lý do tại sao việc inline critical CSS — chỉ những style cần thiết cho phần nội dung above-the-fold — lại là một kỹ thuật tối ưu hóa hiệu quả. Trình duyệt không cần chờ network request để bắt đầu render phần hiển thị của trang."
+
+---
+
+**Q3 (Mid): "How does a script tag block HTML parsing? What does defer actually do differently?"**
+
+**Model Answer:**
+"When the HTML parser encounters a `<script>` tag without any attributes, it stops parsing immediately, downloads the script file, executes it completely, and only then resumes parsing. The reason is that scripts can call `document.write()` which inserts content directly into the HTML stream — so the parser can't safely continue while a script might be modifying the document.
+
+`defer` changes the download behavior and the execution timing. With defer, the browser starts downloading the script in parallel with HTML parsing — so it doesn't block the download. But the script doesn't execute until after the HTML is fully parsed. Multiple deferred scripts execute in the order they appear in the document. This means deferred scripts can safely access the full DOM.
+
+`async` is different — it also downloads in parallel, but it executes as soon as the download finishes, regardless of where parsing is up to. It will still briefly pause parsing to execute. Async scripts don't respect order. Use async for completely independent scripts like analytics that don't depend on DOM or other scripts. Use defer for everything else."
+
+**Trả lời (Tiếng Việt):**
+"Khi HTML parser gặp thẻ `<script>` không có thuộc tính nào, nó dừng phân tích ngay lập tức, tải file script xuống, thực thi hoàn toàn, và chỉ sau đó mới tiếp tục phân tích. Lý do là script có thể gọi `document.write()` — chèn nội dung trực tiếp vào luồng HTML — nên parser không thể tiếp tục an toàn khi một script có thể đang sửa đổi document.
+
+`defer` thay đổi hành vi tải xuống và thời điểm thực thi. Với defer, trình duyệt bắt đầu tải script song song với việc phân tích HTML — nên không chặn quá trình tải. Nhưng script không thực thi cho đến khi HTML được phân tích hoàn toàn. Nhiều script defer thực thi theo thứ tự xuất hiện trong document. Điều này có nghĩa là script defer có thể truy cập toàn bộ DOM một cách an toàn.
+
+`async` thì khác — nó cũng tải song song, nhưng thực thi ngay khi tải xong, bất kể việc phân tích đang ở đâu. Nó vẫn sẽ tạm dừng phân tích ngắn để thực thi. Script async không tuân theo thứ tự. Dùng async cho các script hoàn toàn độc lập như analytics không phụ thuộc vào DOM hoặc script khác. Dùng defer cho mọi thứ còn lại."
+
+---
+
+**Q4 (Senior): "What is 'preconnect' and when does it actually help LCP?"**
+
+**Model Answer:**
+"Preconnect tells the browser to establish a connection — DNS lookup, TCP handshake, TLS negotiation — to an origin before it actually needs to fetch a resource from it. This is valuable because a full connection to an HTTPS origin can take 100 to 300 milliseconds on the first request.
+
+It helps LCP specifically when your LCP resource comes from a third-party origin that isn't the same as your main document. For example, if your hero image is served from a CDN domain, or your web font is from Google Fonts, the browser has to establish a new connection to that origin before it can even start downloading the resource. With `<link rel='preconnect' href='https://your-cdn.com'>` in the head, the browser starts that connection as soon as it parses the head, in parallel with everything else.
+
+The tradeoff is that each preconnect consumes resources — the browser keeps that connection alive. I'd limit it to two or three of the most critical third-party origins. For origins I'm less certain about, `dns-prefetch` is lighter — it only does the DNS lookup and is cheaper if the connection turns out not to be needed."
+
+**Trả lời (Tiếng Việt):**
+"preconnect yêu cầu trình duyệt thiết lập kết nối — DNS lookup, TCP handshake, TLS negotiation — đến một origin trước khi thực sự cần tải tài nguyên từ đó. Điều này có giá trị vì một kết nối đầy đủ đến HTTPS origin có thể mất 100 đến 300 millisecond cho request đầu tiên.
+
+Nó giúp ích cho LCP cụ thể khi tài nguyên LCP của bạn đến từ một third-party origin khác với document chính. Ví dụ, nếu hero image được phục vụ từ một CDN domain, hoặc web font từ Google Fonts, trình duyệt phải thiết lập kết nối mới đến origin đó trước khi có thể bắt đầu tải tài nguyên. Với `<link rel='preconnect' href='https://your-cdn.com'>` trong head, trình duyệt bắt đầu kết nối đó ngay khi phân tích head, song song với mọi thứ khác.
+
+Đánh đổi ở đây là mỗi preconnect tiêu thụ tài nguyên — trình duyệt giữ kết nối đó sống. Tôi sẽ giới hạn ở hai hoặc ba third-party origin quan trọng nhất. Với các origin tôi ít chắc chắn hơn, `dns-prefetch` nhẹ hơn — nó chỉ làm DNS lookup và rẻ hơn nếu kết nối cuối cùng không cần thiết."
+
 ---
 
 ## 2. Reflow vs Repaint vs Composite
@@ -351,6 +421,114 @@ performance.mark('animation-start');
 performance.mark('animation-end');
 performance.measure('my-animation', 'animation-start', 'animation-end');
 ```
+
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior): "What's the difference between Reflow, Repaint, and Composite? Which one should you avoid in animations?"**
+
+**Model Answer:**
+"These are three stages in the browser's rendering pipeline, and each is triggered by different CSS changes.
+
+Reflow — also called Layout — is the most expensive. It recalculates the position and size of elements. It's triggered by things like changing width, height, margin, padding, font-size, or adding and removing elements. When one element reflows, it can cascade and force many other elements to reflow too.
+
+Repaint is cheaper — it redraws the pixels for an element without recalculating geometry. Triggered by visual-only changes like background-color, color, or box-shadow.
+
+Composite is the cheapest — the GPU handles it off the main thread entirely. Only `transform` and `opacity` trigger composite-only changes.
+
+For animations, you want composite only. Instead of animating `top` or `left` which trigger reflow every frame, animate `transform: translate()`. Instead of animating `width`, animate `transform: scaleX()`. The difference can be 60fps smooth versus janky 15fps."
+
+**Trả lời (Tiếng Việt):**
+"Đây là ba giai đoạn trong rendering pipeline của trình duyệt, và mỗi giai đoạn được kích hoạt bởi các thay đổi CSS khác nhau.
+
+Reflow — còn gọi là Layout — là tốn kém nhất. Nó tính toán lại vị trí và kích thước của các phần tử. Được kích hoạt bởi những thứ như thay đổi width, height, margin, padding, font-size, hoặc thêm/xóa phần tử. Khi một phần tử bị reflow, nó có thể lan rộng và buộc nhiều phần tử khác cũng phải reflow.
+
+Repaint rẻ hơn — nó vẽ lại các điểm ảnh cho một phần tử mà không tính toán lại hình học. Được kích hoạt bởi các thay đổi chỉ về mặt hình ảnh như background-color, color, hoặc box-shadow.
+
+Composite là rẻ nhất — GPU xử lý hoàn toàn ngoài main thread. Chỉ có `transform` và `opacity` kích hoạt thay đổi composite-only.
+
+Với animation, bạn muốn chỉ có composite. Thay vì animate `top` hay `left` — vốn kích hoạt reflow mỗi frame — hãy animate `transform: translate()`. Thay vì animate `width`, hãy dùng `transform: scaleX()`. Sự khác biệt có thể là 60fps mượt mà so với giật cục 15fps."
+
+---
+
+**Q2 (Mid): "What is layout thrashing and how do you fix it?"**
+
+**Model Answer:**
+"Layout thrashing happens when you alternately read and write layout properties in a loop. Every time you read a layout property like `offsetWidth` or `getBoundingClientRect()` after writing a style, the browser is forced to flush any pending style changes and recalculate layout synchronously — so the read reflects the latest state. If you're doing this in a loop over 100 elements, you get 100 separate layout recalculations instead of one.
+
+The fix is to batch all your reads first, store the values, then do all your writes. So instead of reading a width and immediately writing a new width inside a loop, you map over all elements to collect widths first, then loop again to apply the new widths. With this pattern you get one layout flush at the read phase and one at the write phase.
+
+Another option is to schedule reads in one `requestAnimationFrame` and writes in the next, or use a library like FastDOM that automatically queues and batches DOM reads and writes."
+
+**Trả lời (Tiếng Việt):**
+"Layout thrashing xảy ra khi bạn xen kẽ đọc và ghi các thuộc tính layout trong một vòng lặp. Mỗi lần bạn đọc thuộc tính layout như `offsetWidth` hay `getBoundingClientRect()` sau khi ghi một style, trình duyệt bị buộc phải xả hết các thay đổi style đang chờ và tính toán lại layout một cách đồng bộ — để kết quả đọc phản ánh trạng thái mới nhất. Nếu bạn làm điều này trong vòng lặp qua 100 phần tử, bạn nhận được 100 lần tính toán layout riêng biệt thay vì một lần.
+
+Cách sửa là batch tất cả các thao tác đọc trước, lưu trữ giá trị, rồi thực hiện tất cả các thao tác ghi. Thay vì đọc width và ngay lập tức ghi width mới bên trong vòng lặp, bạn duyệt qua tất cả phần tử để thu thập width trước, rồi duyệt lại để áp dụng width mới. Với pattern này bạn chỉ có một lần layout flush ở giai đoạn đọc và một lần ở giai đoạn ghi.
+
+Một lựa chọn khác là lên lịch đọc trong một `requestAnimationFrame` và ghi trong frame tiếp theo, hoặc dùng thư viện như FastDOM — tự động xếp hàng và batch các thao tác đọc/ghi DOM."
+
+---
+
+**Q3 (Mid): "Why should you animate transform instead of top/left? What actually happens internally?"**
+
+**Model Answer:**
+"When you animate `top` or `left`, the browser has to recalculate layout on every frame because those properties change the element's position in the document flow. Even with `position: absolute`, changing these properties invalidates the layout. That means every frame: style recalculation, layout, paint, composite — the full pipeline.
+
+When you animate `transform: translate()`, the element's position in the layout doesn't change at all. `transform` is applied after layout and paint — it's a matrix operation the GPU applies to the already-painted layer. The browser can promote the element to its own compositing layer — essentially a GPU texture — and then just move that texture each frame without touching the CPU at all.
+
+The practical difference is that transform animations run off the main thread on the GPU, so they're not affected by JavaScript running or layout calculations elsewhere on the page. That's why you can have a silky smooth CSS transform animation even while JavaScript is doing work in the background."
+
+**Trả lời (Tiếng Việt):**
+"Khi bạn animate `top` hay `left`, trình duyệt phải tính toán lại layout mỗi frame vì những thuộc tính đó thay đổi vị trí của phần tử trong document flow. Ngay cả với `position: absolute`, việc thay đổi những thuộc tính này vẫn làm mất hiệu lực layout. Điều đó có nghĩa là mỗi frame: tính toán lại style, layout, paint, composite — toàn bộ pipeline.
+
+Khi bạn animate `transform: translate()`, vị trí của phần tử trong layout không thay đổi chút nào. `transform` được áp dụng sau layout và paint — đây là phép toán ma trận mà GPU áp dụng lên layer đã được vẽ. Trình duyệt có thể đưa phần tử lên compositing layer riêng — về bản chất là một GPU texture — và chỉ cần di chuyển texture đó mỗi frame mà không đụng vào CPU.
+
+Sự khác biệt thực tế là animation transform chạy ngoài main thread trên GPU, nên không bị ảnh hưởng bởi JavaScript đang chạy hay các phép tính layout ở nơi khác trên trang. Đó là lý do bạn có thể có animation CSS transform mượt như lụa ngay cả khi JavaScript đang làm việc ở nền."
+
+---
+
+**Q4 (Senior): "Explain will-change. When does it help and when can it hurt?"**
+
+**Model Answer:**
+"`will-change` is a hint to the browser that an element is about to be animated or transformed. The browser responds by promoting the element to its own compositing layer ahead of time — it uploads the element as a GPU texture before the animation starts.
+
+Without `will-change`, when an animation begins, the browser needs to promote the element on the first frame, which can cause a visible jank — a stutter right at the start. With `will-change: transform`, the layer is ready before the animation fires.
+
+Where it can hurt: each compositing layer consumes GPU memory — VRAM. If you apply `will-change` to dozens or hundreds of elements, you can exhaust GPU memory, especially on mobile devices, which causes worse performance than not using it at all. It also creates a new stacking context, which can cause unexpected z-index issues.
+
+Best practice is to add `will-change` only to elements you know will animate, and then remove it once the animation is done by setting `will-change: auto` so the browser can release the GPU memory."
+
+**Trả lời (Tiếng Việt):**
+"`will-change` là một gợi ý cho trình duyệt biết rằng một phần tử sắp được animate hoặc transform. Trình duyệt phản hồi bằng cách đưa phần tử lên compositing layer riêng trước — nó upload phần tử như một GPU texture trước khi animation bắt đầu.
+
+Không có `will-change`, khi animation bắt đầu, trình duyệt cần đưa phần tử lên layer ở frame đầu tiên, điều này có thể gây ra jank — một cú giật ngay lúc bắt đầu. Với `will-change: transform`, layer đã sẵn sàng trước khi animation kích hoạt.
+
+Khi nào nó gây hại: mỗi compositing layer tiêu thụ GPU memory — VRAM. Nếu bạn áp dụng `will-change` cho hàng chục hoặc hàng trăm phần tử, bạn có thể cạn kiệt GPU memory, đặc biệt trên thiết bị di động, khiến hiệu năng còn tệ hơn không dùng nó. Nó cũng tạo ra một stacking context mới, có thể gây ra các vấn đề z-index không mong muốn.
+
+Thực hành tốt nhất là chỉ thêm `will-change` vào các phần tử bạn biết sẽ animate, sau đó xóa nó khi animation xong bằng cách đặt `will-change: auto` để trình duyệt có thể giải phóng GPU memory."
+
+---
+
+**Q5 (Senior): "What is a compositing layer? How does the browser decide what gets its own layer?"**
+
+**Model Answer:**
+"A compositing layer is an element that the browser has rasterized into its own GPU texture, separate from the main page layer. The browser runs a layer compositor — on Chrome this is the Compositor thread — that combines all layers into the final screen image, and this compositor thread runs independently of the main JavaScript and layout thread.
+
+The browser promotes elements to their own layers based on several criteria. `position: fixed` and `position: sticky` elements get their own layers. Elements with `will-change: transform` or `will-change: opacity` get promoted. Elements that have a CSS transform animation or opacity animation running. Elements with `overflow: scroll` get their own layer for the scroll container.
+
+You can inspect layers in Chrome DevTools under More Tools → Layers, which shows you every layer and the reason it was created.
+
+The gotcha is that sometimes having too many layers costs more than it saves. Each layer uses GPU memory, and the compositing step itself has overhead. Chrome DevTools will show you a 'Memory estimate' in the Layers panel so you can see if you're creating too many."
+
+**Trả lời (Tiếng Việt):**
+"Compositing layer là một phần tử mà trình duyệt đã rasterize thành GPU texture riêng, tách biệt khỏi layer trang chính. Trình duyệt chạy một layer compositor — trên Chrome đây là Compositor thread — kết hợp tất cả các layer thành hình ảnh màn hình cuối cùng, và compositor thread này chạy độc lập với main thread JavaScript và layout.
+
+Trình duyệt đưa các phần tử lên layer riêng dựa trên một số tiêu chí. Các phần tử `position: fixed` và `position: sticky` có layer riêng. Các phần tử với `will-change: transform` hoặc `will-change: opacity` được đưa lên. Các phần tử đang chạy CSS transform animation hoặc opacity animation. Các phần tử với `overflow: scroll` có layer riêng cho scroll container.
+
+Bạn có thể kiểm tra các layer trong Chrome DevTools dưới More Tools → Layers, hiển thị mọi layer và lý do tạo ra nó.
+
+Điểm cần chú ý là đôi khi có quá nhiều layer tốn kém hơn là tiết kiệm. Mỗi layer dùng GPU memory, và bản thân bước compositing có overhead. Chrome DevTools sẽ hiển thị 'Memory estimate' trong panel Layers để bạn thấy mình đang tạo quá nhiều layer không."
 
 ---
 
@@ -1736,6 +1914,133 @@ function processInChunks(items) {
 scheduler.postTask(() => heavyWork(), { priority: 'background' });
 ```
 
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior/Mid): "What is the JavaScript Event Loop? Why does JavaScript need it?"**
+
+**Model Answer:**
+"JavaScript is single-threaded — there's only one call stack and it can only do one thing at a time. But browsers need to handle things like network requests, timers, and user events without freezing the UI. The Event Loop is the mechanism that coordinates this.
+
+Here's how it works: when JavaScript calls something asynchronous like `setTimeout` or `fetch`, the browser's Web APIs handle that operation in the background. When the operation completes, a callback function is placed in a task queue. The Event Loop continuously checks: is the call stack empty? If yes, it picks the next task from the queue and pushes it onto the stack to run.
+
+This means JavaScript never really runs in parallel — it just breaks work up into small pieces that each complete before the next one starts. The key insight is that long synchronous operations block everything — they prevent the UI from updating and prevent other callbacks from running until they're done."
+
+**Trả lời (Tiếng Việt):**
+"JavaScript là single-threaded — chỉ có một call stack và chỉ có thể làm một việc tại một thời điểm. Nhưng trình duyệt cần xử lý những thứ như network request, timer, và user event mà không đóng băng giao diện. Event Loop là cơ chế điều phối điều này.
+
+Đây là cách nó hoạt động: khi JavaScript gọi thứ gì đó bất đồng bộ như `setTimeout` hay `fetch`, Web API của trình duyệt xử lý thao tác đó ở nền. Khi thao tác hoàn thành, một hàm callback được đặt vào task queue. Event Loop liên tục kiểm tra: call stack có trống không? Nếu có, nó lấy task tiếp theo từ queue và đẩy lên stack để chạy.
+
+Điều này có nghĩa là JavaScript không thực sự chạy song song — nó chỉ chia công việc thành các phần nhỏ, mỗi phần hoàn thành trước khi phần tiếp theo bắt đầu. Điểm mấu chốt là các thao tác đồng bộ dài chặn mọi thứ — chúng ngăn UI cập nhật và ngăn các callback khác chạy cho đến khi hoàn thành."
+
+---
+
+**Q2 (Mid): "What's the difference between a microtask and a macrotask? Give examples of each."**
+
+**Model Answer:**
+"They're two separate queues with different priority.
+
+Macrotasks — also just called tasks — are things like setTimeout callbacks, setInterval callbacks, and I/O callbacks. The browser processes one macrotask per Event Loop iteration.
+
+Microtasks have higher priority. They include Promise callbacks — `.then()`, `.catch()`, `.finally()` — and `queueMicrotask()`. After every macrotask, before the browser does anything else including rendering, it drains the entire microtask queue. If a microtask adds another microtask, that gets processed too, before moving on. This means if you keep queuing microtasks from within microtasks, you can actually starve the browser from ever rendering.
+
+Practical example: if you do `Promise.resolve().then(() => console.log('micro'))` and `setTimeout(() => console.log('macro'), 0)` — even though the timeout is zero milliseconds, the Promise callback always runs first because microtasks are processed before the next macrotask."
+
+**Trả lời (Tiếng Việt):**
+"Đây là hai queue riêng biệt với độ ưu tiên khác nhau.
+
+Macrotask — còn gọi đơn giản là task — là những thứ như setTimeout callback, setInterval callback và I/O callback. Trình duyệt xử lý một macrotask mỗi vòng lặp Event Loop.
+
+Microtask có độ ưu tiên cao hơn. Chúng bao gồm Promise callback — `.then()`, `.catch()`, `.finally()` — và `queueMicrotask()`. Sau mỗi macrotask, trước khi trình duyệt làm bất cứ điều gì khác kể cả render, nó xả hết toàn bộ microtask queue. Nếu một microtask thêm vào một microtask khác, cái đó cũng được xử lý trước khi tiếp tục. Điều này có nghĩa là nếu bạn liên tục xếp hàng microtask từ trong microtask, bạn có thể làm trình duyệt không bao giờ có cơ hội render.
+
+Ví dụ thực tế: nếu bạn gọi `Promise.resolve().then(() => console.log('micro'))` và `setTimeout(() => console.log('macro'), 0)` — dù timeout là zero millisecond, Promise callback luôn chạy trước vì microtask được xử lý trước macrotask tiếp theo."
+
+---
+
+**Q3 (Mid): "Where does requestAnimationFrame fit in the Event Loop? Why is it better than setTimeout for animations?"**
+
+**Model Answer:**
+"requestAnimationFrame doesn't fit neatly into the microtask or macrotask buckets — it's a special category of 'animation frame callbacks.' The browser processes RAF callbacks right before it paints, which happens after microtasks and macrotasks have had their chance to run.
+
+The reason RAF is better for animations: setTimeout with 16ms is just a guess at 60fps timing. The actual screen refresh might be 16.7ms, or 8.3ms on a 120Hz screen, or different on a throttled laptop. setTimeout isn't synchronized to the display. You can fire at the wrong time in the frame, causing the update to miss a frame.
+
+RAF callbacks are synchronized to the display's refresh rate. The browser tells you exactly when the next paint is happening and calls your callback right before it. This means your DOM changes are guaranteed to be included in that paint. If the tab is hidden, the browser pauses RAF callbacks entirely, saving CPU and battery — setTimeout keeps running in the background."
+
+**Trả lời (Tiếng Việt):**
+"requestAnimationFrame không thuộc gọn vào bucket microtask hay macrotask — đây là một danh mục đặc biệt gọi là 'animation frame callbacks.' Trình duyệt xử lý RAF callback ngay trước khi paint, xảy ra sau khi microtask và macrotask đã có cơ hội chạy.
+
+Lý do RAF tốt hơn cho animation: setTimeout với 16ms chỉ là phỏng đoán về thời gian 60fps. Refresh thực tế của màn hình có thể là 16.7ms, hoặc 8.3ms trên màn hình 120Hz, hoặc khác trên laptop bị throttle. setTimeout không được đồng bộ với màn hình. Bạn có thể kích hoạt vào thời điểm sai trong frame, khiến bản cập nhật bỏ lỡ một frame.
+
+RAF callback được đồng bộ với refresh rate của màn hình. Trình duyệt cho bạn biết chính xác khi nào lần paint tiếp theo xảy ra và gọi callback của bạn ngay trước đó. Điều này có nghĩa là các thay đổi DOM của bạn được đảm bảo đưa vào lần paint đó. Nếu tab bị ẩn, trình duyệt tạm dừng RAF callback hoàn toàn, tiết kiệm CPU và pin — trong khi setTimeout tiếp tục chạy ở nền."
+
+---
+
+**Q4 (Senior): "Predict the output of this code and explain why:"**
+
+```javascript
+console.log('A');
+setTimeout(() => console.log('B'), 0);
+Promise.resolve().then(() => {
+  console.log('C');
+  Promise.resolve().then(() => console.log('D'));
+});
+requestAnimationFrame(() => console.log('E'));
+console.log('F');
+```
+
+**Model Answer:**
+"Output is: A, F, C, D, then B, then E — though E and B ordering can vary by environment.
+
+A and F print first because they're synchronous code running directly on the call stack.
+
+Then before the Event Loop processes any tasks, it drains all microtasks. The Promise.resolve().then queued C as a microtask. When C runs, it queues D as another microtask. The Event Loop processes all microtasks before moving on, so D runs immediately after C.
+
+Then B — the setTimeout callback — runs as a macrotask.
+
+E is the RAF callback. In a browser, it runs before the next paint, which typically happens after the current macrotask finishes. In Node.js there's no RAF so the behavior differs. In a real browser environment E usually comes after B, but strictly speaking RAF timing depends on the browser's vsync schedule.
+
+The key rule is: sync code runs first, then all microtasks including any newly queued microtasks, then rendering, then one macrotask, then all microtasks again, repeat."
+
+**Trả lời (Tiếng Việt):**
+"Kết quả là: A, F, C, D, rồi B, rồi E — dù thứ tự của E và B có thể thay đổi tùy môi trường.
+
+A và F in ra trước vì chúng là code đồng bộ chạy trực tiếp trên call stack.
+
+Sau đó, trước khi Event Loop xử lý bất kỳ task nào, nó xả hết tất cả microtask. Promise.resolve().then đã xếp C vào microtask queue. Khi C chạy, nó xếp D vào microtask queue khác. Event Loop xử lý tất cả microtask trước khi tiếp tục, nên D chạy ngay sau C.
+
+Tiếp theo là B — setTimeout callback — chạy như một macrotask.
+
+E là RAF callback. Trong trình duyệt, nó chạy trước lần paint tiếp theo, thường xảy ra sau khi macrotask hiện tại kết thúc. Trong Node.js không có RAF nên hành vi khác. Trong môi trường trình duyệt thực, E thường đến sau B, nhưng nghiêm túc mà nói thời gian RAF phụ thuộc vào lịch vsync của trình duyệt.
+
+Quy tắc chính là: code đồng bộ chạy trước, sau đó tất cả microtask kể cả các microtask mới được xếp hàng, rồi render, rồi một macrotask, rồi lại tất cả microtask, lặp lại."
+
+---
+
+**Q5 (Senior): "What's a long task, how does it affect user experience, and what strategies can you use to break it up?"**
+
+**Model Answer:**
+"A long task is any task that runs on the main thread for more than 50 milliseconds. The browser can't paint, respond to user input, or run other callbacks while a long task is executing. From a user's perspective, the page feels frozen — clicks don't register, scrolling stutters, text input lags.
+
+For INP — Interaction to Next Paint — a long task is particularly damaging because if a user clicks while a long task is running, their interaction is queued and won't be processed until the task finishes.
+
+To break up a long task, the key technique is yielding to the browser between chunks of work. The simplest way is `await new Promise(resolve => setTimeout(resolve, 0))` inside an async function — this lets the browser process any pending user interactions before the next chunk of your computation starts.
+
+The Scheduler API in Chrome — `scheduler.postTask()` — is more sophisticated. You can set priorities like `background` so the browser prioritizes user-visible work over your background processing. There's also `navigator.scheduling.isInputPending()` which lets you check if a user is trying to interact before deciding whether to yield.
+
+For truly heavy computation, the right answer is Web Workers — move the work entirely off the main thread so it can't block the UI at all. You communicate results back via postMessage."
+
+**Trả lời (Tiếng Việt):**
+"Long task là bất kỳ task nào chạy trên main thread hơn 50 millisecond. Trình duyệt không thể paint, phản hồi user input, hay chạy callback khác trong khi long task đang thực thi. Từ góc nhìn người dùng, trang cảm thấy bị đóng băng — click không phản hồi, cuộn bị giật, nhập liệu bị trễ.
+
+Với INP — Interaction to Next Paint — long task đặc biệt gây hại vì nếu người dùng click trong khi long task đang chạy, tương tác của họ được xếp hàng và sẽ không được xử lý cho đến khi task kết thúc.
+
+Để chia nhỏ long task, kỹ thuật chính là nhường quyền cho trình duyệt giữa các phần công việc. Cách đơn giản nhất là `await new Promise(resolve => setTimeout(resolve, 0))` bên trong async function — điều này cho phép trình duyệt xử lý bất kỳ tương tác người dùng đang chờ nào trước khi phần tính toán tiếp theo của bạn bắt đầu.
+
+Scheduler API trong Chrome — `scheduler.postTask()` — tinh vi hơn. Bạn có thể đặt độ ưu tiên như `background` để trình duyệt ưu tiên công việc hiển thị cho người dùng hơn xử lý nền của bạn. Còn có `navigator.scheduling.isInputPending()` cho phép bạn kiểm tra xem người dùng có đang cố gắng tương tác không trước khi quyết định có nhường quyền hay không.
+
+Với các phép tính thực sự nặng, câu trả lời đúng là Web Workers — chuyển công việc hoàn toàn ra khỏi main thread để nó không thể chặn UI. Bạn giao tiếp kết quả trở lại qua postMessage."
+
 ---
 
 ## 11. Browser Storage
@@ -1982,6 +2287,118 @@ Browser: DELETE /api/data         ← Actual request
          Origin: https://example.com
          Authorization: Bearer token
 ```
+
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior/Mid): "What are the main differences between HTTP/1.1 and HTTP/2?"**
+
+**Model Answer:**
+"The biggest difference is multiplexing. HTTP/1.1 is sequential on each connection — you send a request, wait for the response, then send the next one. Browsers work around this by opening up to six parallel TCP connections per domain, but this has overhead and is limited.
+
+HTTP/2 sends multiple requests and receives multiple responses over a single TCP connection simultaneously, as separate streams. There's no head-of-line blocking at the application layer — one slow response doesn't hold up the others.
+
+HTTP/2 also compresses headers using HPACK. In HTTP/1.1, headers like cookies and user-agent are sent in full plain text with every single request — a lot of repetitive data. HPACK uses a shared dictionary between client and server, so repeated headers are just references.
+
+The practical implication for front-end performance: the old HTTP/1.1 best practice of bundling everything into one giant file to minimize connections becomes less important with HTTP/2. You can serve more granular files and let multiplexing do its job. Domain sharding — splitting assets across multiple subdomains to get more parallel connections — is actually an anti-pattern in HTTP/2 because it prevents the multiplexing benefits."
+
+**Trả lời (Tiếng Việt):**
+"Sự khác biệt lớn nhất là multiplexing. HTTP/1.1 là tuần tự trên mỗi kết nối — bạn gửi request, chờ response, rồi gửi request tiếp theo. Trình duyệt xử lý bằng cách mở tối đa sáu kết nối TCP song song mỗi domain, nhưng cách này có overhead và bị giới hạn.
+
+HTTP/2 gửi nhiều request và nhận nhiều response trên một kết nối TCP duy nhất đồng thời, như các stream riêng biệt. Không có head-of-line blocking ở tầng ứng dụng — một response chậm không chặn các response khác.
+
+HTTP/2 cũng nén header bằng HPACK. Trong HTTP/1.1, các header như cookie và user-agent được gửi toàn văn bản thuần với mọi request — rất nhiều dữ liệu lặp đi lặp lại. HPACK dùng dictionary chia sẻ giữa client và server, nên các header lặp lại chỉ là tham chiếu.
+
+Hàm ý thực tế với hiệu năng frontend: best practice cũ của HTTP/1.1 là bundle mọi thứ vào một file khổng lồ để giảm số kết nối trở nên ít quan trọng hơn với HTTP/2. Bạn có thể phục vụ các file chi tiết hơn và để multiplexing làm việc của nó. Domain sharding — chia asset qua nhiều subdomain để có thêm kết nối song song — thực ra là anti-pattern trong HTTP/2 vì nó ngăn các lợi ích của multiplexing."
+
+---
+
+**Q2 (Mid): "Explain Cache-Control: no-cache versus no-store. What does 'no-cache' actually mean?"**
+
+**Model Answer:**
+"This is a genuinely confusing naming choice. `no-cache` does NOT mean 'don't cache.' It means 'cache it, but always revalidate with the server before using the cached version.' So the browser stores the response, but every time it needs it again, it sends a conditional request to the server asking 'is this still fresh?' The server responds with either a 304 Not Modified — meaning use the cached version, no body transferred — or 200 with the new content.
+
+`no-store` actually means 'don't cache this at all.' The browser stores nothing, fetches fresh every time. Use this for sensitive data like banking statements or personal information.
+
+For a typical web app, `no-cache` on the HTML file is a good strategy — it ensures users always get the latest HTML which references the latest hashed JS and CSS filenames, while still allowing the browser to skip downloading the full HTML body if it hasn't changed via the 304 mechanism."
+
+**Trả lời (Tiếng Việt):**
+"Đây là một lựa chọn đặt tên thực sự gây nhầm lẫn. `no-cache` KHÔNG có nghĩa là 'đừng cache.' Nó có nghĩa là 'cache lại, nhưng luôn xác nhận với server trước khi dùng phiên bản đã cache.' Vì vậy trình duyệt lưu response, nhưng mỗi lần cần lại, nó gửi conditional request đến server hỏi 'cái này còn mới không?' Server phản hồi bằng 304 Not Modified — tức là dùng phiên bản cache, không truyền body — hoặc 200 với nội dung mới.
+
+`no-store` thực sự có nghĩa là 'đừng cache gì cả.' Trình duyệt không lưu gì, fetch mới hoàn toàn mỗi lần. Dùng cái này cho dữ liệu nhạy cảm như sao kê ngân hàng hoặc thông tin cá nhân.
+
+Với web app thông thường, `no-cache` trên file HTML là chiến lược tốt — đảm bảo người dùng luôn nhận HTML mới nhất có tham chiếu đến các tên file JS và CSS đã hash mới nhất, trong khi vẫn cho phép trình duyệt bỏ qua tải full HTML body nếu nó chưa thay đổi thông qua cơ chế 304."
+
+---
+
+**Q3 (Mid): "How does ETag-based caching work? Walk me through the request flow."**
+
+**Model Answer:**
+"On the first request, the server sends a response with an ETag header — a hash or version identifier of the resource content — along with the response body and some Cache-Control directives.
+
+The browser stores the response along with the ETag. When the cache expires, instead of downloading the resource blindly, the browser sends the same GET request but includes an `If-None-Match` header containing the ETag it stored.
+
+The server computes the current ETag for that resource. If it matches what the browser sent, nothing has changed — the server responds with 304 Not Modified and no body. The browser uses its cached version. This saves bandwidth significantly because the full response body isn't transferred.
+
+If the content changed, the ETag no longer matches, so the server responds with 200 and the new content plus a new ETag.
+
+This is more reliable than Last-Modified timestamp caching, because ETags are based on content rather than time, which avoids issues with clock synchronization between server and client."
+
+**Trả lời (Tiếng Việt):**
+"Ở request đầu tiên, server gửi response với ETag header — một hash hoặc định danh phiên bản của nội dung tài nguyên — cùng với response body và một số Cache-Control directive.
+
+Trình duyệt lưu response cùng với ETag. Khi cache hết hạn, thay vì tải tài nguyên một cách mù quáng, trình duyệt gửi cùng GET request nhưng bao gồm header `If-None-Match` chứa ETag nó đã lưu.
+
+Server tính toán ETag hiện tại cho tài nguyên đó. Nếu khớp với những gì trình duyệt gửi, không có gì thay đổi — server phản hồi bằng 304 Not Modified và không có body. Trình duyệt dùng phiên bản cache của nó. Điều này tiết kiệm bandwidth đáng kể vì full response body không được truyền.
+
+Nếu nội dung thay đổi, ETag không còn khớp, nên server phản hồi bằng 200 và nội dung mới cùng ETag mới.
+
+Cách này đáng tin cậy hơn cache bằng timestamp Last-Modified, vì ETag dựa trên nội dung thay vì thời gian, tránh các vấn đề về đồng bộ đồng hồ giữa server và client."
+
+---
+
+**Q4 (Junior/Mid): "What is the difference between rel='preload' and rel='prefetch'? When do you use each?"**
+
+**Model Answer:**
+"Both are resource hints, but they have very different timing and priority.
+
+`preload` is for resources you need on the current page right now. The browser fetches it immediately at high priority. The common use case is the LCP image — you add a preload link in the head so the browser starts downloading the image before it encounters the img tag in the body. Same for web fonts — you preload the woff2 file so there's no FOIT or FOUT. The `as` attribute is required so the browser knows what kind of resource it is and applies the right content security policy and priority.
+
+`prefetch` is for resources you think you'll need on the next page navigation. The browser fetches it during idle time at low priority — it doesn't compete with anything on the current page. A common pattern is to prefetch the JavaScript chunk for the next likely route when the user hovers over a navigation link. That way, when they click, the chunk is already cached.
+
+The key difference: preload is urgent and affects the current page's performance. Prefetch is speculative and background. Using preload for resources you don't actually need on the current page wastes high-priority bandwidth and can hurt performance."
+
+**Trả lời (Tiếng Việt):**
+"Cả hai đều là resource hint, nhưng có thời điểm và độ ưu tiên rất khác nhau.
+
+`preload` dành cho tài nguyên bạn cần trên trang hiện tại ngay bây giờ. Trình duyệt tải ngay với độ ưu tiên cao. Use case phổ biến là LCP image — bạn thêm preload link trong head để trình duyệt bắt đầu tải ảnh trước khi gặp thẻ img trong body. Tương tự với web font — bạn preload file woff2 để không có FOIT hay FOUT. Thuộc tính `as` là bắt buộc để trình duyệt biết loại tài nguyên là gì và áp dụng content security policy và độ ưu tiên đúng.
+
+`prefetch` dành cho tài nguyên bạn nghĩ sẽ cần ở lần điều hướng trang tiếp theo. Trình duyệt tải trong thời gian rảnh với độ ưu tiên thấp — không cạnh tranh với bất cứ thứ gì trên trang hiện tại. Pattern phổ biến là prefetch JavaScript chunk cho route tiếp theo có khả năng được điều hướng khi người dùng hover qua link điều hướng. Như vậy, khi họ click, chunk đã có sẵn trong cache.
+
+Sự khác biệt then chốt: preload là khẩn cấp và ảnh hưởng đến hiệu năng trang hiện tại. Prefetch là suy đoán và chạy nền. Dùng preload cho tài nguyên bạn không thực sự cần trên trang hiện tại sẽ lãng phí bandwidth ưu tiên cao và có thể làm giảm hiệu năng."
+
+---
+
+**Q5 (Senior): "What is HTTP/3 and what problem does it solve that HTTP/2 couldn't?"**
+
+**Model Answer:**
+"HTTP/2 solved the application-level head-of-line blocking of HTTP/1.1 with multiplexing, but there's still a TCP-level problem. TCP is an ordered, reliable protocol — if one packet is lost in transmission, TCP waits for retransmission before delivering any subsequent packets, even if those packets belong to completely different HTTP/2 streams. So a single dropped packet stalls all streams on the connection.
+
+HTTP/3 addresses this by replacing TCP with QUIC — Quick UDP Internet Connections — which runs over UDP. QUIC implements its own reliability and flow control per stream, so a lost packet only stalls the specific stream it belongs to, not all streams.
+
+QUIC also has a 0-RTT handshake for repeated connections. TLS 1.3 over TCP requires one round trip for the handshake before you can send data. QUIC can combine the connection and cryptographic handshake, and for a server you've connected to before, it can start sending data with zero round trips.
+
+Another benefit is connection migration — if you switch from WiFi to mobile data, TCP connections break because the IP address changes. QUIC uses connection identifiers instead of IP+port tuples, so the connection survives network changes seamlessly. This is great for mobile users who move around."
+
+**Trả lời (Tiếng Việt):**
+"HTTP/2 đã giải quyết head-of-line blocking ở tầng ứng dụng của HTTP/1.1 với multiplexing, nhưng vẫn còn một vấn đề ở tầng TCP. TCP là giao thức có thứ tự và đáng tin cậy — nếu một packet bị mất khi truyền, TCP chờ truyền lại trước khi phân phối bất kỳ packet nào tiếp theo, ngay cả khi những packet đó thuộc các HTTP/2 stream hoàn toàn khác nhau. Vì vậy một packet bị drop duy nhất làm đình trệ tất cả stream trên kết nối.
+
+HTTP/3 giải quyết vấn đề này bằng cách thay TCP bằng QUIC — Quick UDP Internet Connections — chạy trên UDP. QUIC tự triển khai độ tin cậy và kiểm soát luồng riêng cho từng stream, nên một packet bị mất chỉ làm đình trệ stream cụ thể mà nó thuộc về, không phải tất cả stream.
+
+QUIC cũng có 0-RTT handshake cho các kết nối lặp lại. TLS 1.3 trên TCP yêu cầu một round trip cho handshake trước khi bạn có thể gửi dữ liệu. QUIC có thể kết hợp connection handshake và cryptographic handshake, và với server bạn đã kết nối trước đó, nó có thể bắt đầu gửi dữ liệu với zero round trip.
+
+Lợi ích khác là connection migration — nếu bạn chuyển từ WiFi sang data di động, kết nối TCP bị đứt vì địa chỉ IP thay đổi. QUIC dùng connection identifier thay vì bộ IP+port, nên kết nối tồn tại qua các thay đổi mạng một cách liền mạch. Điều này rất tốt cho người dùng di động hay di chuyển."
 
 ---
 

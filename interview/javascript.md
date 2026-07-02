@@ -285,6 +285,108 @@ for (var i = 0; i < 3; i++) {
 
 ---
 
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior): "Can you explain what a closure is in JavaScript?"**
+
+**Model Answer:**
+"Sure! A closure is when a function 'remembers' the variables from the scope where it was defined, even after that outer scope has finished executing. The classic example is a counter factory — you call `makeCounter()`, the outer function returns, but the returned inner functions still have access to the `count` variable. That variable is kept alive in memory because the inner functions close over it. In practice, closures are used everywhere: for data privacy, for function factories like `multiply(2)` returning a `double` function, and for memoization."
+
+**Trả lời (Tiếng Việt):**
+"Closure là khi một function 'nhớ' các biến từ scope nơi nó được định nghĩa, ngay cả sau khi outer scope đó đã chạy xong. Ví dụ kinh điển là counter factory — bạn gọi `makeCounter()`, outer function trả về, nhưng các inner function được trả về vẫn có thể truy cập biến `count`. Biến đó được giữ sống trong bộ nhớ vì các inner function 'đóng gói' nó. Trong thực tế, closure được dùng ở khắp nơi: để tạo data privacy, tạo function factory như `multiply(2)` trả về hàm `double`, và để memoization."
+
+---
+
+**Q2 (Junior/Mid): "What is the closure-in-loop bug with `var`, and how do you fix it?"**
+
+**Model Answer:**
+"This is a classic gotcha. If you write a `for` loop with `var` and put a `setTimeout` inside, all the callbacks share the same `i` variable because `var` is function-scoped — not block-scoped. By the time the callbacks run, the loop has finished and `i` is already at its final value, so you get that printed every time instead of `0, 1, 2`.
+
+The easiest fix is to just use `let` instead of `var`, because `let` creates a new binding for each loop iteration. Before `let` existed, the classic fix was an IIFE — you immediately invoke a function with `i` as an argument, creating a new scope that captures the current value:
+
+```js
+for (var i = 0; i < 3; i++) {
+  (function(capturedI) {
+    setTimeout(() => console.log(capturedI), 1000);
+  })(i);
+}
+```
+
+Today, `let` is the idiomatic solution."
+
+**Trả lời (Tiếng Việt):**
+"Đây là lỗi cổ điển. Khi bạn viết vòng lặp `for` với `var` và đặt `setTimeout` bên trong, tất cả callback chia sẻ cùng một biến `i` vì `var` có function scope — không phải block scope. Đến lúc callback chạy, vòng lặp đã kết thúc và `i` đã bằng giá trị cuối cùng, nên bạn thấy giá trị đó được in ra mọi lúc thay vì `0, 1, 2`.
+
+Cách sửa đơn giản nhất là dùng `let` thay vì `var`, vì `let` tạo một binding mới cho mỗi lần lặp. Trước khi có `let`, cách cổ điển là dùng IIFE — bạn gọi ngay một function với `i` làm argument, tạo scope mới capture giá trị hiện tại:
+
+```js
+for (var i = 0; i < 3; i++) {
+  (function(capturedI) {
+    setTimeout(() => console.log(capturedI), 1000);
+  })(i);
+}
+```
+
+Ngày nay, `let` là giải pháp chuẩn."
+
+---
+
+**Q3 (Mid): "What are some practical use cases for closures beyond just counters?"**
+
+**Model Answer:**
+"Beyond counters, closures power several real patterns. First, the module pattern — before ES modules existed, developers used closures to create private state. You expose only what you want public and keep the rest hidden inside the closure.
+
+Second, function factories — you create a higher-order function that captures configuration and returns a specialized function:
+
+```js
+function multiply(factor) {
+  return (n) => n * factor; // closes over `factor`
+}
+const double = multiply(2); // `factor` is 2, forever
+```
+
+Third, memoization — caching expensive computation results in a Map that the returned function closes over. Fourth, event handlers that need to remember context — like a button that closes over the `user` object that was in scope when the handler was created. The key insight is: closures let you associate persistent state with a function without using global variables or classes."
+
+**Trả lời (Tiếng Việt):**
+"Ngoài counter, closure còn là nền tảng của nhiều pattern thực tế. Đầu tiên là module pattern — trước khi có ES modules, developer dùng closure để tạo private state. Bạn chỉ expose những gì muốn public và giữ phần còn lại ẩn trong closure.
+
+Thứ hai là function factory — bạn tạo một higher-order function capture cấu hình và trả về một function chuyên dụng:
+
+```js
+function multiply(factor) {
+  return (n) => n * factor; // closes over `factor`
+}
+const double = multiply(2); // `factor` là 2, mãi mãi
+```
+
+Thứ ba là memoization — cache kết quả tính toán tốn kém trong một Map mà function trả về đóng gói. Thứ tư là event handler cần nhớ context — ví dụ một button đóng gói object `user` đang trong scope khi handler được tạo. Điểm mấu chốt là: closure cho phép bạn kết hợp state bền vững với function mà không cần dùng biến global hay class."
+
+---
+
+**Q4 (Senior): "What are the memory implications of closures? When can they cause memory leaks?"**
+
+**Model Answer:**
+"Closures keep their entire lexical environment alive as long as the closure itself is reachable. That's normally fine, but it becomes a problem in a few scenarios.
+
+The most common one is event listeners that close over large objects. If you attach a listener that captures a big data structure and never remove that listener, the data structure can never be garbage collected — even if nothing else references it.
+
+Another pattern is accidentally closing over more than you intend. The entire scope chain is captured, not just the specific variable you use. So if you have a closure deep in a module that only uses one small variable, it still holds a reference to everything in its outer scopes.
+
+The fix is to be explicit: remove event listeners when components unmount, use `WeakMap` or `WeakRef` when you want a reference that doesn't prevent GC, and avoid capturing large objects in long-lived closures. In React, this shows up as stale closure bugs — a `useEffect` captures an old value of a prop or state because the closure was created when that value was set."
+
+**Trả lời (Tiếng Việt):**
+"Closure giữ toàn bộ lexical environment sống chừng nào closure đó còn reachable. Thường thì không sao, nhưng có vài tình huống thành vấn đề.
+
+Phổ biến nhất là event listener đóng gói object lớn. Nếu bạn attach một listener capture một data structure lớn và không bao giờ remove listener đó, data structure đó không bao giờ được garbage collect — dù không có gì khác reference nó.
+
+Một pattern khác là vô tình đóng gói nhiều hơn mức cần. Toàn bộ scope chain đều bị capture, không chỉ biến bạn đang dùng. Nên nếu bạn có closure sâu trong một module chỉ dùng một biến nhỏ, nó vẫn giữ reference đến tất cả mọi thứ trong outer scope.
+
+Cách sửa là phải rõ ràng: remove event listener khi component unmount, dùng `WeakMap` hoặc `WeakRef` khi bạn muốn reference không ngăn GC, và tránh capture object lớn trong long-lived closure. Trong React, vấn đề này xuất hiện dưới dạng stale closure bug — một `useEffect` capture giá trị cũ của prop hoặc state vì closure được tạo khi giá trị đó còn đang được set."
+
+---
+
 ## 3. Event Loop
 
 ### Q5 — [Mid]
@@ -394,6 +496,135 @@ console.log("end");
 - `"end"` — đồng bộ, stack chạy tiếp
 - Microtask: in `"B"`, gặp `await new Promise(resolve => setTimeout(...))` → setTimeout vào macrotask
 - Macrotask: setTimeout resolve promise → `"C"` vào microtask, chạy → in `"C"`
+
+---
+
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior): "Can you explain what the JavaScript Event Loop is?"**
+
+**Model Answer:**
+"Sure! JavaScript is single-threaded, meaning it can only do one thing at a time. The Event Loop is the mechanism that lets it handle asynchronous operations without blocking.
+
+Think of it like a restaurant: the chef (Call Stack) can only cook one dish at a time. When a customer orders something that takes a while — say, a web request — the kitchen hands it off to external staff (Web APIs) and keeps taking other orders. When that long-running task finishes, it puts its callback into a queue. The Event Loop is the manager who constantly checks: 'Is the chef free? Is there anything in the queue?' — and if so, hands the next callback to the chef.
+
+The key detail is that there are two queues: the microtask queue (Promises, `queueMicrotask`) and the macrotask queue (`setTimeout`, `setInterval`, I/O). After each task, the Event Loop drains the entire microtask queue before picking up the next macrotask."
+
+**Trả lời (Tiếng Việt):**
+"JavaScript là single-threaded, có nghĩa là nó chỉ làm một việc tại một thời điểm. Event Loop là cơ chế cho phép nó xử lý bất đồng bộ mà không bị block.
+
+Hãy hình dung như một nhà hàng: đầu bếp (Call Stack) chỉ nấu một món một lúc. Khi khách gọi món mất nhiều thời gian — ví dụ web request — bếp giao cho nhân viên bên ngoài (Web APIs) và tiếp tục nhận order. Khi task lâu đó xong, nó đẩy callback vào queue. Event Loop là người quản lý liên tục kiểm tra: 'Đầu bếp rảnh chưa? Queue có gì không?' — và nếu có, đưa callback tiếp theo cho đầu bếp.
+
+Chi tiết quan trọng là có hai queue: microtask queue (Promises, `queueMicrotask`) và macrotask queue (`setTimeout`, `setInterval`, I/O). Sau mỗi task, Event Loop drain toàn bộ microtask queue trước khi chuyển sang macrotask tiếp theo."
+
+---
+
+**Q2 (Mid): "What is the difference between the microtask queue and the macrotask queue? What outputs would you expect from this code?"**
+
+```js
+console.log("1");
+setTimeout(() => console.log("2"), 0);
+Promise.resolve().then(() => console.log("3"));
+console.log("4");
+```
+
+**Model Answer:**
+"The output is `1`, `4`, `3`, `2`. Here's the reasoning:
+
+`1` and `4` are synchronous — they run immediately on the Call Stack. The `setTimeout` callback goes into the macrotask queue, and the Promise `.then` callback goes into the microtask queue.
+
+Once the synchronous code finishes, the Event Loop checks the microtask queue first — it's always drained completely before the next macrotask is picked up. So `3` (the Promise callback) runs before `2` (the setTimeout callback), even though both had a delay of 0ms.
+
+The rule is: **microtasks have priority over macrotasks**. After every single task completes (including synchronous code finishing), the engine drains every pending microtask — including any new ones added during that drain — before moving to the next macrotask."
+
+**Trả lời (Tiếng Việt):**
+"Output là `1`, `4`, `3`, `2`. Giải thích như sau:
+
+`1` và `4` là đồng bộ — chạy ngay trên Call Stack. Callback `setTimeout` vào macrotask queue, callback `.then` của Promise vào microtask queue.
+
+Khi code đồng bộ chạy xong, Event Loop kiểm tra microtask queue trước — nó luôn được drain hoàn toàn trước khi macrotask tiếp theo được chọn. Nên `3` (callback Promise) chạy trước `2` (callback setTimeout), dù cả hai đều có delay 0ms.
+
+Quy tắc là: **microtask có ưu tiên cao hơn macrotask**. Sau khi mỗi task hoàn thành (bao gồm cả code đồng bộ), engine drain tất cả microtask đang chờ — kể cả những cái mới được thêm trong quá trình drain — trước khi chuyển sang macrotask tiếp theo."
+
+---
+
+**Q3 (Mid): "Why does `async/await` affect event loop ordering?"**
+
+**Model Answer:**
+"Because `await` is syntactic sugar over Promises, and Promises use microtasks. When you `await` something, execution of that `async` function is suspended and the rest of it is scheduled as a microtask. Control returns to the caller immediately.
+
+So in this code:
+```js
+async function main() {
+  console.log("A");
+  await Promise.resolve();
+  console.log("B");
+}
+console.log("start");
+main();
+console.log("end");
+```
+You get: `start`, `A`, `end`, `B`.
+
+`A` prints synchronously when `main()` is called. Then `await` suspends `main` — the `console.log("end")` in the outer scope runs next. Only after the current synchronous code finishes does the microtask for `B` run."
+
+**Trả lời (Tiếng Việt):**
+"Vì `await` là syntactic sugar trên Promise, mà Promise dùng microtask. Khi bạn `await` một thứ gì đó, việc thực thi của `async` function đó bị suspend và phần còn lại của nó được lên lịch như một microtask. Control trả về caller ngay lập tức.
+
+Nên với code này:
+```js
+async function main() {
+  console.log("A");
+  await Promise.resolve();
+  console.log("B");
+}
+console.log("start");
+main();
+console.log("end");
+```
+Bạn sẽ thấy: `start`, `A`, `end`, `B`.
+
+`A` in ra đồng bộ khi `main()` được gọi. Sau đó `await` suspend `main` — `console.log("end")` trong outer scope chạy tiếp. Chỉ sau khi code đồng bộ kết thúc, microtask của `B` mới chạy."
+
+---
+
+**Q4 (Senior): "How would you avoid starving the macrotask queue with long microtask chains?"**
+
+**Model Answer:**
+"This is a real production concern. Since the engine drains the entire microtask queue before touching the next macrotask, if your microtask callbacks keep adding more microtasks — say, a recursive Promise chain — you can effectively starve UI rendering or `setTimeout` callbacks indefinitely.
+
+The fix is to deliberately yield to the macrotask queue. You can do this by wrapping a chunk of work in a `setTimeout(..., 0)` or using `scheduler.yield()` in browsers that support it. In Node.js, `setImmediate` gives other I/O a chance to run.
+
+A practical example is processing a large array in chunks:
+```js
+async function processInChunks(items, chunkSize = 100) {
+  for (let i = 0; i < items.length; i += chunkSize) {
+    const chunk = items.slice(i, i + chunkSize);
+    processChunk(chunk);
+    await new Promise(resolve => setTimeout(resolve, 0)); // yield to event loop
+  }
+}
+```
+This lets the browser render between chunks, keeping the UI responsive."
+
+**Trả lời (Tiếng Việt):**
+"Đây là vấn đề thực tế trong production. Vì engine drain toàn bộ microtask queue trước khi xử lý macrotask tiếp theo, nếu microtask callback của bạn cứ tiếp tục thêm microtask mới — ví dụ một Promise chain đệ quy — bạn có thể làm đói UI rendering hoặc callback `setTimeout` mãi mãi.
+
+Cách sửa là cố tình nhường cho macrotask queue. Bạn có thể làm điều này bằng cách wrap một đoạn work trong `setTimeout(..., 0)` hoặc dùng `scheduler.yield()` trên các browser hỗ trợ. Trong Node.js, `setImmediate` cho phép các I/O khác có cơ hội chạy.
+
+Ví dụ thực tế là xử lý một mảng lớn theo từng chunk:
+```js
+async function processInChunks(items, chunkSize = 100) {
+  for (let i = 0; i < items.length; i += chunkSize) {
+    const chunk = items.slice(i, i + chunkSize);
+    processChunk(chunk);
+    await new Promise(resolve => setTimeout(resolve, 0)); // yield to event loop
+  }
+}
+```
+Điều này cho phép browser render giữa các chunk, giữ UI responsive."
 
 ---
 
@@ -789,6 +1020,160 @@ Promise.any([
 
 ---
 
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior): "What is a Promise in JavaScript, and why do we need it?"**
+
+**Model Answer:**
+"A Promise is an object that represents a value that isn't available yet — it will either resolve with a value or reject with an error at some point in the future. We needed Promises because the older callback approach led to deeply nested, hard-to-read code known as 'callback hell.'
+
+A Promise has three states: `pending`, `fulfilled`, and `rejected`. Once it settles, it stays that way — you can attach multiple `.then` handlers and they all receive the same value. This makes async code much easier to chain and reason about:
+```js
+fetchUser(id)
+  .then(user => fetchPosts(user.id))
+  .then(posts => renderPosts(posts))
+  .catch(err => showError(err));
+```
+Each `.then` returns a new Promise, so you can chain operations sequentially without nesting."
+
+**Trả lời (Tiếng Việt):**
+"Promise là một object đại diện cho giá trị chưa có sẵn — nó sẽ resolve với một giá trị hoặc reject với lỗi tại một thời điểm nào đó trong tương lai. Chúng ta cần Promise vì cách dùng callback truyền thống dẫn đến code lồng nhau sâu khó đọc, gọi là 'callback hell.'
+
+Promise có ba trạng thái: `pending`, `fulfilled`, và `rejected`. Khi đã settle, nó không đổi nữa — bạn có thể attach nhiều handler `.then` và chúng đều nhận cùng một giá trị. Điều này làm code async dễ chain và dễ hiểu hơn nhiều:
+```js
+fetchUser(id)
+  .then(user => fetchPosts(user.id))
+  .then(posts => renderPosts(posts))
+  .catch(err => showError(err));
+```
+Mỗi `.then` trả về một Promise mới, nên bạn có thể chain các operation theo thứ tự mà không cần lồng nhau."
+
+---
+
+**Q2 (Mid): "What is the difference between `Promise.all` and `Promise.allSettled`? When would you pick one over the other?"**
+
+**Model Answer:**
+"The key difference is how they handle failures. `Promise.all` is fail-fast — if any single promise rejects, the whole thing rejects immediately and you lose the results of everything else. `Promise.allSettled` always waits for all promises to complete and gives you an array with the status of every single one.
+
+I'd use `Promise.all` when all tasks are required for the operation to succeed — like loading a user's profile, their settings, and their permissions in parallel. If any one fails, there's no point continuing.
+
+I'd use `Promise.allSettled` when some tasks can fail without breaking the whole flow — like sending notifications to a batch of users. I want to know which ones failed so I can retry or log them, but I don't want one failed notification to abort the whole batch:
+```js
+const results = await Promise.allSettled(users.map(u => sendEmail(u)));
+const failed = results.filter(r => r.status === 'rejected');
+console.log(`${failed.length} emails failed`);
+```"
+
+**Trả lời (Tiếng Việt):**
+"Điểm khác biệt chính là cách chúng xử lý lỗi. `Promise.all` là fail-fast — nếu bất kỳ promise nào reject, toàn bộ bị reject ngay và bạn mất kết quả của mọi thứ còn lại. `Promise.allSettled` luôn chờ tất cả promise hoàn thành và trả về mảng với status của từng cái một.
+
+Tôi dùng `Promise.all` khi tất cả task đều cần thiết để operation thành công — như load profile, settings, và permissions của user song song. Nếu một cái fail, không có lý do gì tiếp tục.
+
+Tôi dùng `Promise.allSettled` khi một số task có thể fail mà không phá vỡ toàn bộ flow — như gửi notification cho một batch user. Tôi muốn biết cái nào fail để retry hoặc log, nhưng không muốn một notification thất bại làm hỏng cả batch:
+```js
+const results = await Promise.allSettled(users.map(u => sendEmail(u)));
+const failed = results.filter(r => r.status === 'rejected');
+console.log(`${failed.length} emails failed`);
+```"
+
+---
+
+**Q3 (Mid): "How would you implement a timeout for a Promise?"**
+
+**Model Answer:**
+"You use `Promise.race`. The idea is to create two competing promises: your actual async operation and a 'timeout bomb' that rejects after a specified duration. Whichever settles first wins:
+
+```js
+function withTimeout(promise, ms) {
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error(`Timed out after ${ms}ms`)), ms)
+  );
+  return Promise.race([promise, timeout]);
+}
+
+try {
+  const data = await withTimeout(fetchData(), 5000);
+} catch (err) {
+  if (err.message.includes('Timed out')) {
+    // handle timeout specifically
+  }
+}
+```
+
+One thing to be aware of: canceling the underlying fetch if the timeout fires requires an `AbortController`. `Promise.race` doesn't cancel the losing promise — it just stops you from waiting for it. So the fetch might still be running in the background consuming resources."
+
+**Trả lời (Tiếng Việt):**
+"Bạn dùng `Promise.race`. Ý tưởng là tạo hai promise cạnh tranh: async operation thật sự và một 'quả bom timeout' reject sau khoảng thời gian nhất định. Cái nào settle trước thì thắng:
+
+```js
+function withTimeout(promise, ms) {
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error(`Timed out after ${ms}ms`)), ms)
+  );
+  return Promise.race([promise, timeout]);
+}
+
+try {
+  const data = await withTimeout(fetchData(), 5000);
+} catch (err) {
+  if (err.message.includes('Timed out')) {
+    // xử lý timeout cụ thể
+  }
+}
+```
+
+Một điều cần lưu ý: để hủy fetch bên dưới khi timeout xảy ra cần dùng `AbortController`. `Promise.race` không cancel promise thua — nó chỉ không chờ kết quả nữa. Nên fetch có thể vẫn đang chạy ngầm và tiêu tốn tài nguyên."
+
+---
+
+**Q4 (Senior): "What is Promise chaining vs. `async/await` — when would you prefer one over the other?"**
+
+**Model Answer:**
+"They're equivalent under the hood, but they read differently. Promise chaining is elegant for linear pipelines where each step transforms the data:
+```js
+fetchUser(id)
+  .then(normalizeUser)
+  .then(enrichWithPermissions)
+  .then(renderProfile);
+```
+`async/await` shines when you have conditional logic, loops, or need to use multiple awaited values together, because it reads like synchronous code:
+```js
+async function loadDashboard(userId) {
+  const user = await fetchUser(userId);
+  if (user.role === 'admin') {
+    const [stats, logs] = await Promise.all([fetchStats(), fetchLogs()]);
+    return buildAdminView(user, stats, logs);
+  }
+  return buildUserView(user);
+}
+```
+Mixing the two is also fine. I often use `Promise.all` inside an `async/await` function because it's the clearest way to express 'run these in parallel, wait for all of them.' The important thing is that forgetting `await` silently gives you a Promise object instead of its resolved value — that's a common bug worth watching for."
+
+**Trả lời (Tiếng Việt):**
+"Về bản chất chúng tương đương, nhưng đọc khác nhau. Promise chaining thanh lịch cho pipeline tuyến tính nơi mỗi bước transform data:
+```js
+fetchUser(id)
+  .then(normalizeUser)
+  .then(enrichWithPermissions)
+  .then(renderProfile);
+```
+`async/await` tỏa sáng khi bạn có logic điều kiện, vòng lặp, hoặc cần dùng nhiều giá trị đã await cùng nhau, vì nó đọc như code đồng bộ:
+```js
+async function loadDashboard(userId) {
+  const user = await fetchUser(userId);
+  if (user.role === 'admin') {
+    const [stats, logs] = await Promise.all([fetchStats(), fetchLogs()]);
+    return buildAdminView(user, stats, logs);
+  }
+  return buildUserView(user);
+}
+```
+Kết hợp cả hai cũng hoàn toàn ổn. Tôi thường dùng `Promise.all` bên trong `async/await` function vì đó là cách rõ ràng nhất để diễn đạt 'chạy song song, chờ tất cả.' Điều quan trọng cần chú ý là quên `await` sẽ im lặng trả về một Promise object thay vì giá trị đã resolve — đó là bug phổ biến cần để ý."
+
+---
+
 ## 7. async / await & Error Handling
 
 ### Q10 — [Mid]
@@ -921,6 +1306,212 @@ async function resilientApproach(ids) {
 
 ---
 
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior): "What does `async/await` do, and how does it relate to Promises?"**
+
+**Model Answer:**
+"`async/await` is syntactic sugar built on top of Promises — it doesn't introduce a new async mechanism, it just makes Promise-based code look synchronous. When you mark a function with `async`, it automatically returns a Promise. When you use `await` inside it, you pause execution of that function until the awaited Promise settles, then resume with the resolved value.
+
+So instead of:
+```js
+fetchUser(id).then(user => console.log(user.name));
+```
+You write:
+```js
+const user = await fetchUser(id);
+console.log(user.name);
+```
+Same behavior, much easier to read — especially when you have multiple sequential async steps."
+
+**Trả lời (Tiếng Việt):**
+"`async/await` là syntactic sugar xây trên Promise — nó không giới thiệu cơ chế async mới, chỉ làm code dựa trên Promise trông như đồng bộ. Khi bạn đánh dấu function với `async`, nó tự động trả về Promise. Khi bạn dùng `await` bên trong, bạn pause việc thực thi function đó cho đến khi Promise được settle, rồi resume với giá trị đã resolve.
+
+Thay vì:
+```js
+fetchUser(id).then(user => console.log(user.name));
+```
+Bạn viết:
+```js
+const user = await fetchUser(id);
+console.log(user.name);
+```
+Hành vi giống nhau, dễ đọc hơn nhiều — đặc biệt khi bạn có nhiều bước async tuần tự."
+
+---
+
+**Q2 (Junior/Mid): "How do you handle errors with async/await?"**
+
+**Model Answer:**
+"The primary way is `try/catch`. Since `await` unwraps the Promise, any rejection throws an exception that the `catch` block catches — just like synchronous errors:
+
+```js
+async function loadUser(id) {
+  try {
+    const response = await fetch(`/api/users/${id}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return await response.json();
+  } catch (err) {
+    console.error('Failed to load user:', err.message);
+    throw err; // re-throw so the caller knows it failed
+  } finally {
+    hideLoadingSpinner(); // always runs, success or failure
+  }
+}
+```
+
+One thing I always do is re-throw the error after logging it, unless I'm truly handling it and want to return a fallback. If you swallow the error silently, the caller gets `undefined` and has no idea something went wrong — which leads to very confusing bugs downstream."
+
+**Trả lời (Tiếng Việt):**
+"Cách chính là `try/catch`. Vì `await` unwrap Promise, bất kỳ rejection nào đều throw exception mà `catch` block bắt — giống như lỗi đồng bộ:
+
+```js
+async function loadUser(id) {
+  try {
+    const response = await fetch(`/api/users/${id}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return await response.json();
+  } catch (err) {
+    console.error('Failed to load user:', err.message);
+    throw err; // re-throw để caller biết nó đã fail
+  } finally {
+    hideLoadingSpinner(); // luôn chạy, dù thành công hay thất bại
+  }
+}
+```
+
+Một điều tôi luôn làm là re-throw lỗi sau khi log, trừ khi tôi thực sự xử lý nó và muốn trả về fallback. Nếu bạn im lặng nuốt lỗi, caller nhận được `undefined` và không biết có chuyện gì xảy ra — dẫn đến bug rất khó debug ở phía sau."
+
+---
+
+**Q3 (Mid): "What is the common `async/await` performance mistake, and how do you fix it?"**
+
+**Model Answer:**
+"The classic mistake is using `await` inside a `for` loop when the requests are actually independent:
+
+```js
+// SLOW — sequential, each waits for the previous
+for (const id of userIds) {
+  const user = await fetchUser(id); // total time = sum of all requests
+}
+```
+
+Each `await` pauses the loop, so requests run one after another. If you have 10 requests at 100ms each, that's 1 second total. The fix is to kick off all requests at once with `Promise.all`:
+
+```js
+// FAST — parallel
+const users = await Promise.all(userIds.map(id => fetchUser(id)));
+// total time ≈ slowest single request
+```
+
+The only time you want sequential awaits in a loop is when each request depends on the result of the previous one — like paginated fetching where you need the cursor from response N to make request N+1."
+
+**Trả lời (Tiếng Việt):**
+"Lỗi kinh điển là dùng `await` trong vòng lặp `for` khi các request thực ra độc lập với nhau:
+
+```js
+// CHẬM — tuần tự, mỗi cái chờ cái trước
+for (const id of userIds) {
+  const user = await fetchUser(id); // tổng thời gian = tổng tất cả request
+}
+```
+
+Mỗi `await` pause vòng lặp, nên request chạy lần lượt. Nếu bạn có 10 request mỗi cái 100ms, đó là 1 giây tổng cộng. Cách sửa là kick off tất cả request cùng lúc với `Promise.all`:
+
+```js
+// NHANH — song song
+const users = await Promise.all(userIds.map(id => fetchUser(id)));
+// tổng thời gian ≈ request đơn chậm nhất
+```
+
+Trường hợp duy nhất bạn muốn await tuần tự trong vòng lặp là khi mỗi request phụ thuộc vào kết quả của request trước — như paginated fetching cần cursor từ response N để tạo request N+1."
+
+---
+
+**Q4 (Senior): "How do you handle errors when using `Promise.all` with async/await? What's the difference between letting it throw vs. using `allSettled`?"**
+
+**Model Answer:**
+"With `Promise.all`, if any promise rejects, the whole `await` throws. You handle it with a `try/catch` around the `await Promise.all(...)`. That's appropriate when you need all results — if one fails, the whole operation is invalid.
+
+But if you want granular error handling per-item, `Promise.allSettled` is better:
+
+```js
+const results = await Promise.allSettled(ids.map(id => fetchItem(id)));
+const succeeded = results.filter(r => r.status === 'fulfilled').map(r => r.value);
+const failed = results.filter(r => r.status === 'rejected');
+
+if (failed.length > 0) {
+  logger.warn(`${failed.length} items failed`, failed.map(r => r.reason));
+}
+return succeeded;
+```
+
+I also use a Go-style helper in complex flows to avoid deeply nested `try/catch`:
+```js
+const [err, user] = await to(fetchUser(id));
+if (err) return handleError(err);
+```
+This pattern keeps error handling inline and explicit without the visual noise of multiple try/catch blocks."
+
+**Trả lời (Tiếng Việt):**
+"Với `Promise.all`, nếu bất kỳ promise nào reject, toàn bộ `await` throw. Bạn xử lý bằng `try/catch` bọc quanh `await Promise.all(...)`. Điều đó phù hợp khi bạn cần tất cả kết quả — nếu một cái fail, toàn bộ operation không còn hợp lệ.
+
+Nhưng nếu bạn muốn xử lý lỗi riêng lẻ cho từng item, `Promise.allSettled` tốt hơn:
+
+```js
+const results = await Promise.allSettled(ids.map(id => fetchItem(id)));
+const succeeded = results.filter(r => r.status === 'fulfilled').map(r => r.value);
+const failed = results.filter(r => r.status === 'rejected');
+
+if (failed.length > 0) {
+  logger.warn(`${failed.length} items failed`, failed.map(r => r.reason));
+}
+return succeeded;
+```
+
+Tôi cũng dùng Go-style helper trong các flow phức tạp để tránh nested `try/catch` sâu:
+```js
+const [err, user] = await to(fetchUser(id));
+if (err) return handleError(err);
+```
+Pattern này giữ error handling inline và rõ ràng mà không bị rối bởi nhiều khối try/catch."
+
+---
+
+**Q5 (Senior): "What is an unhandled Promise rejection, and how do you prevent it in production?"**
+
+**Model Answer:**
+"An unhandled rejection is when a Promise rejects and nothing catches it. In Node.js, this used to just print a warning; in modern Node.js versions, it crashes the process. In the browser, it fires an `unhandledrejection` event.
+
+The common causes: calling an `async` function without `await` and without a `.catch()`, or throwing inside a `.then()` callback without a downstream `.catch()`.
+
+Prevention strategies: always `await` or `.catch()` async calls, use a global unhandled rejection handler as a safety net:
+```js
+process.on('unhandledRejection', (reason, promise) => {
+  logger.error('Unhandled rejection:', reason);
+  // Don't swallow it — alert your monitoring system
+});
+```
+In React, the Error Boundary doesn't catch async errors, so async event handlers need their own error handling. I treat unhandled rejection warnings in development the same as TypeScript errors — fix them before merging."
+
+**Trả lời (Tiếng Việt):**
+"Unhandled rejection là khi Promise reject mà không có gì bắt nó. Trong Node.js, điều này trước đây chỉ in warning; trong các phiên bản Node.js hiện đại, nó crash process. Trong browser, nó fire event `unhandledrejection`.
+
+Nguyên nhân phổ biến: gọi `async` function mà không có `await` và không có `.catch()`, hoặc throw trong `.then()` callback mà không có `.catch()` ở phía sau.
+
+Chiến lược phòng ngừa: luôn `await` hoặc `.catch()` các async call, dùng global unhandled rejection handler như lưới an toàn:
+```js
+process.on('unhandledRejection', (reason, promise) => {
+  logger.error('Unhandled rejection:', reason);
+  // Đừng nuốt nó — alert hệ thống monitoring của bạn
+});
+```
+Trong React, Error Boundary không bắt được async error, nên async event handler cần tự xử lý lỗi của chúng. Tôi coi unhandled rejection warning trong development giống như TypeScript error — fix trước khi merge."
+
+---
+
 ## 8. Debounce vs Throttle
 
 ### Q11 — [Mid]
@@ -1038,6 +1629,194 @@ window.addEventListener(
   }, 200)
 );
 ```
+
+---
+
+### 🎤 Mock Interview — Q&A
+
+---
+
+**Q1 (Junior): "What is debouncing, and when would you use it?"**
+
+**Model Answer:**
+"Debouncing means delaying a function call until after a specified quiet period has passed. Every time the function is triggered, you reset the timer. The function only actually runs when the user stops triggering it.
+
+The textbook example is a search input. You don't want to fire an API call on every single keystroke — that would spam the server. With a 300ms debounce, you wait until the user pauses typing before sending the request:
+
+```js
+const handleSearch = debounce((event) => {
+  fetchSearchResults(event.target.value);
+}, 300);
+
+searchInput.addEventListener('input', handleSearch);
+```
+
+Other good use cases: form validation (validate after the user finishes typing in a field), window resize handlers where you recalculate layout, and auto-save — save a draft only after the user pauses editing."
+
+**Trả lời (Tiếng Việt):**
+"Debounce có nghĩa là trì hoãn việc gọi function cho đến khi hết một khoảng thời gian yên lặng nhất định. Mỗi khi function được trigger, bạn reset timer. Function chỉ thực sự chạy khi người dùng ngừng trigger nó.
+
+Ví dụ điển hình là ô search. Bạn không muốn gọi API mỗi keystroke — điều đó sẽ spam server. Với debounce 300ms, bạn đợi cho đến khi người dùng dừng gõ mới gửi request:
+
+```js
+const handleSearch = debounce((event) => {
+  fetchSearchResults(event.target.value);
+}, 300);
+
+searchInput.addEventListener('input', handleSearch);
+```
+
+Các use case tốt khác: form validation (validate sau khi người dùng gõ xong trong một field), window resize handler nơi bạn tính toán lại layout, và auto-save — chỉ lưu draft sau khi người dùng dừng chỉnh sửa."
+
+---
+
+**Q2 (Junior/Mid): "What is throttling, and how does it differ from debouncing?"**
+
+**Model Answer:**
+"Throttling ensures a function runs at most once per time interval, no matter how many times it's triggered. Unlike debouncing — which postpones until activity stops — throttling guarantees regular execution while activity is ongoing.
+
+A scroll event handler is the classic use case. If a user scrolls for 3 seconds straight, you don't want your handler to fire hundreds of times per second. With a 200ms throttle, it fires at most 5 times per second — much more manageable:
+
+```js
+window.addEventListener('scroll', throttle(() => {
+  updateScrollProgressBar();
+}, 200));
+```
+
+The mental model: debounce = 'wait until they stop', throttle = 'run at most once every N milliseconds'. Use debounce when you only care about the final state. Use throttle when you want regular sampling during continuous activity."
+
+**Trả lời (Tiếng Việt):**
+"Throttle đảm bảo function chạy nhiều nhất một lần mỗi khoảng thời gian, dù nó được trigger bao nhiêu lần. Khác với debounce — cái trì hoãn cho đến khi hoạt động dừng lại — throttle đảm bảo thực thi đều đặn trong khi hoạt động đang diễn ra.
+
+Scroll event handler là use case kinh điển. Nếu người dùng scroll liên tục trong 3 giây, bạn không muốn handler chạy hàng trăm lần mỗi giây. Với throttle 200ms, nó chạy nhiều nhất 5 lần mỗi giây — dễ quản lý hơn nhiều:
+
+```js
+window.addEventListener('scroll', throttle(() => {
+  updateScrollProgressBar();
+}, 200));
+```
+
+Cách nhớ: debounce = 'đợi đến khi họ dừng', throttle = 'chạy nhiều nhất một lần mỗi N milliseconds'. Dùng debounce khi bạn chỉ quan tâm đến state cuối cùng. Dùng throttle khi bạn muốn sampling đều đặn trong suốt quá trình hoạt động liên tục."
+
+---
+
+**Q3 (Mid): "Can you implement a basic debounce function from scratch?"**
+
+**Model Answer:**
+"Sure. The core idea is: return a wrapper function. That wrapper clears any existing timer and sets a new one. If the wrapper gets called again before the timer fires, the old timer is canceled and a new one starts:
+
+```js
+function debounce(fn, delay) {
+  let timerId = null;
+
+  return function(...args) {
+    clearTimeout(timerId);
+    timerId = setTimeout(() => {
+      fn.apply(this, args);
+      timerId = null;
+    }, delay);
+  };
+}
+```
+
+The `apply(this, args)` is important — it preserves the calling context and passes along any arguments. A common enhancement is the `immediate` option, which calls the function right away on the leading edge and then blocks subsequent calls until the delay expires. Lodash's `debounce` supports both leading and trailing edge options."
+
+**Trả lời (Tiếng Việt):**
+"Chắc chắn rồi. Ý tưởng cốt lõi là: trả về một wrapper function. Wrapper đó clear timer hiện có và set timer mới. Nếu wrapper được gọi lại trước khi timer fire, timer cũ bị cancel và timer mới bắt đầu:
+
+```js
+function debounce(fn, delay) {
+  let timerId = null;
+
+  return function(...args) {
+    clearTimeout(timerId);
+    timerId = setTimeout(() => {
+      fn.apply(this, args);
+      timerId = null;
+    }, delay);
+  };
+}
+```
+
+`apply(this, args)` quan trọng — nó giữ nguyên calling context và truyền các argument. Một cải tiến phổ biến là option `immediate`, gọi function ngay lập tức ở leading edge rồi block các lần gọi tiếp theo cho đến khi delay hết. Lodash `debounce` hỗ trợ cả leading và trailing edge option."
+
+---
+
+**Q4 (Senior): "In a React component, what goes wrong if you create a debounced function inline in the render body, and how do you fix it?"**
+
+**Model Answer:**
+"Great question — this is a real trap. If you write `const handleInput = debounce(search, 300)` directly inside your component function body, a new debounced function is created on every render. Each new instance has its own internal timer state, so the debouncing never actually works — every render resets it.
+
+The fix is to memoize the debounced function with `useMemo` or `useCallback` so it's only created once:
+
+```js
+const handleInput = useMemo(
+  () => debounce((value) => fetchResults(value), 300),
+  [] // empty deps — create once
+);
+```
+
+But there's a follow-on issue: if that debounced function closes over stale props or state (because it was created on mount), you'll get stale closure bugs. One clean solution is to use a `useRef` to hold the latest handler, and have the stable debounced function always call through the ref:
+
+```js
+const latestSearch = useRef(search);
+useEffect(() => { latestSearch.current = search; });
+
+const debouncedSearch = useMemo(
+  () => debounce((...args) => latestSearch.current(...args), 300),
+  []
+);
+```
+
+Also, don't forget to cancel the debounce timer on unmount — call `debouncedSearch.cancel()` in a `useEffect` cleanup to avoid state updates on unmounted components."
+
+**Trả lời (Tiếng Việt):**
+"Câu hỏi hay — đây là bẫy thực tế. Nếu bạn viết `const handleInput = debounce(search, 300)` trực tiếp trong body của component function, một hàm debounce mới được tạo ra mỗi lần render. Mỗi instance mới có timer state riêng, nên debouncing thực ra không bao giờ hoạt động — mỗi lần render reset nó.
+
+Cách sửa là memoize hàm debounce với `useMemo` hoặc `useCallback` để nó chỉ được tạo một lần:
+
+```js
+const handleInput = useMemo(
+  () => debounce((value) => fetchResults(value), 300),
+  [] // empty deps — tạo một lần
+);
+```
+
+Nhưng có vấn đề tiếp theo: nếu hàm debounce đó đóng gói props hoặc state cũ (vì nó được tạo khi mount), bạn sẽ gặp stale closure bug. Một giải pháp sạch là dùng `useRef` để giữ handler mới nhất, và hàm debounce ổn định luôn gọi qua ref:
+
+```js
+const latestSearch = useRef(search);
+useEffect(() => { latestSearch.current = search; });
+
+const debouncedSearch = useMemo(
+  () => debounce((...args) => latestSearch.current(...args), 300),
+  []
+);
+```
+
+Cũng đừng quên cancel debounce timer khi unmount — gọi `debouncedSearch.cancel()` trong `useEffect` cleanup để tránh state update trên unmounted component."
+
+---
+
+**Q5 (Senior): "When would you use throttle instead of debounce for a real-time feature like a collaborative editor?"**
+
+**Model Answer:**
+"In a collaborative editor — like Google Docs — you need to send keystrokes to other users in near-real-time, so debouncing is wrong. Debounce would only broadcast changes after the user pauses, which means collaborators would see nothing until you stop typing. That's a terrible experience.
+
+Throttle is the right tool here: send an update at most every 100ms, so collaborators see changes flowing in regularly while you type, without overwhelming the WebSocket connection.
+
+You'd typically combine it with an operational transform or CRDT algorithm to merge concurrent edits. The throttle controls the send frequency; the conflict resolution algorithm handles what happens when two people edit the same spot simultaneously.
+
+For the cursor position specifically — showing where other users' cursors are — you'd also throttle the `mousemove` or selection change events. Maybe every 50-100ms. Sending cursor positions on every single mouse pixel would be prohibitively expensive at scale."
+
+**Trả lời (Tiếng Việt):**
+"Trong collaborative editor — như Google Docs — bạn cần gửi keystroke đến người dùng khác gần real-time, nên debounce là sai. Debounce sẽ chỉ broadcast thay đổi sau khi người dùng dừng gõ, có nghĩa là người cộng tác không thấy gì cho đến khi bạn ngừng. Đó là trải nghiệm tệ.
+
+Throttle mới là công cụ đúng: gửi update nhiều nhất mỗi 100ms, để người cộng tác thấy thay đổi chảy đến đều đặn trong khi bạn gõ, mà không làm quá tải kết nối WebSocket.
+
+Thường bạn kết hợp với thuật toán operational transform hoặc CRDT để merge các chỉnh sửa đồng thời. Throttle kiểm soát tần suất gửi; thuật toán conflict resolution xử lý khi hai người chỉnh sửa cùng chỗ cùng lúc.
+
+Riêng với vị trí con trỏ — hiển thị con trỏ của người dùng khác đang ở đâu — bạn cũng throttle sự kiện `mousemove` hoặc selection change. Khoảng 50-100ms. Gửi vị trí con trỏ mỗi pixel chuột di chuyển sẽ rất tốn kém ở quy mô lớn."
 
 ---
 
