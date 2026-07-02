@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đặng Nam Vinh – Senior ReactJS Developer</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11.5px; color: #222; background: #fff;
+        padding: 44px 52px; max-width: 860px; margin: 0 auto; line-height: 1.5;
+      }
+      h1 { text-align: center; font-size: 30px; font-weight: 800; letter-spacing: 1px; color: #111; margin-bottom: 4px; }
+      .subtitle { text-align: center; font-size: 10.5px; letter-spacing: 3.5px; text-transform: uppercase; font-weight: 700; color: #444; margin-bottom: 10px; }
+      .contact-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 20px; font-size: 11px; color: #444; margin-bottom: 3px; }
+      .contact-row a { color: #444; text-decoration: none; }
+      .section { margin-top: 20px; }
+      .section-title { font-size: 11px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; border-bottom: 1.5px solid #222; padding-bottom: 4px; margin-bottom: 12px; }
+      .job-block { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #ddd; }
+      .job-block:last-child { border-bottom: none; }
+      .job-header { display: flex; justify-content: space-between; align-items: baseline; }
+      .job-title { font-weight: 700; font-size: 12px; }
+      .job-date { font-size: 11px; color: #555; font-weight: 600; }
+      .company-name { font-weight: 700; font-size: 11.5px; margin: 2px 0 4px; }
+      .company-desc { font-size: 11px; color: #444; margin-bottom: 6px; }
+      .meta-row { font-size: 11px; margin-bottom: 6px; color: #333; }
+      .meta-row b { font-weight: 700; }
+      .projects-label { font-weight: 700; font-size: 11.5px; margin: 8px 0 6px; }
+      .project-block { margin-bottom: 10px; }
+      .project-name { font-weight: 700; font-size: 11.5px; margin-bottom: 2px; }
+      .project-desc { font-size: 11px; color: #444; margin-bottom: 4px; }
+      .resp-label { font-weight: 700; font-size: 11px; margin-bottom: 3px; }
+      ul { padding-left: 15px; }
+      ul li { font-size: 11px; margin-bottom: 3px; line-height: 1.55; }
+      .edu-header { display: flex; justify-content: space-between; }
+      .edu-name { font-weight: 700; font-size: 12px; }
+      .edu-date { font-size: 11px; color: #555; font-weight: 600; }
+      .edu-degree { font-size: 11px; color: #555; margin-top: 2px; }
+      .skills-grid { display: grid; grid-template-columns: 150px 1fr; row-gap: 5px; }
+      .skill-cat { font-weight: 700; font-size: 11px; padding-top: 2px; }
+      .skill-tags { display: flex; flex-wrap: wrap; gap: 3px; }
+      .skill-tag { background: #f0f0f0; border-radius: 3px; padding: 2px 7px; font-size: 10.5px; color: #333; }
+      .lang-row { display: flex; gap: 12px; }
+      .lang-tag { background: #f0f0f0; border-radius: 3px; padding: 3px 12px; font-size: 11px; }
+      .lang-tag b { font-weight: 700; }
+      @media print { body { padding: 24px 36px; } @page { margin: 0; } }
+    </style>
+  </head>
+  <body>
+
+    <!-- ══════════ HEADER ══════════ -->
+    <h1>Đặng Nam Vinh</h1>
+    <div class="subtitle">Senior ReactJS Developer — Architecture · Mentoring · Clean Code</div>
+    <div class="contact-row">
+      <span>&#128222; 0973660074</span>
+      <span>&#9993; <a href="mailto:dnamvinh@gmail.com">dnamvinh@gmail.com</a></span>
+      <span>&#128100; 16/06/2000</span>
+    </div>
+    <div class="contact-row">
+      <span>&#128205; Ho Chi Minh City</span>
+      <span>&#128279; <a href="https://linkedin.com/in/nam-vinh" target="_blank">linkedin.com/in/nam-vinh</a></span>
+      <span>&#128025; <a href="https://github.com/NamVinh" target="_blank">github.com/NamVinh</a></span>
+    </div>
+
+    <!-- ══════════ ABOUT ME ══════════ -->
+    <div class="section">
+      <div class="section-title">About Me</div>
+      <p style="font-size: 11px; line-height: 1.65; color: #333;">
+        Senior ReactJS Developer with 5 years of experience building scalable, maintainable
+        web applications in Agile product teams. I design frontend architectures that hold up
+        as products and teams grow — from Micro-Frontend systems to shared design libraries —
+        and I enforce clean code standards through TypeScript strict mode, ESLint, and daily
+        code reviews. I take responsibility for technical quality end-to-end: proposing
+        appropriate libraries and solutions for each project, mentoring junior engineers with
+        actionable feedback, and collaborating closely with backend teams, testers, and
+        product stakeholders to ensure both quality and delivery pace. I have experience
+        building high-load real-time systems and have consistently reduced technical debt
+        through systematic refactoring and architecture improvements.
+      </p>
+    </div>
+
+    <!-- ══════════ SKILLS ══════════ -->
+    <div class="section">
+      <div class="section-title">Skills</div>
+      <div class="skills-grid">
+
+        <div class="skill-cat">React &amp; Frontend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">React.js (5 yrs): hooks, custom hooks, Context API, render optimisation</span>
+          <span class="skill-tag">TypeScript (5 yrs): strict mode, generics, discriminated unions</span>
+          <span class="skill-tag">Next.js (3 yrs): SSR / ISR / SSG / App Router</span>
+          <span class="skill-tag">JavaScript ES6+: closures, async/await, event loop</span>
+          <span class="skill-tag">HTML5 / CSS3 / SASS / Tailwind CSS — responsive, cross-browser</span>
+        </div>
+
+        <div class="skill-cat">Architecture</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Micro-Frontend (Webpack Module Federation) — independent deployments</span>
+          <span class="skill-tag">Monorepo (Nx / Turborepo) — shared library patterns</span>
+          <span class="skill-tag">Design System — Figma token sync, Storybook, Vite library build</span>
+          <span class="skill-tag">Component architecture: compound components, composition, HOC</span>
+        </div>
+
+        <div class="skill-cat">State &amp; Data</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Redux / RTK Query · Zustand · TanStack Query</span>
+          <span class="skill-tag">GraphQL + Apollo Client · RESTful API · WebSocket</span>
+          <span class="skill-tag">React Hook Form + Yup — complex multi-step validation</span>
+        </div>
+
+        <div class="skill-cat">Code Quality</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Daily code review — architecture, TypeScript correctness, security, maintainability</span>
+          <span class="skill-tag">ESLint / Prettier — enforced standards, pre-commit hooks</span>
+          <span class="skill-tag">Vitest / Jest — unit &amp; integration tests</span>
+          <span class="skill-tag">Playwright — E2E + visual regression CI gates</span>
+        </div>
+
+        <div class="skill-cat">DevOps &amp; Tooling</div>
+        <div class="skill-tags">
+          <span class="skill-tag">GitHub Actions — CI/CD pipelines, automated quality gates</span>
+          <span class="skill-tag">Docker — containerised development &amp; deployment</span>
+          <span class="skill-tag">Git — GitFlow, PR-based workflow, branching strategies</span>
+          <span class="skill-tag">Figma — design handoff, token automation, component spec review</span>
+          <span class="skill-tag">Agile / Scrum — sprint planning, daily standups, retrospectives</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════ WORK EXPERIENCE ══════════ -->
+    <div class="section">
+      <div class="section-title">Work Experience</div>
+
+      <!-- ── Herond Labs ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Senior Frontend Engineer</div>
+          <div class="job-date">12/2024 – Present</div>
+        </div>
+        <div class="company-name">Herond Labs</div>
+        <div class="company-desc">
+          Product startup — privacy-focused browser, loyalty platform, and identity service;
+          React + Next.js + TypeScript stack across multiple concurrent products. Team size: 20+
+        </div>
+        <div class="meta-row">
+          <b>Stack:</b> React 18, Next.js, TypeScript, Redux / RTK Query, Zustand, WebSocket,
+          GitHub Actions, Playwright, Vitest, Storybook, Nx monorepo, Vite, Docker
+        </div>
+
+        <div class="projects-label">Projects:</div>
+
+        <div class="project-block">
+          <div class="project-name">Design System — 70+ Components, End-to-End Ownership</div>
+          <div class="project-desc">
+            Shared React + TypeScript component library used across 3–4 products —
+            single source of UI truth for the entire engineering team.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Designed the component architecture and API standards — defined patterns for
+              compound components, composition, and polymorphic props; established frontend
+              engineering conventions adopted across all product teams.
+            </li>
+            <li>
+              Built 70+ reusable, fully typed components with Storybook documentation;
+              published via Vite (ES/CJS dual output, tree-shaking); automated Figma design
+              token synchronisation — TypeScript constants and CSS variables generated on
+              every design update, keeping design and code in sync without manual effort.
+            </li>
+            <li>
+              Set up Playwright visual regression in CI — PRs blocked on unintended visual
+              changes; Vitest unit tests cover all component prop permutations and interaction
+              states; enforced ESLint + Prettier standards with pre-commit hooks across all
+              contributors.
+            </li>
+            <li>
+              Conducted daily code reviews — evaluated architecture, TypeScript strictness,
+              performance patterns, and security; mentored junior engineers with specific,
+              actionable feedback that reduced defect rates in subsequent PRs; proposed
+              library upgrades and technical improvements through structured team discussions.
+            </li>
+          </ul>
+        </div>
+
+        <div class="project-block">
+          <div class="project-name">Herond Points System — High-Load Real-Time Loyalty Platform</div>
+          <div class="project-desc">
+            Consumer-facing React SPA — live point transactions, mission tracking, and
+            reward redemption under thousands of concurrent active users.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Designed the client-side architecture — RTK Query for server cache with
+              optimistic updates and request deduplication; WebSocket subscriptions for
+              live data streaming with multi-tab state sync and exponential backoff
+              reconnection; collaborated with backend engineers to define API contracts
+              and event schemas upfront.
+            </li>
+            <li>
+              Identified and resolved performance bottlenecks under high concurrent load —
+              virtualised transaction lists, memoised expensive renders, batched WebSocket
+              state updates; maintained responsive UI with no degradation under sustained
+              peak traffic.
+            </li>
+            <li>
+              Tracked and reported technical risks to the project manager — flagged
+              potential race conditions in concurrent transaction flows early, proposed
+              mitigations, and ensured resolution before production release.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── Biso24 ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">08/2022 – 12/2024</div>
+        </div>
+        <div class="company-name">Biso24</div>
+        <div class="company-desc">
+          10-person startup — digital transformation SaaS platform with analytics dashboards,
+          map integrations, and complex workflow tools for enterprise clients.
+        </div>
+        <div class="meta-row">
+          <b>Stack:</b> React, Next.js, TypeScript, Zustand, TanStack Query, Apollo Client,
+          GraphQL, REST API, SASS, Webpack Module Federation, Turborepo, Ant Design, Material-UI,
+          Playwright, Vitest, Docker
+        </div>
+        <div class="resp-label">Responsibilities:</div>
+        <ul>
+          <li>
+            Proposed and architected Micro-Frontend system with Webpack Module Federation —
+            independently deployable team modules with shared runtime dependencies; authored
+            architecture documentation and onboarded 3 engineers, enabling parallel team
+            delivery without merge conflicts.
+          </li>
+          <li>
+            Led systematic codebase quality improvements — proposed and drove migration to
+            TypeScript strict mode over 3 months without blocking feature delivery; introduced
+            ESLint rules and pre-commit hooks; the result was a measurable reduction in
+            runtime errors and faster onboarding for new engineers.
+          </li>
+          <li>
+            Built data-intensive dashboards end-to-end — REST and GraphQL API integration
+            with Apollo Client caching, complex multi-step forms with React Hook Form + Yup,
+            and custom D3.js chart components for analytics visualisation.
+          </li>
+          <li>
+            Identified and resolved performance bottlenecks — list virtualization for large
+            datasets, code splitting reducing initial bundle by ~35%, memoisation patterns
+            for complex component trees; profiled with React DevTools and browser performance tooling.
+          </li>
+          <li>
+            Collaborated with backend developers, testers, and product owners in Agile
+            sprints — participated in planning, daily standups, and retrospectives; coordinated
+            API contract definitions and tracked frontend technical risks proactively.
+          </li>
+        </ul>
+      </div>
+
+      <!-- ── Zens ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">06/2021 – 08/2022</div>
+        </div>
+        <div class="company-name">Zens Technology Company Limited</div>
+        <div class="company-desc">
+          Software outsourcing — web applications across client industries. Team size: 6
+        </div>
+        <div class="meta-row">
+          <b>Stack:</b> React, TypeScript, Redux, GraphQL, REST API, Material-UI, SASS
+        </div>
+        <div class="resp-label">Responsibilities:</div>
+        <ul>
+          <li>
+            Built React web applications — reusable component patterns, REST and GraphQL
+            API integration, responsive layouts; followed Agile workflow with weekly
+            sprint cycles and code review practices.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ EDUCATION ══════════ -->
+    <div class="section">
+      <div class="section-title">Education</div>
+      <div class="edu-header">
+        <div class="edu-name">FPT Polytechnic (FPT Education)</div>
+        <div class="edu-date">08/2018 – 09/2021</div>
+      </div>
+      <div class="edu-degree">College Diploma — Software Technology, Mobile Development</div>
+    </div>
+
+    <!-- ══════════ FOREIGN LANGUAGE ══════════ -->
+    <div class="section">
+      <div class="section-title">Foreign Language</div>
+      <div class="lang-row">
+        <div class="lang-tag"><b>English</b> (Intermediate — professional reading, writing &amp; communication)</div>
+        <div class="lang-tag"><b>Vietnamese</b> (Native)</div>
+      </div>
+    </div>
+
+  </body>
+</html>

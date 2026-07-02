@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đặng Nam Vinh – Frontend Developer</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11.5px; color: #222; background: #fff;
+        padding: 44px 52px; max-width: 860px; margin: 0 auto; line-height: 1.5;
+      }
+      h1 { text-align: center; font-size: 30px; font-weight: 800; letter-spacing: 1px; color: #111; margin-bottom: 4px; }
+      .subtitle { text-align: center; font-size: 10.5px; letter-spacing: 3.5px; text-transform: uppercase; font-weight: 700; color: #444; margin-bottom: 10px; }
+      .contact-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 20px; font-size: 11px; color: #444; margin-bottom: 3px; }
+      .contact-row a { color: #444; text-decoration: none; }
+      .section { margin-top: 20px; }
+      .section-title { font-size: 11px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; border-bottom: 1.5px solid #222; padding-bottom: 4px; margin-bottom: 12px; }
+      .job-block { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #ddd; }
+      .job-block:last-child { border-bottom: none; }
+      .job-header { display: flex; justify-content: space-between; align-items: baseline; }
+      .job-title { font-weight: 700; font-size: 12px; }
+      .job-date { font-size: 11px; color: #555; font-weight: 600; }
+      .company-name { font-weight: 700; font-size: 11.5px; margin: 2px 0 4px; }
+      .company-desc { font-size: 11px; color: #444; margin-bottom: 6px; }
+      .meta-row { font-size: 11px; margin-bottom: 6px; color: #333; }
+      .meta-row b { font-weight: 700; }
+      .projects-label { font-weight: 700; font-size: 11.5px; margin: 8px 0 6px; }
+      .project-block { margin-bottom: 10px; }
+      .project-name { font-weight: 700; font-size: 11.5px; margin-bottom: 2px; }
+      .project-desc { font-size: 11px; color: #444; margin-bottom: 4px; }
+      .resp-label { font-weight: 700; font-size: 11px; margin-bottom: 3px; }
+      ul { padding-left: 15px; }
+      ul li { font-size: 11px; margin-bottom: 3px; line-height: 1.55; }
+      .edu-header { display: flex; justify-content: space-between; }
+      .edu-name { font-weight: 700; font-size: 12px; }
+      .edu-date { font-size: 11px; color: #555; font-weight: 600; }
+      .edu-degree { font-size: 11px; color: #555; margin-top: 2px; }
+      .skills-grid { display: grid; grid-template-columns: 130px 1fr; row-gap: 5px; }
+      .skill-cat { font-weight: 700; font-size: 11px; padding-top: 2px; }
+      .skill-tags { display: flex; flex-wrap: wrap; gap: 3px; }
+      .skill-tag { background: #f0f0f0; border-radius: 3px; padding: 2px 7px; font-size: 10.5px; color: #333; }
+      .lang-row { display: flex; gap: 12px; }
+      .lang-tag { background: #f0f0f0; border-radius: 3px; padding: 3px 12px; font-size: 11px; }
+      .lang-tag b { font-weight: 700; }
+      @media print { body { padding: 24px 36px; } @page { margin: 0; } }
+    </style>
+  </head>
+  <body>
+
+    <!-- ══════════ HEADER ══════════ -->
+    <h1>Đặng Nam Vinh</h1>
+    <div class="subtitle">Frontend Developer — React · TypeScript · Next.js</div>
+    <div class="contact-row">
+      <span>&#128222; 0973660074</span>
+      <span>&#9993; <a href="mailto:dnamvinh@gmail.com">dnamvinh@gmail.com</a></span>
+      <span>&#128100; 16/06/2000</span>
+    </div>
+    <div class="contact-row">
+      <span>&#128205; Ho Chi Minh City</span>
+      <span>&#128279; <a href="https://linkedin.com/in/nam-vinh" target="_blank">linkedin.com/in/nam-vinh</a></span>
+      <span>&#128025; <a href="https://github.com/NamVinh" target="_blank">github.com/NamVinh</a></span>
+    </div>
+
+    <!-- ══════════ ABOUT ME ══════════ -->
+    <div class="section">
+      <div class="section-title">About Me</div>
+      <p style="font-size: 11px; line-height: 1.65; color: #333;">
+        Frontend Developer with 5 years of production experience in React and TypeScript —
+        building scalable, performant web applications across fintech-adjacent platforms
+        and B2B SaaS products, with additional React Native cross-platform experience. I take ownership beyond the ticket:
+        I have architected a 70-component Design System, led a Micro-Frontend migration, shipped
+        React Native apps to App Store and Google Play, and set up CI/CD pipelines with automated
+        test gates. I write maintainable, well-tested TypeScript code, run daily code reviews, and
+        use AI-assisted tools (Claude Code, Cursor) to ship faster without cutting quality. Strong
+        understanding of state management patterns, REST and WebSocket integration, and performance
+        optimization across both web and mobile.
+      </p>
+    </div>
+
+    <!-- ══════════ SKILLS ══════════ -->
+    <div class="section">
+      <div class="section-title">Skills</div>
+      <div class="skills-grid">
+
+        <div class="skill-cat">ReactJS</div>
+        <div class="skill-tags">
+          <span class="skill-tag">React.js (5 yrs) — hooks, Context API, custom hooks</span>
+          <span class="skill-tag">Next.js (3 yrs) — SSR / ISR / App Router</span>
+          <span class="skill-tag">TypeScript (5 yrs)</span>
+          <span class="skill-tag">JavaScript ES6+</span>
+          <span class="skill-tag">Vite</span>
+        </div>
+
+        <div class="skill-cat">React Native</div>
+        <div class="skill-tags">
+          <span class="skill-tag">React Native (5 yrs) — iOS &amp; Android</span>
+          <span class="skill-tag">React Navigation</span>
+          <span class="skill-tag">App Store &amp; Google Play release</span>
+          <span class="skill-tag">GlueStack UI</span>
+        </div>
+
+        <div class="skill-cat">State Management</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Redux / RTK Query</span>
+          <span class="skill-tag">Zustand</span>
+          <span class="skill-tag">React Query</span>
+          <span class="skill-tag">React Hook Form + Yup</span>
+          <span class="skill-tag">Context API</span>
+        </div>
+
+        <div class="skill-cat">API &amp; Data</div>
+        <div class="skill-tags">
+          <span class="skill-tag">RESTful API integration</span>
+          <span class="skill-tag">WebSocket — real-time live data</span>
+          <span class="skill-tag">GraphQL / Apollo Client</span>
+          <span class="skill-tag">Optimistic updates, caching, error boundaries</span>
+        </div>
+
+        <div class="skill-cat">Architecture</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Micro-Frontend — Webpack Module Federation</span>
+          <span class="skill-tag">Design System — 70+ components, Storybook</span>
+          <span class="skill-tag">Turborepo / Nx monorepo</span>
+          <span class="skill-tag">Performance optimization — memoization, lazy loading, virtualization</span>
+        </div>
+
+        <div class="skill-cat">UI &amp; Styling</div>
+        <div class="skill-tags">
+          <span class="skill-tag">HTML5 / CSS3 / SASS / CSS Modules</span>
+          <span class="skill-tag">Tailwind CSS / shadcn/ui</span>
+          <span class="skill-tag">Material-UI / Ant Design</span>
+          <span class="skill-tag">Responsive design — mobile, tablet, desktop</span>
+          <span class="skill-tag">Figma — design token automation</span>
+        </div>
+
+        <div class="skill-cat">Testing</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Vitest / Jest — unit &amp; integration</span>
+          <span class="skill-tag">Playwright — E2E + visual regression</span>
+          <span class="skill-tag">GitHub Actions CI/CD — automated test gates</span>
+          <span class="skill-tag">Daily code review</span>
+        </div>
+
+        <div class="skill-cat">Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Git — GitFlow, PR workflow</span>
+          <span class="skill-tag">Claude Code / Cursor — daily AI-assisted dev</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">Azure</span>
+          <span class="skill-tag">Agile / Scrum</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════ WORK EXPERIENCE ══════════ -->
+    <div class="section">
+      <div class="section-title">Work Experience</div>
+
+      <!-- ── Herond Labs ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Software Engineer</div>
+          <div class="job-date">12/2024 – Present</div>
+        </div>
+        <div class="company-name">Herond Labs</div>
+        <div class="company-desc">
+          Fintech-adjacent product startup — loyalty &amp; rewards platform, crypto wallet,
+          OAuth2/OIDC identity service, and admin portal; full TypeScript stack across
+          React + Next.js web and React Native mobile. Team size: 20+
+        </div>
+        <div class="meta-row">
+          <b>Stack:</b> React 18, Next.js, TypeScript, Redux / RTK Query, Zustand,
+          React Native, WebSocket, REST API, OAuth2 / OIDC, Azure,
+          GitHub Actions CI/CD, Playwright, Vitest, Nx monorepo, Storybook
+        </div>
+
+        <div class="projects-label">Projects:</div>
+
+        <div class="project-block">
+          <div class="project-name">Herond Points System — Loyalty &amp; Payment Platform</div>
+          <div class="project-desc">
+            Consumer-facing fintech platform for earning and redeeming points via check-ins,
+            missions, referrals, and reward redemption — thousands of concurrent active users.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Built responsive Next.js pages (Collect, Invite Friends, Rewards) with RTK Query —
+              real-time point balance updates via WebSocket, request caching, and optimistic
+              UI updates for instant user feedback on transactions.
+            </li>
+            <li>
+              Implemented complex state flows for concurrent transaction handling — coordinated
+              frontend state with backend Redis distributed locking to ensure consistent
+              UI under simultaneous user actions.
+            </li>
+          </ul>
+        </div>
+
+        <div class="project-block">
+          <div class="project-name">Herond Browser — Cross-Platform UI (React + Redux)</div>
+          <div class="project-desc">
+            Privacy-focused browser (macOS, Windows, Linux, Android) built on Chromium —
+            React/Redux-powered UI pages shipped to end users across 4 platforms.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Developed consumer-facing browser pages (New Tab, Wallet, Points) with React
+              and Redux, targeting 4 platforms from a single shared codebase with consistent
+              UX and performance across environments.
+            </li>
+            <li>
+              Integrated RESTful APIs from multiple Herond backend services — managed data
+              flow, loading states, and error handling via Redux for a snappy, reliable
+              user experience.
+            </li>
+          </ul>
+        </div>
+
+        <div class="project-block">
+          <div class="project-name">Herond Accounts — OAuth2/OIDC Identity Platform</div>
+          <div class="project-desc">
+            Central SSO provider with multi-provider social login and secure token management.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Implemented authentication UI flows for OAuth2/OIDC with multi-provider social
+              login (Google, Apple, Facebook, Twitter) — secure token-based session management
+              and seamless cross-product identity propagation.
+            </li>
+          </ul>
+        </div>
+
+        <div class="project-block">
+          <div class="project-name">Herond Design System — 70+ Component Library</div>
+          <div class="project-desc">
+            Shared React component library adopted across 3–4 products, documented at
+            storybook.herond.org.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Built 70+ components with Vite (ES/CJS dual output, tree-shaking) and automated
+              CSS token generation from Figma — maintained quality via Vitest unit tests and
+              Playwright visual regression; prevented UI drift across products in CI.
+            </li>
+            <li>
+              Led daily code reviews across the team — enforced component reusability patterns,
+              TypeScript correctness, and accessibility standards; gave specific, actionable
+              feedback on every PR.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── Biso24 ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">08/2022 – 12/2024</div>
+        </div>
+        <div class="company-name">Biso24</div>
+        <div class="company-desc">
+          10-person startup building a digital transformation platform — data-heavy web
+          dashboards, map integrations, and a React Native mobile app for field teams.
+        </div>
+        <div class="meta-row">
+          <b>Stack:</b> Next.js, React, TypeScript, React Hook Form, Yup, Zustand,
+          React Query, Apollo Client, GraphQL, REST API, d3-shape, Ant Design,
+          Material-UI, Turborepo, SASS, CSS Modules, React Native, Playwright, Vitest
+        </div>
+        <div class="resp-label">Responsibilities:</div>
+        <ul>
+          <li>
+            Built data-heavy SaaS dashboards — integrated REST and GraphQL APIs with React
+            Query and Apollo Client, caching strategies, optimistic updates, and error
+            boundaries; implemented custom d3-shape chart components for analytics visualization.
+          </li>
+          <li>
+            Implemented complex multi-step form logic with React Hook Form + Yup — dynamic
+            field arrays, conditional validation, and server-side error mapping across
+            data-heavy management screens.
+          </li>
+          <li>
+            Proposed and implemented Micro-Frontend architecture with Webpack Module Federation —
+            independently deployable team modules; authored the architecture guide and onboarded
+            the team to the pattern.
+          </li>
+          <li>
+            Delivered React Native mobile app to App Store and Google Play — architected
+            Turborepo monorepo enabling shared code between web and mobile, reducing duplication
+            and improving build pipeline performance.
+          </li>
+          <li>
+            Improved legacy code systematically — refactored performance bottlenecks, enforced
+            TypeScript strict mode, introduced reusable component patterns; collaborated daily
+            in Agile sprints with product, design, and QA.
+          </li>
+        </ul>
+      </div>
+
+      <!-- ── Zens ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">06/2021 – 08/2022</div>
+        </div>
+        <div class="company-name">Zens Technology Company Limited</div>
+        <div class="company-desc">
+          Software outsourcing company — web and mobile applications across multiple
+          client industries.
+        </div>
+        <div class="meta-row">
+          <b>Stack:</b> ReactJS, React Native, TypeScript, Material-UI, Redux, Apollo GraphQL, REST API
+        </div>
+        <div class="resp-label">Responsibilities:</div>
+        <ul>
+          <li>
+            Built React web applications with Material-UI — established reusable component
+            patterns and layout systems across multiple client projects.
+          </li>
+          <li>
+            Developed a React Native healthcare app for COVID-19 testing kit workflows —
+            integrated RESTful APIs and handled real-time status updates for field operations.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ EDUCATION ══════════ -->
+    <div class="section">
+      <div class="section-title">Education</div>
+      <div class="edu-header">
+        <div class="edu-name">FPT Polytechnic (FPT Education)</div>
+        <div class="edu-date">08/2018 – 09/2021</div>
+      </div>
+      <div class="edu-degree">College Diploma — Software Technology, Mobile Development</div>
+    </div>
+
+    <!-- ══════════ FOREIGN LANGUAGE ══════════ -->
+    <div class="section">
+      <div class="section-title">Foreign Language</div>
+      <div class="lang-row">
+        <div class="lang-tag"><b>English</b> (Intermediate — professional reading, writing &amp; communication)</div>
+        <div class="lang-tag"><b>Vietnamese</b> (Native)</div>
+      </div>
+    </div>
+
+  </body>
+</html>

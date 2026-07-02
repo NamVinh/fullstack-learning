@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đặng Nam Vinh – Senior Frontend Engineer</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11.5px; color: #222; background: #fff;
+        padding: 44px 52px; max-width: 860px; margin: 0 auto; line-height: 1.5;
+      }
+      h1 { text-align: center; font-size: 30px; font-weight: 800; letter-spacing: 1px; color: #111; margin-bottom: 4px; }
+      .subtitle { text-align: center; font-size: 10.5px; letter-spacing: 3.5px; text-transform: uppercase; font-weight: 700; color: #444; margin-bottom: 10px; }
+      .contact-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 20px; font-size: 11px; color: #444; margin-bottom: 3px; }
+      .contact-row a { color: #444; text-decoration: none; }
+      .section { margin-top: 20px; }
+      .section-title { font-size: 11px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; border-bottom: 1.5px solid #222; padding-bottom: 4px; margin-bottom: 12px; }
+      .job-block { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #ddd; }
+      .job-block:last-child { border-bottom: none; }
+      .job-header { display: flex; justify-content: space-between; align-items: baseline; }
+      .job-title { font-weight: 700; font-size: 12px; }
+      .job-date { font-size: 11px; color: #555; font-weight: 600; }
+      .company-name { font-weight: 700; font-size: 11.5px; margin: 2px 0 4px; }
+      .company-desc { font-size: 11px; color: #444; margin-bottom: 6px; }
+      .meta-row { font-size: 11px; margin-bottom: 6px; color: #333; }
+      .meta-row b { font-weight: 700; }
+      .projects-label { font-weight: 700; font-size: 11.5px; margin: 8px 0 6px; }
+      .project-block { margin-bottom: 10px; }
+      .project-name { font-weight: 700; font-size: 11.5px; margin-bottom: 2px; }
+      .project-desc { font-size: 11px; color: #444; margin-bottom: 4px; }
+      .resp-label { font-weight: 700; font-size: 11px; margin-bottom: 3px; }
+      ul { padding-left: 15px; }
+      ul li { font-size: 11px; margin-bottom: 3px; line-height: 1.55; }
+      .edu-header { display: flex; justify-content: space-between; }
+      .edu-name { font-weight: 700; font-size: 12px; }
+      .edu-date { font-size: 11px; color: #555; font-weight: 600; }
+      .edu-degree { font-size: 11px; color: #555; margin-top: 2px; }
+      .skills-grid { display: grid; grid-template-columns: 150px 1fr; row-gap: 5px; }
+      .skill-cat { font-weight: 700; font-size: 11px; padding-top: 2px; }
+      .skill-tags { display: flex; flex-wrap: wrap; gap: 3px; }
+      .skill-tag { background: #f0f0f0; border-radius: 3px; padding: 2px 7px; font-size: 10.5px; color: #333; }
+      .lang-row { display: flex; gap: 12px; }
+      .lang-tag { background: #f0f0f0; border-radius: 3px; padding: 3px 12px; font-size: 11px; }
+      .lang-tag b { font-weight: 700; }
+      @media print { body { padding: 24px 36px; } @page { margin: 0; } }
+    </style>
+  </head>
+  <body>
+
+    <!-- ══════════ HEADER ══════════ -->
+    <h1>Đặng Nam Vinh</h1>
+    <div class="subtitle">Senior Frontend Engineer — React · Module Federation · Architecture</div>
+    <div class="contact-row">
+      <span>&#128222; 0973660074</span>
+      <span>&#9993; <a href="mailto:dnamvinh@gmail.com">dnamvinh@gmail.com</a></span>
+      <span>&#128100; 16/06/2000</span>
+    </div>
+    <div class="contact-row">
+      <span>&#128205; Ho Chi Minh City</span>
+      <span>&#128279; <a href="https://linkedin.com/in/nam-vinh" target="_blank">linkedin.com/in/nam-vinh</a></span>
+      <span>&#128025; <a href="https://github.com/NamVinh" target="_blank">github.com/NamVinh</a></span>
+    </div>
+
+    <!-- ══════════ ABOUT ME ══════════ -->
+    <div class="section">
+      <div class="section-title">About Me</div>
+      <p style="font-size: 11px; line-height: 1.65; color: #333;">
+        Senior Frontend Engineer with 5 years of deep React and TypeScript expertise, with a
+        track record of leading architecture migrations, establishing frontend craft standards,
+        and driving cross-team initiatives. I have hands-on experience with Webpack Module
+        Federation — having proposed and led a Micro Frontend migration at Biso24 — and have
+        built shared component libraries and design systems used across multiple product squads.
+        I operate as an AI champion: using Claude Code, Cursor, and GitHub Copilot daily across
+        the full development lifecycle, and actively sharing what works with my team. I care
+        deeply about frontend security, code quality, and building systems that are observable,
+        maintainable, and extensible — not just code that ships.
+      </p>
+    </div>
+
+    <!-- ══════════ SKILLS ══════════ -->
+    <div class="section">
+      <div class="section-title">Skills</div>
+      <div class="skills-grid">
+
+        <div class="skill-cat">React &amp; TypeScript</div>
+        <div class="skill-tags">
+          <span class="skill-tag">React.js (5 yrs): hooks, custom hooks, component composition, render optimisation</span>
+          <span class="skill-tag">TypeScript (5 yrs): strict mode, generics, discriminated unions, mapped types</span>
+          <span class="skill-tag">Next.js (3 yrs): SSR / ISR / SSG / App Router</span>
+          <span class="skill-tag">JavaScript ES6+: async/await, closures, event loop, memory management</span>
+          <span class="skill-tag">HTML5 / CSS3 / Tailwind CSS / SASS — responsive, accessible, cross-browser</span>
+        </div>
+
+        <div class="skill-cat">Architecture</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Micro-Frontend: Webpack Module Federation — host/remote, shared deps, versioning</span>
+          <span class="skill-tag">Monorepo: Nx / Turborepo — shared libraries, build pipeline, dependency graph</span>
+          <span class="skill-tag">Framework migration leadership — TypeScript strict mode, MFE migration</span>
+          <span class="skill-tag">Design System: Storybook, Shadcn/Radix UI, Figma token automation, Vite build</span>
+          <span class="skill-tag">Coding standards &amp; conventions — ESLint, Prettier, pre-commit hooks, team guides</span>
+        </div>
+
+        <div class="skill-cat">Security</div>
+        <div class="skill-tags">
+          <span class="skill-tag">OAuth2 / OIDC — multi-provider auth flows, token management, session security</span>
+          <span class="skill-tag">Web security: XSS mitigation, CSRF protection, CSP headers, CORS handling</span>
+          <span class="skill-tag">Secure API integration — input validation, sanitisation, safe third-party deps</span>
+        </div>
+
+        <div class="skill-cat">State &amp; Data</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Redux / RTK Query · Zustand · TanStack Query</span>
+          <span class="skill-tag">GraphQL + Apollo Client · RESTful API · WebSocket</span>
+          <span class="skill-tag">React Hook Form + Yup — complex multi-step validation</span>
+        </div>
+
+        <div class="skill-cat">Testing &amp; Observability</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Vitest / Jest — unit &amp; integration tests, component testing</span>
+          <span class="skill-tag">Playwright — E2E automation + visual regression CI gates</span>
+          <span class="skill-tag">Performance profiling — React DevTools, browser performance tooling, Core Web Vitals</span>
+          <span class="skill-tag">GitHub Actions — CI/CD pipelines, automated test &amp; lint quality gates</span>
+        </div>
+
+        <div class="skill-cat">AI Dev Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Claude Code / Cursor / GitHub Copilot — daily across full SDLC</span>
+          <span class="skill-tag">AI workflow evangelism — defined team AI usage guidelines and best practices</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════ WORK EXPERIENCE ══════════ -->
+    <div class="section">
+      <div class="section-title">Work Experience</div>
+
+      <!-- ── Herond Labs ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Senior Frontend Engineer</div>
+          <div class="job-date">12/2024 – Present</div>
+        </div>
+        <div class="company-name">Herond Labs</div>
+        <div class="company-desc">
+          Product startup — privacy-focused browser, loyalty platform, and identity service;
+          React + Next.js + TypeScript across multiple concurrent product squads. Team size: 20+
+        </div>
+        <div class="meta-row">
+          <b>Stack:</b> React 18, Next.js, TypeScript, Redux / RTK Query, Zustand, OAuth2 / OIDC,
+          Tailwind CSS, Shadcn/ui, Storybook, Figma token sync, GitHub Actions, Playwright,
+          Vitest, Nx monorepo, Vite, Docker
+        </div>
+
+        <div class="projects-label">Projects:</div>
+
+        <div class="project-block">
+          <div class="project-name">Design System — Cross-Squad Frontend Craft Standard</div>
+          <div class="project-desc">
+            React + TypeScript component library — shared across 3–4 independent product squads,
+            serving as the frontend quality and consistency baseline for the organisation.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Defined and drove frontend coding standards, component API conventions, and
+              architecture guidelines adopted across all squads — established ESLint rule sets,
+              Prettier config, pre-commit hooks, and a frontend conventions guide distributed
+              to every engineer; modelled best practices through daily code reviews with
+              specific, actionable feedback.
+            </li>
+            <li>
+              Built 70+ reusable components on Shadcn/Radix UI primitives — fully typed with
+              TypeScript generics, accessible by default (semantic HTML, ARIA), documented in
+              Storybook; published via Vite (ES/CJS dual output, tree-shaking) for minimal
+              bundle impact across all consuming products.
+            </li>
+            <li>
+              Automated Figma design token synchronisation — bridged design and development
+              by auto-generating TypeScript constants and CSS variables on every Figma update;
+              drove AI-assisted Storybook workflows using Claude Code and GitHub Copilot to
+              accelerate component documentation and test generation.
+            </li>
+            <li>
+              Set up Playwright visual regression CI — all component variants covered, PRs
+              blocked on unintended visual changes; Vitest unit tests cover all prop
+              permutations and interaction states; acted as AI champion — shared Claude Code
+              and Copilot workflows with the team and defined guidelines for responsible AI usage.
+            </li>
+          </ul>
+        </div>
+
+        <div class="project-block">
+          <div class="project-name">Herond Identity Service — OAuth2 / OIDC Security Layer</div>
+          <div class="project-desc">
+            Multi-provider authentication system supporting Google, Apple, Facebook, Twitter,
+            and Web3Auth — security-critical frontend flows handling user sessions at scale.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Implemented OAuth2/OIDC authentication flows — token issuance, secure refresh
+              handling, and session management; applied XSS mitigation, CSRF protection, and
+              CSP headers across all auth surfaces; advocated for secure handling of sensitive
+              user data and safe usage of third-party auth dependencies throughout the team.
+            </li>
+            <li>
+              Collaborated with backend engineers to define secure API contracts — agreed on
+              token schemas, error handling standards, and CORS policies upfront; profiled
+              and optimised frontend performance under concurrent authentication requests.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── Biso24 ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">08/2022 – 12/2024</div>
+        </div>
+        <div class="company-name">Biso24</div>
+        <div class="company-desc">
+          10-person SaaS startup — digital transformation platform with analytics dashboards,
+          workflow tools, and enterprise client integrations.
+        </div>
+        <div class="meta-row">
+          <b>Stack:</b> React, Next.js, TypeScript, TanStack Query, Apollo Client, GraphQL,
+          REST API, Zustand, React Hook Form, Yup, Tailwind CSS, SASS,
+          <b>Webpack Module Federation</b>, Turborepo, Ant Design, Material-UI, Playwright, Vitest
+        </div>
+        <div class="resp-label">Responsibilities:</div>
+        <ul>
+          <li>
+            Proposed and led Micro Frontend migration with Webpack Module Federation —
+            designed host/remote split, configured shared dependency versioning, set up
+            independent CI/CD per module; authored architecture guide and onboarded
+            3 engineers, enabling parallel squad delivery. This directly mirrors
+            CreditorWatch's current Module Federation exploration.
+          </li>
+          <li>
+            Led systematic frontend craft improvement — proposed and executed TypeScript
+            strict mode migration over 3 months without blocking feature delivery;
+            introduced ESLint standards, naming conventions, and a frontend guide adopted
+            by the full team; regularly led code reviews raising the bar for maintainability
+            and extensibility across the codebase.
+          </li>
+          <li>
+            Built data-intensive SaaS dashboards end-to-end — REST and GraphQL APIs
+            with Apollo Client, complex multi-step forms with React Hook Form + Yup,
+            and reusable table/filter/pagination patterns; balanced pragmatism with
+            scalability across a fast-moving product team.
+          </li>
+          <li>
+            Drove performance improvements — list virtualization, code splitting (~35%
+            bundle reduction), memoisation for complex renders; profiled with React DevTools
+            and browser tooling, monitoring Core Web Vitals to validate impact.
+          </li>
+        </ul>
+      </div>
+
+      <!-- ── Zens ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">06/2021 – 08/2022</div>
+        </div>
+        <div class="company-name">Zens Technology Company Limited</div>
+        <div class="company-desc">
+          Software outsourcing — web applications across client industries. Team size: 6
+        </div>
+        <div class="meta-row">
+          <b>Stack:</b> React, TypeScript, Redux, Apollo GraphQL, REST API, Material-UI, SASS
+        </div>
+        <div class="resp-label">Responsibilities:</div>
+        <ul>
+          <li>
+            Built React web applications — reusable component patterns, REST and GraphQL
+            API integration, responsive cross-browser layouts; participated in Agile sprint
+            cycles with regular code review and iterative delivery.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ EDUCATION ══════════ -->
+    <div class="section">
+      <div class="section-title">Education</div>
+      <div class="edu-header">
+        <div class="edu-name">FPT Polytechnic (FPT Education)</div>
+        <div class="edu-date">08/2018 – 09/2021</div>
+      </div>
+      <div class="edu-degree">College Diploma — Software Technology, Mobile Development</div>
+    </div>
+
+    <!-- ══════════ FOREIGN LANGUAGE ══════════ -->
+    <div class="section">
+      <div class="section-title">Foreign Language</div>
+      <div class="lang-row">
+        <div class="lang-tag"><b>English</b> (Intermediate — professional reading, writing &amp; communication)</div>
+        <div class="lang-tag"><b>Vietnamese</b> (Native)</div>
+      </div>
+    </div>
+
+  </body>
+</html>

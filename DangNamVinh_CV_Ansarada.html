@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đặng Nam Vinh – Senior Frontend Engineer</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11.5px; color: #222; background: #fff;
+        padding: 44px 52px; max-width: 860px; margin: 0 auto; line-height: 1.5;
+      }
+      h1 { text-align: center; font-size: 30px; font-weight: 800; letter-spacing: 1px; color: #111; margin-bottom: 4px; }
+      .subtitle { text-align: center; font-size: 10.5px; letter-spacing: 3.5px; text-transform: uppercase; font-weight: 700; color: #444; margin-bottom: 10px; }
+      .contact-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 20px; font-size: 11px; color: #444; margin-bottom: 3px; }
+      .contact-row a { color: #444; text-decoration: none; }
+      .section { margin-top: 20px; }
+      .section-title { font-size: 11px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; border-bottom: 1.5px solid #222; padding-bottom: 4px; margin-bottom: 12px; }
+      .job-block { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #ddd; }
+      .job-block:last-child { border-bottom: none; }
+      .job-header { display: flex; justify-content: space-between; align-items: baseline; }
+      .job-title { font-weight: 700; font-size: 12px; }
+      .job-date { font-size: 11px; color: #555; font-weight: 600; }
+      .company-name { font-weight: 700; font-size: 11.5px; margin: 2px 0 4px; }
+      .company-desc { font-size: 11px; color: #444; margin-bottom: 6px; }
+      .meta-row { font-size: 11px; margin-bottom: 6px; color: #333; }
+      .meta-row b { font-weight: 700; }
+      .projects-label { font-weight: 700; font-size: 11.5px; margin: 8px 0 6px; }
+      .project-block { margin-bottom: 10px; }
+      .project-name { font-weight: 700; font-size: 11.5px; margin-bottom: 2px; }
+      .project-desc { font-size: 11px; color: #444; margin-bottom: 4px; }
+      .resp-label { font-weight: 700; font-size: 11px; margin-bottom: 3px; }
+      ul { padding-left: 15px; }
+      ul li { font-size: 11px; margin-bottom: 3px; line-height: 1.55; }
+      .edu-header { display: flex; justify-content: space-between; }
+      .edu-name { font-weight: 700; font-size: 12px; }
+      .edu-date { font-size: 11px; color: #555; font-weight: 600; }
+      .edu-degree { font-size: 11px; color: #555; margin-top: 2px; }
+      .skills-grid { display: grid; grid-template-columns: 130px 1fr; row-gap: 5px; }
+      .skill-cat { font-weight: 700; font-size: 11px; padding-top: 2px; }
+      .skill-tags { display: flex; flex-wrap: wrap; gap: 3px; }
+      .skill-tag { background: #f0f0f0; border-radius: 3px; padding: 2px 7px; font-size: 10.5px; color: #333; }
+      .lang-row { display: flex; gap: 12px; }
+      .lang-tag { background: #f0f0f0; border-radius: 3px; padding: 3px 12px; font-size: 11px; }
+      .lang-tag b { font-weight: 700; }
+      @media print { body { padding: 24px 36px; } @page { margin: 0; } }
+    </style>
+  </head>
+  <body>
+
+    <!-- ══════════ HEADER ══════════ -->
+    <h1>Đặng Nam Vinh</h1>
+    <div class="subtitle">Senior Frontend Engineer — React · TypeScript · SCSS</div>
+    <div class="contact-row">
+      <span>&#128222; 0973660074</span>
+      <span>&#9993; <a href="mailto:dnamvinh@gmail.com">dnamvinh@gmail.com</a></span>
+      <span>&#128100; 16/06/2000</span>
+    </div>
+    <div class="contact-row">
+      <span>&#128205; Ho Chi Minh City</span>
+      <span>&#128279; <a href="https://linkedin.com/in/nam-vinh" target="_blank">linkedin.com/in/nam-vinh</a></span>
+      <span>&#128025; <a href="https://github.com/NamVinh" target="_blank">github.com/NamVinh</a></span>
+    </div>
+
+    <!-- ══════════ ABOUT ME ══════════ -->
+    <div class="section">
+      <div class="section-title">About Me</div>
+      <p style="font-size: 11px; line-height: 1.65; color: #333;">
+        Senior Frontend Engineer with 5 years of experience building production React applications
+        in fast-moving product teams. I care deeply about code quality — enforcing TypeScript strict
+        mode, maintaining linting standards, and never letting a red build slide. I conduct daily code
+        reviews focused on architecture, correctness, and maintainability, and I believe testing is
+        every developer's responsibility, not just QA's. I have set up automated Playwright visual
+        regression pipelines, written comprehensive component test suites, and proactively refactored
+        codebases to eliminate technical debt. I thrive collaborating with designers and product
+        managers to translate concepts into polished, accessible, and performant interfaces — and I
+        prioritise shipping real value to customers over adherence to technical dogma.
+      </p>
+    </div>
+
+    <!-- ══════════ SKILLS ══════════ -->
+    <div class="section">
+      <div class="section-title">Skills</div>
+      <div class="skills-grid">
+
+        <div class="skill-cat">Frontend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">React.js (5 yrs) — hooks, Context API, custom hooks, render optimisation</span>
+          <span class="skill-tag">TypeScript (5 yrs) — strict mode, generics, discriminated unions</span>
+          <span class="skill-tag">JavaScript ES6+ — async/await, closures, Promises, event loop</span>
+          <span class="skill-tag">Next.js (3 yrs) — SSR / ISR / SSG / App Router</span>
+          <span class="skill-tag">HTML5 / CSS3 / <strong>SCSS (SASS)</strong> / CSS Modules / Tailwind CSS</span>
+          <span class="skill-tag">Material-UI / Ant Design / shadcn/ui</span>
+          <span class="skill-tag">Responsive design — cross-browser, cross-device, mobile-first</span>
+          <span class="skill-tag">Accessibility — semantic HTML, ARIA roles, keyboard navigation</span>
+        </div>
+
+        <div class="skill-cat">Testing</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Playwright — E2E + visual regression, CI-gated PR checks</span>
+          <span class="skill-tag">Vitest / Jest — unit &amp; integration tests, component testing</span>
+          <span class="skill-tag">Manual &amp; exploratory testing — edge cases, cross-browser QA</span>
+          <span class="skill-tag">Daily code review — architecture, correctness, security, maintainability</span>
+        </div>
+
+        <div class="skill-cat">State &amp; Data</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Redux / RTK Query — global state, server cache, optimistic updates</span>
+          <span class="skill-tag">Zustand — lightweight client state</span>
+          <span class="skill-tag">React Query (TanStack) — async data, caching, background sync</span>
+          <span class="skill-tag">React Hook Form + Yup — complex multi-step form validation</span>
+          <span class="skill-tag">GraphQL + Apollo Client</span>
+        </div>
+
+        <div class="skill-cat">Tooling &amp; CI</div>
+        <div class="skill-tags">
+          <span class="skill-tag">GitHub Actions — CI/CD pipelines, automated test gates, lint checks</span>
+          <span class="skill-tag">Vite / Webpack — build optimisation, code splitting, bundle analysis</span>
+          <span class="skill-tag">ESLint / Prettier — enforced code standards, pre-commit hooks</span>
+          <span class="skill-tag">Nx / Turborepo — monorepo shared libraries</span>
+          <span class="skill-tag">Storybook — component documentation &amp; visual testing</span>
+          <span class="skill-tag">Docker — containerised development &amp; deployment</span>
+          <span class="skill-tag">JIRA / Confluence — Agile sprint workflow, task tracking</span>
+          <span class="skill-tag">Git — GitFlow, PR-based workflow, branching strategies</span>
+        </div>
+
+        <div class="skill-cat">API Collaboration</div>
+        <div class="skill-tags">
+          <span class="skill-tag">RESTful API design — defining contracts with backend engineers</span>
+          <span class="skill-tag">GraphQL — schema design, query/mutation patterns</span>
+          <span class="skill-tag">WebSocket — real-time subscriptions, multi-tab state sync</span>
+          <span class="skill-tag">OAuth2 / OIDC — multi-provider authentication flows</span>
+        </div>
+
+        <div class="skill-cat">AI Dev Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Claude Code / Cursor / GitHub Copilot — daily across full SDLC</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════ WORK EXPERIENCE ══════════ -->
+    <div class="section">
+      <div class="section-title">Work Experience</div>
+
+      <!-- ── Herond Labs ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Senior Frontend Engineer</div>
+          <div class="job-date">12/2024 – Present</div>
+        </div>
+        <div class="company-name">Herond Labs</div>
+        <div class="company-desc">
+          Product startup building a privacy-focused browser ecosystem and loyalty platform —
+          cross-functional product teams across React + Next.js + TypeScript. Team size: 20+
+        </div>
+        <div class="meta-row">
+          <b>Stack:</b> React 18, Next.js, TypeScript, Redux / RTK Query, Zustand, SCSS,
+          GitHub Actions, Playwright, Vitest, Storybook, Nx monorepo, Docker
+        </div>
+
+        <div class="projects-label">Projects:</div>
+
+        <div class="project-block">
+          <div class="project-name">Design System — 70+ Components, End-to-End Ownership</div>
+          <div class="project-desc">
+            Shared React + TypeScript component library powering 3–4 products —
+            the single source of UI truth for the engineering team.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Built 70+ reusable, fully typed components with SCSS-based theming and Storybook
+              documentation; published via Vite (ES/CJS dual output, tree-shaking) for optimal
+              bundle performance across all consuming products.
+            </li>
+            <li>
+              Automated Figma design token synchronisation — auto-generated TypeScript constants
+              and SCSS variables on every design update, eliminating manual design-to-code drift
+              and ensuring pixel-accurate consistency across products.
+            </li>
+            <li>
+              Set up Playwright visual regression in CI — every PR blocked on unintended visual
+              changes before merge; covered all component API permutations with Vitest unit tests;
+              implemented exploratory testing checklists for component edge cases.
+            </li>
+            <li>
+              Led daily code reviews across the frontend team — evaluated TypeScript correctness,
+              SCSS architecture, component API design, accessibility patterns, and security;
+              provided specific, actionable feedback that reduced defect rate in subsequent PRs.
+            </li>
+            <li>
+              Identified and resolved multiple performance bottlenecks — unnecessary re-renders
+              via memoisation, SCSS specificity conflicts causing style overrides, and bundle
+              bloat via code splitting; maintained zero red builds on CI throughout.
+            </li>
+          </ul>
+        </div>
+
+        <div class="project-block">
+          <div class="project-name">Herond Points System — Consumer-Facing Loyalty Platform</div>
+          <div class="project-desc">
+            React feature pages for live point transactions, mission tracking, and reward
+            redemption — thousands of concurrent active users.
+          </div>
+          <div class="resp-label">Responsibilities:</div>
+          <ul>
+            <li>
+              Collaborated with backend engineers to define REST API contracts for points,
+              missions, and rewards — agreed on pagination, error handling, and retry semantics
+              before implementation began, reducing integration rework by ~40%.
+            </li>
+            <li>
+              Built Next.js feature pages with RTK Query — optimistic UI updates, request
+              deduplication, and instant balance feedback on concurrent transactions; implemented
+              WebSocket real-time streaming with multi-tab state sync and reconnection handling.
+            </li>
+            <li>
+              Applied SCSS BEM methodology for component styles — maintainable, predictable
+              specificity across a large shared stylesheet; responsive design for mobile-first
+              layouts targeting low-bandwidth markets.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── Biso24 ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">08/2022 – 12/2024</div>
+        </div>
+        <div class="company-name">Biso24</div>
+        <div class="company-desc">
+          10-person startup building a digital transformation SaaS platform — data-heavy
+          dashboards, analytics, map integrations, and workflow tools for enterprise clients.
+        </div>
+        <div class="meta-row">
+          <b>Stack:</b> React, Next.js, TypeScript, SASS, React Hook Form, Yup, Zustand,
+          React Query, Apollo Client, GraphQL, REST API, Ant Design, Material-UI,
+          Webpack Module Federation, Turborepo, Playwright, Vitest
+        </div>
+        <div class="resp-label">Responsibilities:</div>
+        <ul>
+          <li>
+            Built data-intensive SaaS dashboards end-to-end in cross-functional product teams —
+            worked directly with designers (Figma handoff) and product managers to translate
+            concepts into user-friendly interfaces; integrated REST and GraphQL APIs with
+            structured caching, optimistic updates, and error boundaries.
+          </li>
+          <li>
+            Proactively identified and resolved code smells across the codebase — replaced
+            prop-drilling with Context patterns, decomposed bloated components, enforced
+            TypeScript strict mode to eliminate implicit any and runtime errors; documented
+            refactoring decisions to share knowledge across the team.
+          </li>
+          <li>
+            Implemented complex multi-step forms with React Hook Form + Yup — dynamic field
+            arrays, conditional validation, and server-side error mapping; designed reusable
+            form component patterns with SCSS styling, adopted across the entire product suite.
+          </li>
+          <li>
+            Drove performance improvements across the product — memoisation, virtualization for
+            large datasets, lazy loading, and code splitting; reduced initial bundle size by ~35%
+            through tree-shaking and dynamic imports.
+          </li>
+          <li>
+            Proposed and led Micro-Frontend architecture with Webpack Module Federation —
+            independently deployable team modules with shared design system; authored architecture
+            guide and onboarded 3 engineers to the pattern; shared emerging technology knowledge
+            through team tech talks.
+          </li>
+        </ul>
+      </div>
+
+      <!-- ── Zens ── -->
+      <div class="job-block">
+        <div class="job-header">
+          <div class="job-title">Frontend Developer</div>
+          <div class="job-date">06/2021 – 08/2022</div>
+        </div>
+        <div class="company-name">Zens Technology Company Limited</div>
+        <div class="company-desc">
+          Software outsourcing company — web and mobile applications across client industries.
+          Team size: 6
+        </div>
+        <div class="meta-row">
+          <b>Stack:</b> React, TypeScript, SCSS, Material-UI, Redux, Apollo GraphQL, REST API
+        </div>
+        <div class="resp-label">Responsibilities:</div>
+        <ul>
+          <li>
+            Built React web applications with SCSS-based UI systems — established reusable
+            component patterns and consistent layout structures; collaborated closely with
+            designers to implement pixel-accurate interfaces from Figma specifications.
+          </li>
+          <li>
+            Integrated REST and GraphQL APIs with structured loading, error state handling,
+            and form validation; contributed to API contract discussions with backend engineers
+            to ensure frontend requirements were captured before implementation.
+          </li>
+          <li>
+            Developed a React Native healthcare app for COVID-19 testing kit field operations —
+            real-time status updates via REST API; delivered to both App Store and Google Play.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ EDUCATION ══════════ -->
+    <div class="section">
+      <div class="section-title">Education</div>
+      <div class="edu-header">
+        <div class="edu-name">FPT Polytechnic (FPT Education)</div>
+        <div class="edu-date">08/2018 – 09/2021</div>
+      </div>
+      <div class="edu-degree">College Diploma — Software Technology, Mobile Development</div>
+    </div>
+
+    <!-- ══════════ FOREIGN LANGUAGE ══════════ -->
+    <div class="section">
+      <div class="section-title">Foreign Language</div>
+      <div class="lang-row">
+        <div class="lang-tag"><b>English</b> (Intermediate — professional reading, writing &amp; communication)</div>
+        <div class="lang-tag"><b>Vietnamese</b> (Native)</div>
+      </div>
+    </div>
+
+  </body>
+</html>
